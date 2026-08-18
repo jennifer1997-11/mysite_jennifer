@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="h-full bg-slate-950 text-slate-100 select-none">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>復古極簡大數字倒數計時器</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom Font Definitions */
+        .font-digital { font-family: 'Share Tech Mono', monospace; }
+        .font-crt { font-family: 'VT323', monospace; }
+        .font-retro-bold { font-family: 'Space Mono', monospace; }
+
+        /* Crisp 8-Bit Pixel Rendering */
+        canvas#runner-canvas {
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        /* CRT Scanline Effect */
+        .crt-overlay::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            z-index: 10;
+            background-size: 100% 3px, 6px 100%;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        /* Subtle Glow Effects for LCD/CRT styles */
+        .glow-amber {
+            text-shadow: 0 0 12px rgba(245, 158, 11, 0.6), 0 0 30px rgba(245, 158, 11, 0.3);
+        }
+        .glow-green {
+            text-shadow: 0 0 12px rgba(34, 197, 94, 0.6), 0 0 30px rgba(34, 197, 94, 0.3);
+        }
+        .glow-red {
+            text-shadow: 0 0 12px rgba(244, 63, 94, 0.6), 0 0 30px rgba(244, 63, 94, 0.3);
+        }
+        .glow-cyan {
+            text-shadow: 0 0 12px rgba(6, 182, 212, 0.6), 0 0 30px rgba(6, 182, 212, 0.3);
+        }
+
+        /* Flip Card Aesthetic Dividers */
+        .flip-card {
+            position: relative;
+            background: linear-gradient(to bottom, #1e293b 0%, #0f172a 100%);
+            border-radius: 0.5rem;
+            box-shadow: inset 0 1px 1px rgba(255,255,255,0.1), 0 8px 20px rgba(0,0,0,0.6);
+        }
+        .flip-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(0, 0, 0, 0.6);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 2;
+        }
+
+        /* Smooth UI Auto-Hide Transition */
+        .autohide {
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .autohide-hidden {
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+        }
+
+        /* Custom Scrollbar for time picker */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+
+        /* Game Over Flickering Animation */
+        @keyframes gameOverFlicker {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.88; transform: scale(1.02); }
+        }
+        .animate-game-over {
+            animation: gameOverFlicker 0.8s infinite alternate ease-in-out;
+        }
+    </style>
+</head>
+<body id="app-body" class="h-full w-full flex flex-col justify-between items-center bg-slate-950 text-amber-500 font-digital relative overflow-hidden transition-colors duration-500">
+
+    <div id="crt-effect" class="crt-overlay absolute inset-0 pointer-events-none z-10 transition-opacity duration-300"></div>
+
+    <!-- Runner Background Canvas -->
+    <canvas id="runner-canvas" class="absolute inset-0 pointer-events-none z-0"></canvas>
+
+    <header id="ui-header" class="w-full max-w-5xl px-6 py-4 flex justify-between items-center z-20 autohide">
+        <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-amber-500 animate-pulse" id="status-indicator"></span>
+            <h1 class="text-sm tracking-widest uppercase opacity-80 font-bold">RETRO TIMER</h1>
+        </div>
+
+        <!-- Quick Controls -->
+        <div class="flex items-center gap-3">
+            <!-- Theme Selector -->
+            <button id="theme-btn" title="切換主題" class="p-2 rounded-lg bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 transition text-xs flex items-center gap-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+                <span id="theme-name">琥珀 CRT</span>
+            </button>
+
+            <!-- Runner Animation Toggle -->
+            <button id="runner-btn" title="切換動態小人" class="p-2 rounded-lg bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 transition text-xs flex items-center justify-center">
+                <span class="text-sm leading-none" id="runner-btn-icon">🏃</span>
+            </button>
+
+            <!-- Sound Toggle -->
+            <button id="sound-btn" title="聲音切換" class="p-2 rounded-lg bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 transition text-xs">
+                <svg id="sound-icon-on" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                <svg id="sound-icon-off" class="w-4 h-4 hidden opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"></path></svg>
+            </button>
+
+            <!-- Fullscreen -->
+            <button id="fullscreen-btn" title="全螢幕" class="p-2 rounded-lg bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 transition text-xs">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Display Section -->
+    <main class="flex-1 flex flex-col justify-center items-center w-full px-4 relative z-0">
+        
+        <!-- Giant Timer Display -->
+        <div id="timer-container" class="cursor-pointer group flex items-center justify-center gap-1 md:gap-4 my-auto select-none" title="點擊設定時間">
+            
+            <!-- Hours (Hidden if 0 and setting enabled, default visible if needed) -->
+            <div id="hours-wrapper" class="hidden flex items-center">
+                <div class="flip-card px-3 py-2 md:px-8 md:py-6 border border-slate-800/80">
+                    <span id="hours-display" class="text-[18vw] leading-none font-bold glow-amber tracking-tighter">00</span>
+                </div>
+                <span class="text-[12vw] leading-none opacity-40 mx-1 md:mx-2 pb-4">:</span>
+            </div>
+
+            <!-- Minutes -->
+            <div class="flip-card px-4 py-2 md:px-10 md:py-8 border border-slate-800/80">
+                <span id="minutes-display" class="text-[23vw] md:text-[20vw] leading-none font-bold glow-amber tracking-tighter">25</span>
+            </div>
+
+            <span id="colon-separator" class="text-[16vw] md:text-[14vw] leading-none opacity-60 mx-1 md:mx-3 pb-4 animate-pulse">:</span>
+
+            <!-- Seconds -->
+            <div class="flip-card px-4 py-2 md:px-10 md:py-8 border border-slate-800/80">
+                <span id="seconds-display" class="text-[23vw] md:text-[20vw] leading-none font-bold glow-amber tracking-tighter">00</span>
+            </div>
+        </div>
+
+        <!-- GAME OVER Banner Overlay -->
+        <div id="game-over-banner" class="hidden absolute z-30 flex flex-col items-center justify-center p-6 md:p-10 rounded-2xl bg-slate-950/90 border-2 border-red-600/80 shadow-[0_0_60px_rgba(220,38,38,0.6)] animate-game-over backdrop-blur-md transition-all duration-300">
+            <h2 class="text-5xl md:text-8xl font-bold text-red-500 tracking-wider glow-red font-crt uppercase">GAME OVER</h2>
+            <p class="text-sm md:text-lg text-rose-300 font-mono mt-2 md:mt-4 tracking-widest animate-pulse">時間到!你已被擊敗哈哈哈</p>
+            <p class="text-xs md:text-sm text-amber-400 font-mono mt-2 tracking-wider">你在過程中共抓了 <span id="click-count-display" class="font-bold text-base md:text-xl text-amber-300">0</span> 個小人！</p>
+            <button id="game-over-restart-btn" class="mt-6 px-8 py-3 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-sm md:text-base tracking-widest shadow-lg shadow-red-600/40 transition transform active:scale-95">
+                再試一次
+            </button>
+        </div>
+
+        <!-- Presets Bar -->
+        <div id="ui-presets" class="flex flex-wrap justify-center gap-2 md:gap-3 mb-6 autohide">
+            <button data-time="300" class="preset-btn px-4 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 hover:border-amber-500/60 text-xs md:text-sm transition font-mono">5 Min</button>
+            <button data-time="600" class="preset-btn px-4 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 hover:border-amber-500/60 text-xs md:text-sm transition font-mono">10 Min</button>
+            <button data-time="1500" class="preset-btn px-4 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 hover:border-amber-500/60 text-xs md:text-sm transition font-mono">25 Min</button>
+            <button data-time="3600" class="preset-btn px-4 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 hover:border-amber-500/60 text-xs md:text-sm transition font-mono">60 Min</button>
+            <button id="custom-time-btn" class="px-4 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 hover:border-amber-500/60 text-xs md:text-sm transition font-mono text-amber-400">自訂</button>
+        </div>
+
+    </main>
+
+    <!-- Bottom Floating Control Bar -->
+    <footer id="ui-footer" class="w-full max-w-xl pb-8 px-6 z-20 autohide">
+        <div class="bg-slate-900/90 backdrop-blur border border-slate-800 p-2.5 rounded-2xl shadow-2xl flex items-center justify-between gap-2">
+            
+            <!-- Reset Button -->
+            <button id="reset-btn" class="flex-1 py-3 px-4 rounded-xl hover:bg-slate-800/80 transition flex items-center justify-center gap-2 active:scale-95 text-slate-300">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                <span class="text-xs md:text-sm font-bold tracking-wider uppercase">重設</span>
+            </button>
+
+            <!-- Main Start/Pause Button -->
+            <button id="start-btn" class="flex-[2] py-3.5 px-6 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 transition flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-amber-500/20 font-bold">
+                <svg id="play-icon" class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                <svg id="pause-icon" class="w-6 h-6 fill-current hidden" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                <span id="start-btn-text" class="text-sm md:text-base tracking-widest uppercase">開始</span>
+            </button>
+
+            <!-- Adjust Time +1m Button -->
+            <button id="add-min-btn" class="flex-1 py-3 px-4 rounded-xl hover:bg-slate-800/80 transition flex items-center justify-center gap-1 active:scale-95 text-slate-300">
+                <span class="text-xs md:text-sm font-bold tracking-wider">+1 分鐘</span>
+            </button>
+        </div>
+        
+        <p class="text-center text-[10px] text-slate-600 mt-3 font-sans">提示：按 <kbd class="px-1 bg-slate-800 rounded">Space</kbd> 暫停/開始 | <kbd class="px-1 bg-slate-800 rounded">R</kbd> 重設 | <kbd class="px-1 bg-slate-800 rounded">F</kbd> 全螢幕</p>
+    </footer>
+
+    <!-- Time Input Modal -->
+    <div id="time-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl max-w-xs w-full shadow-2xl transform scale-95 transition-transform duration-300" id="modal-content">
+            <h3 class="text-center text-sm font-bold tracking-widest text-slate-300 uppercase mb-4">設定倒數時間</h3>
+            
+            <div class="flex items-center justify-center gap-2 mb-6">
+                <!-- Hours -->
+                <div class="flex flex-col items-center">
+                    <label class="text-[10px] text-slate-500 uppercase mb-1">時</label>
+                    <input type="number" id="input-hours" min="0" max="23" value="0" class="w-16 h-12 bg-slate-800 border border-slate-700 rounded-lg text-center text-xl font-bold text-amber-500 focus:outline-none focus:border-amber-500">
+                </div>
+                <span class="text-xl font-bold text-slate-600 mt-4">:</span>
+                <!-- Minutes -->
+                <div class="flex flex-col items-center">
+                    <label class="text-[10px] text-slate-500 uppercase mb-1">分</label>
+                    <input type="number" id="input-minutes" min="0" max="59" value="25" class="w-16 h-12 bg-slate-800 border border-slate-700 rounded-lg text-center text-xl font-bold text-amber-500 focus:outline-none focus:border-amber-500">
+                </div>
+                <span class="text-xl font-bold text-slate-600 mt-4">:</span>
+                <!-- Seconds -->
+                <div class="flex flex-col items-center">
+                    <label class="text-[10px] text-slate-500 uppercase mb-1">秒</label>
+                    <input type="number" id="input-seconds" min="0" max="59" value="0" class="w-16 h-12 bg-slate-800 border border-slate-700 rounded-lg text-center text-xl font-bold text-amber-500 focus:outline-none focus:border-amber-500">
+                </div>
+            </div>
+
+            <div class="flex gap-2">
+                <button id="close-modal-btn" class="flex-1 py-2.5 rounded-xl border border-slate-700 text-slate-400 hover:bg-slate-800 text-xs font-bold transition">取消</button>
+                <button id="save-modal-btn" class="flex-1 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition">套用時間</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Application State ---
+        let totalSeconds = 1500;      // Default 25 minutes
+        let remainingSeconds = 1500;  // Current countdown remaining
+        let timerInterval = null;
+        let isRunning = false;
+        let isGameOver = false;       // GAME OVER State
+        let soundEnabled = true;
+        let runnersEnabled = true;
+        let idleTimer = null;
+        let currentThemeIndex = 0;
+        let runnerClickCount = 0;     // Track total clicked runners
+        // --- Themes Definition ---
+        const themes = [
+            {
+                name: "琥珀 CRT",
+                bg: "bg-slate-950",
+                text: "text-amber-500",
+                glow: "glow-amber",
+                btnBg: "bg-amber-500",
+                btnText: "text-slate-950",
+                fontClass: "font-digital",
+                runnerColor: "#f59e0b",
+                accentColor: "#ef4444",
+                crt: true
+            },
+            {
+                name: "綠螢光 GameBoy",
+                bg: "bg-black",
+                text: "text-green-500",
+                glow: "glow-green",
+                btnBg: "bg-green-500",
+                btnText: "text-black",
+                fontClass: "font-crt",
+                runnerColor: "#22c55e",
+                accentColor: "#86efac",
+                crt: true
+            },
+            {
+                name: "紅白機經典 NES",
+                bg: "bg-slate-950",
+                text: "text-rose-500",
+                glow: "glow-red",
+                btnBg: "bg-rose-500",
+                btnText: "text-slate-950",
+                fontClass: "font-retro-bold",
+                runnerColor: "#f43f5e",
+                accentColor: "#fbbf24",
+                crt: false
+            },
+            {
+                name: "賽博藍光 Arcade",
+                bg: "bg-slate-950",
+                text: "text-cyan-400",
+                glow: "glow-cyan",
+                btnBg: "bg-cyan-400",
+                btnText: "text-slate-950",
+                fontClass: "font-digital",
+                runnerColor: "#22d3ee",
+                accentColor: "#f472b6",
+                crt: true
+            }
+        ];
+
+        // --- Dynamic Cute Nintendo 8-Bit Pixel Runners ---
+        const runnerCanvas = document.getElementById('runner-canvas');
+        const runnerCtx = runnerCanvas.getContext('2d');
+        let runners = [];
+        let particles = [];
+        let floatingTexts = [];
+        let pixelDecorations = [];
+        let animationFrameId = null;
+
+        function resizeCanvas() {
+            runnerCanvas.width = window.innerWidth;
+            runnerCanvas.height = window.innerHeight;
+            initPixelDecorations();
+        }
+
+        // Dust particle effect when feet touch ground
+        class PixelDust {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.vx = (Math.random() - 0.7) * 1.5;
+                this.vy = -Math.random() * 1.2;
+                this.size = Math.random() > 0.5 ? 3 : 2;
+                this.life = 1.0;
+                this.decay = 0.04 + Math.random() * 0.04;
+                this.color = color;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life -= this.decay;
+            }
+
+            draw(ctx) {
+                if (this.life <= 0) return;
+                ctx.save();
+                ctx.globalAlpha = this.life * 0.6;
+                ctx.fillStyle = this.color;
+                ctx.fillRect(Math.floor(this.x), Math.floor(this.y), this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        // Floating Jump Text particle effect
+        class FloatingText {
+            constructor(x, y, text, color) {
+                this.x = x;
+                this.y = y;
+                this.text = text;
+                this.color = color;
+                this.life = 1.0;
+                this.vy = -1.5;
+            }
+
+            update() {
+                this.y += this.vy;
+                this.life -= 0.03;
+            }
+
+            draw(ctx) {
+                if (this.life <= 0) return;
+                ctx.save();
+                ctx.globalAlpha = this.life;
+                ctx.fillStyle = this.color;
+                ctx.font = 'bold 16px "VT323", monospace';
+                ctx.fillText(this.text, this.x, this.y);
+                ctx.restore();
+            }
+        }
+
+        // Cute Pixel Character (Nintendo NES style)
+        class CutePixelRunner {
+            constructor(w, h, isInitial = false) {
+                // Character Types: 0 = Pixel Hero (Cap), 1 = Squishy Kirby Blob, 2 = Mini Dino
+                this.type = Math.floor(Math.random() * 3);
+                this.reset(w, h, isInitial);
+            }
+
+            reset(w, h, isInitial = false) {
+                this.scale = 2.5 + Math.random() * 1.2; // Pixel block size (3-4px)
+                this.pSize = Math.floor(this.scale);
+                this.y = h * (0.65 + Math.random() * 0.28);
+                this.x = isInitial ? Math.random() * (w + 100) - 50 : -80;
+                this.speed = (1.5 + Math.random() * 1.8);
+                this.animFrame = Math.random() * 4;
+                this.opacity = 0.4 + (this.pSize * 0.15);
+                this.bounceY = 0;
+                this.sweatFrame = 0;
+                this.dizzyAngle = 0;
+                this.jumpY = 0;
+                this.jumpVy = 0;
+                this.isJumping = false;
+            }
+
+            isHit(px, py) {
+                const p = this.pSize;
+                const pad = 18;
+                const x1 = this.x - pad;
+                const x2 = this.x + (12 * p) + pad;
+                const y1 = this.y + this.bounceY + this.jumpY - pad;
+                const y2 = this.y + this.bounceY + this.jumpY + (12 * p) + pad;
+                return px >= x1 && px <= x2 && py >= y1 && py <= y2;
+            }
+
+            jump(mainColor) {
+                this.jumpVy = -(7.5 + Math.random() * 2.5);
+                this.isJumping = true;
+                playJumpSound();
+
+                // Spawn jump dust particles
+                for (let i = 0; i < 5; i++) {
+                    particles.push(new PixelDust(this.x + (5 * this.pSize), this.y + (10 * this.pSize), mainColor || '#f59e0b'));
+                }
+
+                // Floating fun text
+                const texts = ['JUMP!', 'HOP!', 'BOING!', '✨', 'UP!'];
+                const txt = texts[Math.floor(Math.random() * texts.length)];
+                floatingTexts.push(new FloatingText(this.x + (2 * this.pSize), this.y + this.jumpY - 10, txt, mainColor || '#f59e0b'));
+            }
+
+            update(w, h, mainColor, accentColor, isPanicked = false) {
+                if (isGameOver) {
+                    // Defeated State: Stop running, lay down, spin dizzy stars
+                    this.dizzyAngle += 0.1;
+                    return;
+                }
+
+                // Jump Physics
+                if (this.isJumping) {
+                    this.jumpY += this.jumpVy;
+                    this.jumpVy += 0.45; // Gravity
+                    if (this.jumpY >= 0) {
+                        this.jumpY = 0;
+                        this.jumpVy = 0;
+                        this.isJumping = false;
+                        // Landing dust
+                        for (let i = 0; i < 4; i++) {
+                            particles.push(new PixelDust(this.x + (5 * this.pSize), this.y + (11 * this.pSize), mainColor));
+                        }
+                    }
+                }
+
+                const speedMult = isPanicked ? 3.6 : (isRunning ? 1.8 : 0.8);
+                const actualSpeed = this.speed * speedMult;
+
+                this.x += actualSpeed;
+                this.animFrame += actualSpeed * (isPanicked ? 0.25 : 0.12);
+                this.sweatFrame += 0.2;
+
+                // Cute playful bounce
+                const currentFrame = Math.floor(this.animFrame) % 4;
+                const panicBounce = isPanicked ? (Math.random() * 4 - 2) : 0;
+                this.bounceY = ((currentFrame === 1 || currentFrame === 3) ? -this.pSize * 1.5 : 0) + panicBounce;
+
+                // Spawn dust particles on foot step
+                if ((currentFrame === 0 || (isPanicked && currentFrame === 2)) && Math.random() < (isPanicked ? 0.7 : 0.3)) {
+                    particles.push(new PixelDust(this.x + 4, this.y + (12 * this.pSize), isPanicked ? '#ef4444' : mainColor));
+                }
+
+                if (this.x > w + 80) {
+                    this.type = Math.floor(Math.random() * 3);
+                    this.reset(w, h, false);
+                }
+            }
+
+            draw(ctx, mainColor, accentColor, isPanicked = false) {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                
+                const p = this.pSize; // Pixel grid step
+                const bx = Math.floor(this.x);
+                const by = Math.floor(this.y + this.bounceY + this.jumpY);
+                const frame = Math.floor(this.animFrame) % 4;
+
+                // Helper to draw a pixel cell relative to character grid
+                const pixel = (gridX, gridY, color) => {
+                    ctx.fillStyle = color;
+                    ctx.fillRect(bx + (gridX * p), by + (gridY * p), p, p);
+                };
+
+                // Palette
+                const cMain = isGameOver ? '#64748b' : (isPanicked ? '#ef4444' : mainColor);
+                const cAccent = isGameOver ? '#475569' : (accentColor || '#ffffff');
+                const cEye = isPanicked ? '#dc2626' : '#0f172a';
+                const cSkin = isGameOver ? '#cbd5e1' : '#ffedd5';
+                const cWhite = '#ffffff';
+
+                // --- Draw Defeated (X_X Eyes / Dizzy Stars) Character ---
+                if (isGameOver) {
+                    ctx.save();
+                    // Rotate character sideways (knocked down)
+                    ctx.translate(bx + 5 * p, by + 8 * p);
+                    ctx.rotate(Math.PI / 2); // 90 deg fall down
+                    ctx.translate(-(bx + 5 * p), -(by + 8 * p));
+
+                    // Simplified Defeated Body (Horizontal Lying Down)
+                    for (let x = 2; x <= 8; x++) pixel(x, 4, cMain);
+                    for (let x = 1; x <= 9; x++) pixel(x, 5, cMain);
+                    for (let x = 2; x <= 8; x++) pixel(x, 6, cSkin);
+
+                    // X_X Dead/Defeated Eyes
+                    pixel(6, 4, '#ef4444'); pixel(8, 4, '#ef4444');
+                    pixel(7, 5, '#ef4444');
+                    pixel(6, 6, '#ef4444'); pixel(8, 6, '#ef4444');
+
+                    ctx.restore();
+
+                    // Dizzy Stars / Spiral above head
+                    const starX = bx + 4 * p + Math.cos(this.dizzyAngle) * 8;
+                    const starY = by - 3 * p + Math.sin(this.dizzyAngle) * 4;
+                    ctx.fillStyle = '#f59e0b';
+                    ctx.fillRect(starX, starY, 2 * p, 2 * p);
+                    ctx.fillRect(starX - 8, starY + 2, p, p);
+
+                    ctx.restore();
+                    return;
+                }
+
+                if (this.type === 0) {
+                    // --- Type 0: Cute Pixel Cap Hero (NES Mario / Ness Vibe) ---
+                    // Hat (Row 0-2)
+                    for (let x = 2; x <= 8; x++) pixel(x, 0, cAccent);
+                    for (let x = 1; x <= 10; x++) pixel(x, 1, cAccent);
+                    for (let x = 1; x <= 11; x++) pixel(x, 2, cAccent); // Visor
+
+                    // Face / Big Cute Eye (Row 3-6)
+                    for (let x = 2; x <= 8; x++) pixel(x, 3, cSkin);
+                    for (let x = 2; x <= 8; x++) pixel(x, 4, cSkin);
+                    
+                    if (isPanicked) {
+                        // Panicked Eyes (Wide O_O)
+                        pixel(5, 4, cEye); pixel(6, 4, cEye);
+                        pixel(8, 4, cEye); pixel(9, 4, cEye);
+                    } else {
+                        // Normal Eye
+                        pixel(6, 4, cEye); pixel(7, 4, cEye);
+                        pixel(6, 5, cEye); pixel(7, 5, cWhite); // Sparkle
+                    }
+                    
+                    for (let x = 2; x <= 8; x++) pixel(x, 5, cSkin);
+                    pixel(8, 5, cAccent); // Cute Rosy Cheek
+
+                    // Body / Overalls (Row 6-9)
+                    for (let x = 3; x <= 7; x++) pixel(x, 6, cMain);
+                    for (let x = 2; x <= 8; x++) pixel(x, 7, cMain);
+                    for (let x = 3; x <= 7; x++) pixel(x, 8, cMain);
+
+                    // Arms (Pumping frame)
+                    if (frame === 0 || frame === 2) {
+                        pixel(1, 6, cSkin); pixel(0, 7, cSkin);
+                        pixel(8, 7, cSkin); pixel(9, 8, cSkin);
+                    } else {
+                        pixel(1, 7, cSkin); pixel(2, 8, cSkin);
+                        pixel(8, 6, cSkin); pixel(9, 6, cSkin);
+                    }
+
+                    // Legs / Sneakers (Frame animations)
+                    if (frame === 0) {
+                        pixel(3, 9, cMain); pixel(3, 10, cAccent);
+                        pixel(6, 9, cMain); pixel(7, 10, cAccent);
+                    } else if (frame === 1) {
+                        pixel(2, 9, cMain); pixel(1, 10, cAccent);
+                        pixel(7, 9, cMain); pixel(8, 10, cAccent);
+                    } else if (frame === 2) {
+                        pixel(4, 9, cMain); pixel(4, 10, cAccent);
+                        pixel(6, 9, cMain); pixel(6, 10, cAccent);
+                    } else {
+                        pixel(1, 9, cMain); pixel(0, 10, cAccent);
+                        pixel(8, 9, cMain); pixel(9, 10, cAccent);
+                    }
+
+                } else if (this.type === 1) {
+                    // --- Type 1: Squishy Pixel Star / Blob (Kirby Vibe) ---
+                    const bodyGrid = [
+                        [0,0,3,4,5,6,7,0,0],
+                        [0,2,3,4,5,6,7,8,0],
+                        [1,2,3,4,5,6,7,8,9],
+                        [1,2,3,4,5,6,7,8,9],
+                        [1,2,3,4,5,6,7,8,9],
+                        [0,2,3,4,5,6,7,8,0],
+                        [0,0,3,4,5,6,7,0,0]
+                    ];
+                    
+                    bodyGrid.forEach((row, rIdx) => {
+                        row.forEach((col, cIdx) => {
+                            if (col !== 0) pixel(cIdx, rIdx + 1, cMain);
+                        });
+                    });
+
+                    // Big Cute Eyes & Blush
+                    if (isPanicked) {
+                        // Scared Eyes
+                        pixel(4, 3, cEye); pixel(5, 3, cEye);
+                        pixel(7, 3, cEye); pixel(8, 3, cEye);
+                    } else {
+                        pixel(5, 3, cEye); pixel(6, 3, cEye);
+                        pixel(5, 4, cWhite); pixel(6, 4, cEye);
+                    }
+                    pixel(3, 5, cAccent); // Cheek Left
+                    pixel(7, 5, cAccent); // Cheek Right
+
+                    // Cute Feet
+                    if (frame === 0 || frame === 2) {
+                        pixel(1, 8, cAccent); pixel(2, 8, cAccent);
+                        pixel(6, 8, cAccent); pixel(7, 8, cAccent);
+                    } else {
+                        pixel(0, 8, cAccent); pixel(1, 8, cAccent);
+                        pixel(7, 8, cAccent); pixel(8, 8, cAccent);
+                    }
+
+                } else if (this.type === 2) {
+                    // --- Type 2: Mini Pixel Dino / Yoshi Vibe ---
+                    for (let x = 3; x <= 8; x++) pixel(x, 1, cMain);
+                    for (let x = 2; x <= 9; x++) pixel(x, 2, cMain);
+                    
+                    if (isPanicked) {
+                        pixel(6, 2, cEye); pixel(7, 2, cEye); // Panicked Eyes
+                    } else {
+                        pixel(7, 2, cEye); pixel(8, 2, cWhite); // Eye
+                    }
+                    for (let x = 2; x <= 9; x++) pixel(x, 3, cMain);
+
+                    // Body & Tail
+                    for (let x = 1; x <= 7; x++) pixel(x, 4, cMain);
+                    for (let x = 0; x <= 6; x++) pixel(x, 5, cMain);
+                    pixel(0, 4, cMain); // Cute Tail tip
+                    for (let x = 2; x <= 6; x++) pixel(x, 6, cSkin); // Belly
+
+                    // Tiny Pumping Arms
+                    pixel(7, 5, cSkin);
+
+                    // Running Feet
+                    if (frame === 0 || frame === 2) {
+                        pixel(2, 7, cMain); pixel(2, 8, cMain);
+                        pixel(5, 7, cMain); pixel(6, 8, cMain);
+                    } else {
+                        pixel(1, 7, cMain); pixel(0, 8, cMain);
+                        pixel(6, 7, cMain); pixel(7, 8, cMain);
+                    }
+                }
+
+                // --- Draw Nervous Panic Accessories (Sweat Drop & Exclamation ! Mark) ---
+                if (isPanicked) {
+                    const sweatOffset = Math.sin(this.sweatFrame) * 2;
+                    // Pixel Sweat Drop
+                    ctx.fillStyle = '#38bdf8';
+                    ctx.fillRect(bx + (10 * p), by - (2 * p) + sweatOffset, 2 * p, 3 * p);
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(bx + (10 * p), by - (2 * p) + sweatOffset, p, p);
+
+                    // Exclamation Mark !
+                    ctx.fillStyle = '#ef4444';
+                    ctx.fillRect(bx + (4 * p), by - (6 * p), 2 * p, 3 * p);
+                    ctx.fillRect(bx + (4 * p), by - (2 * p), 2 * p, p);
+                }
+
+                ctx.restore();
+            }
+        }
+
+        // Floating Pixel Question Blocks & Coins decor in background
+        function initPixelDecorations() {
+            pixelDecorations = [];
+            const count = Math.min(Math.floor(window.innerWidth / 180), 5);
+            for (let i = 0; i < count; i++) {
+                pixelDecorations.push({
+                    x: (window.innerWidth / count) * i + 50 + Math.random() * 40,
+                    y: window.innerHeight * (0.2 + Math.random() * 0.45),
+                    type: Math.random() > 0.4 ? 'block' : 'coin',
+                    scale: 3,
+                    phase: Math.random() * Math.PI * 2
+                });
+            }
+        }
+
+        function drawPixelDecorations(ctx, mainColor, accentColor) {
+            pixelDecorations.forEach(d => {
+                d.phase += 0.03;
+                const floatY = d.y + Math.sin(d.phase) * 6;
+                const p = d.scale;
+
+                ctx.save();
+                ctx.globalAlpha = 0.25;
+
+                if (d.type === 'block') {
+                    // Question Block 8x8
+                    ctx.fillStyle = mainColor;
+                    ctx.fillRect(d.x, floatY, 8 * p, 8 * p);
+                    ctx.fillStyle = '#0f172a';
+                    // Question Mark
+                    ctx.fillRect(d.x + 3*p, floatY + 2*p, 2*p, p);
+                    ctx.fillRect(d.x + 4*p, floatY + 3*p, p, p);
+                    ctx.fillRect(d.x + 3*p, floatY + 4*p, p, p);
+                    ctx.fillRect(d.x + 3*p, floatY + 6*p, p, p);
+                } else {
+                    // Spinning Pixel Coin
+                    const coinWidth = Math.abs(Math.sin(d.phase * 1.5)) * 6 + 2;
+                    ctx.fillStyle = accentColor || mainColor;
+                    ctx.fillRect(d.x + (4 - coinWidth/2)*p, floatY, coinWidth * p, 7 * p);
+                }
+
+                ctx.restore();
+            });
+        }
+
+        function initRunners() {
+            resizeCanvas();
+            runners = [];
+            const count = Math.min(Math.floor(window.innerWidth / 140), 7);
+            for (let i = 0; i < count; i++) {
+                runners.push(new CutePixelRunner(runnerCanvas.width, runnerCanvas.height, true));
+            }
+        }
+
+        function animateRunners() {
+            runnerCtx.clearRect(0, 0, runnerCanvas.width, runnerCanvas.height);
+
+            if (runnersEnabled) {
+                const currentTheme = themes[currentThemeIndex];
+                const mainColor = currentTheme.runnerColor || '#f59e0b';
+                const accentColor = currentTheme.accentColor || '#ffffff';
+                const isPanicked = isRunning && remainingSeconds <= 10 && remainingSeconds > 0;
+
+                // Background floating blocks & coins
+                drawPixelDecorations(runnerCtx, mainColor, accentColor);
+
+                // Update & draw dust particles
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    particles[i].update();
+                    particles[i].draw(runnerCtx);
+                    if (particles[i].life <= 0) particles.splice(i, 1);
+                }
+
+                // Update & draw floating jump texts
+                for (let i = floatingTexts.length - 1; i >= 0; i--) {
+                    floatingTexts[i].update();
+                    floatingTexts[i].draw(runnerCtx);
+                    if (floatingTexts[i].life <= 0) floatingTexts.splice(i, 1);
+                }
+
+                // Update & draw cute pixel runners
+                runners.forEach(runner => {
+                    runner.update(runnerCanvas.width, runnerCanvas.height, mainColor, accentColor, isPanicked);
+                    runner.draw(runnerCtx, mainColor, accentColor, isPanicked);
+                });
+            }
+
+            animationFrameId = requestAnimationFrame(animateRunners);
+        }
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+        });
+
+        // --- DOM Elements ---
+        const bodyEl = document.getElementById('app-body');
+        const crtEl = document.getElementById('crt-effect');
+        const hoursWrapper = document.getElementById('hours-wrapper');
+        const hoursDisplay = document.getElementById('hours-display');
+        const minutesDisplay = document.getElementById('minutes-display');
+        const secondsDisplay = document.getElementById('seconds-display');
+        
+        const startBtn = document.getElementById('start-btn');
+        const startBtnText = document.getElementById('start-btn-text');
+        const playIcon = document.getElementById('play-icon');
+        const pauseIcon = document.getElementById('pause-icon');
+        const resetBtn = document.getElementById('reset-btn');
+        const addMinBtn = document.getElementById('add-min-btn');
+        const statusIndicator = document.getElementById('status-indicator');
+
+        const themeBtn = document.getElementById('theme-btn');
+        const themeNameEl = document.getElementById('theme-name');
+        const soundBtn = document.getElementById('sound-btn');
+        const soundIconOn = document.getElementById('sound-icon-on');
+        const soundIconOff = document.getElementById('sound-icon-off');
+        const runnerBtn = document.getElementById('runner-btn');
+        const runnerBtnIcon = document.getElementById('runner-btn-icon');
+        const fullscreenBtn = document.getElementById('fullscreen-btn');
+
+        const timerContainer = document.getElementById('timer-container');
+        const customTimeBtn = document.getElementById('custom-time-btn');
+        const timeModal = document.getElementById('time-modal');
+        const modalContent = document.getElementById('modal-content');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const saveModalBtn = document.getElementById('save-modal-btn');
+
+        const inputHours = document.getElementById('input-hours');
+        const inputMinutes = document.getElementById('input-minutes');
+        const inputSeconds = document.getElementById('input-seconds');
+
+        const autohideElements = document.querySelectorAll('.autohide');
+
+        // --- Web Audio API (Retro Sound Effects) ---
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContext();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        // Mechanical flip / tick sound
+        function playTickSound() {
+            if (!soundEnabled) return;
+            try {
+                initAudio();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(120, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.03);
+
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.03);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.03);
+            } catch (e) {
+                // Ignore audio restriction errors before interaction
+            }
+        }
+
+        // Urgent warning beep for final 10 seconds
+        function playUrgentTickSound(secondsLeft) {
+            if (!soundEnabled) return;
+            try {
+                initAudio();
+                const now = audioCtx.currentTime;
+                // Pitch rises progressively from ~450Hz up to ~950Hz as secondsLeft decreases
+                const baseFreq = 450 + (10 - secondsLeft) * 55;
+                
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                // Double beep effect for high tension 8-bit NES vibe
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(baseFreq, now);
+                osc.frequency.exponentialRampToValueAtTime(baseFreq * 1.3, now + 0.08);
+
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start(now);
+                osc.stop(now + 0.1);
+            } catch (e) {}
+        }
+
+        // Retro Synth Alarm sound on completion
+        function playAlarmSound() {
+            if (!soundEnabled) return;
+            try {
+                initAudio();
+                const now = audioCtx.currentTime;
+                const notes = [523.25, 659.25, 783.99, 1046.50];
+                notes.forEach((freq, idx) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(freq, now + (idx * 0.1));
+                    gain.gain.setValueAtTime(0.2, now + (idx * 0.1));
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + (idx * 0.1) + 0.15);
+
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+
+                    osc.start(now + (idx * 0.1));
+                    osc.stop(now + (idx * 0.1) + 0.15);
+                });
+            } catch (e) {}
+        }
+
+        // Retro 8-Bit Jump sound
+        function playJumpSound() {
+            if (!soundEnabled) return;
+            try {
+                initAudio();
+                const now = audioCtx.currentTime;
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(150, now);
+                osc.frequency.exponentialRampToValueAtTime(600, now + 0.15);
+
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start(now);
+                osc.stop(now + 0.15);
+            } catch(e) {}
+        }
+
+        // Retro 8-Bit Arcade Game Over sound
+        function playGameOverSound() {
+            if (!soundEnabled) return;
+            try {
+                initAudio();
+                const now = audioCtx.currentTime;
+                // Descending retro defeat tones (G4 -> E4 -> C4 -> Low G3)
+                const notes = [392.00, 329.63, 261.63, 196.00, 146.83];
+                notes.forEach((freq, idx) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.value = freq;
+
+                    const startTime = now + (idx * 0.18);
+                    const duration = 0.22;
+
+                    gain.gain.setValueAtTime(0.25, startTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+
+                    osc.start(startTime);
+                    osc.stop(startTime + duration);
+                });
+            } catch(e) {}
+        }
+
+        // --- Timer Engine Functions ---
+        function updateDisplay() {
+            const h = Math.floor(remainingSeconds / 3600);
+            const m = Math.floor((remainingSeconds % 3600) / 60);
+            const s = remainingSeconds % 60;
+
+            // Show Hours digit only if timer >= 1 hour
+            if (h > 0 || totalSeconds >= 3600) {
+                hoursWrapper.classList.remove('hidden');
+                hoursDisplay.textContent = String(h).padStart(2, '0');
+            } else {
+                hoursWrapper.classList.add('hidden');
+            }
+
+            minutesDisplay.textContent = String(m).padStart(2, '0');
+            secondsDisplay.textContent = String(s).padStart(2, '0');
+
+            // Update tab title
+            const timeStr = `${h > 0 ? String(h).padStart(2, '0') + ':' : ''}${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+            document.title = isRunning ? `(${timeStr}) 倒數中 - 復古計時器` : `復古極簡倒數計時器`;
+        }
+
+        function startTimer() {
+            if (isRunning) return;
+            initAudio();
+            isRunning = true;
+            
+            // UI Button state
+            playIcon.classList.add('hidden');
+            pauseIcon.classList.remove('hidden');
+            startBtnText.textContent = "暫停";
+            statusIndicator.classList.remove('bg-amber-500', 'bg-slate-600');
+            statusIndicator.classList.add('bg-green-500');
+
+            timerInterval = setInterval(() => {
+                if (remainingSeconds > 0) {
+                    remainingSeconds--;
+                    updateDisplay();
+                    
+                    // Check if in final 10 seconds panic zone
+                    if (remainingSeconds <= 10 && remainingSeconds > 0) {
+                        playUrgentTickSound(remainingSeconds);
+                        // Add sudden shake effect to timer container for extra immersion
+                        const timerContainer = document.getElementById('timer-container');
+                        timerContainer.classList.add('translate-y-[-2px]');
+                        setTimeout(() => timerContainer.classList.remove('translate-y-[-2px]'), 100);
+                    } else {
+                        playTickSound();
+                    }
+                } else {
+                    pauseTimer();
+                    triggerGameOver();
+                }
+            }, 1000);
+        }
+
+        function triggerGameOver() {
+            isGameOver = true;
+            playGameOverSound();
+
+            // Flash screen red on finish
+            bodyEl.classList.add('bg-red-950/80');
+            setTimeout(() => bodyEl.classList.remove('bg-red-950/80'), 600);
+
+            // Update clicked runners count
+            const countEl = document.getElementById('click-count-display');
+            if (countEl) {
+                countEl.textContent = runnerClickCount;
+            }
+
+            // Show Game Over Banner Overlay
+            const gameOverBanner = document.getElementById('game-over-banner');
+            gameOverBanner.classList.remove('hidden');
+
+            // Hide normal controls temporarily to highlight Game Over state
+            autohideElements.forEach(el => el.classList.remove('autohide-hidden'));
+        }
+
+        function pauseTimer() {
+            isRunning = false;
+            clearInterval(timerInterval);
+            
+            // UI Button state
+            pauseIcon.classList.add('hidden');
+            playIcon.classList.remove('hidden');
+            startBtnText.textContent = "繼續";
+            statusIndicator.classList.remove('bg-green-500');
+            statusIndicator.classList.add('bg-amber-500');
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            isGameOver = false;
+
+            // Reset click count on restart
+            runnerClickCount = 0;
+
+            // Hide Game Over banner
+            document.getElementById('game-over-banner').classList.add('hidden');
+
+            remainingSeconds = totalSeconds;
+            startBtnText.textContent = "開始";
+            statusIndicator.classList.remove('bg-green-500', 'bg-amber-500');
+            statusIndicator.classList.add('bg-slate-600');
+            updateDisplay();
+        }
+
+        function setTime(seconds) {
+            totalSeconds = seconds;
+            remainingSeconds = seconds;
+            resetTimer();
+        }
+
+        // --- Theme Manager ---
+        function applyTheme(theme) {
+            // Clear prior theme classes
+            bodyEl.className = `h-full w-full flex flex-col justify-between items-center ${theme.bg} ${theme.text} ${theme.fontClass} relative overflow-hidden transition-colors duration-500`;
+
+            const digitDisplays = [hoursDisplay, minutesDisplay, secondsDisplay];
+            digitDisplays.forEach(el => {
+                el.className = `text-[23vw] md:text-[20vw] leading-none font-bold tracking-tighter ${theme.glow}`;
+            });
+            hoursDisplay.className = `text-[18vw] leading-none font-bold tracking-tighter ${theme.glow}`;
+
+            // Button styling
+            startBtn.className = `flex-[2] py-3.5 px-6 rounded-xl ${theme.btnBg} ${theme.btnText} hover:opacity-90 transition flex items-center justify-center gap-2 active:scale-95 shadow-lg font-bold`;
+
+            // CRT Effect toggle
+            if (theme.crt) {
+                crtEl.classList.remove('opacity-0');
+            } else {
+                crtEl.classList.add('opacity-0');
+            }
+
+            themeNameEl.textContent = theme.name;
+        }
+
+        function nextTheme() {
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+            applyTheme(themes[currentThemeIndex]);
+        }
+
+        // --- Auto Hide UI Controls on Inactivity ---
+        function showUI() {
+            autohideElements.forEach(el => el.classList.remove('autohide-hidden'));
+            bodyEl.style.cursor = 'default';
+
+            clearTimeout(idleTimer);
+            if (isRunning) {
+                idleTimer = setTimeout(() => {
+                    autohideElements.forEach(el => el.classList.add('autohide-hidden'));
+                    bodyEl.style.cursor = 'none';
+                }, 3000);
+            }
+        }
+
+        // --- Event Listeners Setup ---
+        // Event Listeners for Game Over Reset
+        document.getElementById('game-over-restart-btn').addEventListener('click', () => {
+            resetTimer();
+            startTimer();
+        });
+
+        // Event Listeners
+        startBtn.addEventListener('click', () => {
+            if (isGameOver) resetTimer();
+            if (isRunning) pauseTimer();
+            else startTimer();
+        });
+
+        resetBtn.addEventListener('click', resetTimer);
+
+        addMinBtn.addEventListener('click', () => {
+            remainingSeconds += 60;
+            totalSeconds += 60;
+            updateDisplay();
+            playTickSound();
+        });
+
+        // Presets Buttons
+        document.querySelectorAll('.preset-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const secs = parseInt(e.target.getAttribute('data-time'), 10);
+                setTime(secs);
+            });
+        });
+
+        // Custom Time Modal
+        function openModal() {
+            pauseTimer();
+            const h = Math.floor(remainingSeconds / 3600);
+            const m = Math.floor((remainingSeconds % 3600) / 60);
+            const s = remainingSeconds % 60;
+
+            inputHours.value = h;
+            inputMinutes.value = m;
+            inputSeconds.value = s;
+
+            timeModal.classList.remove('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-95');
+            modalContent.classList.add('scale-100');
+        }
+
+        function closeModal() {
+            timeModal.classList.add('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+        }
+
+        customTimeBtn.addEventListener('click', openModal);
+        timerContainer.addEventListener('click', openModal);
+        closeModalBtn.addEventListener('click', closeModal);
+
+        saveModalBtn.addEventListener('click', () => {
+            const h = parseInt(inputHours.value, 10) || 0;
+            const m = parseInt(inputMinutes.value, 10) || 0;
+            const s = parseInt(inputSeconds.value, 10) || 0;
+            
+            const total = (h * 3600) + (m * 60) + s;
+            if (total > 0) {
+                setTime(total);
+                closeModal();
+            }
+        });
+
+        // Theme Toggle
+        themeBtn.addEventListener('click', nextTheme);
+
+        // Sound Toggle
+        soundBtn.addEventListener('click', () => {
+            soundEnabled = !soundEnabled;
+            soundIconOn.classList.toggle('hidden', !soundEnabled);
+            soundIconOff.classList.toggle('hidden', soundEnabled);
+        });
+
+        // Runner Animation Toggle
+        runnerBtn.addEventListener('click', () => {
+            runnersEnabled = !runnersEnabled;
+            runnerBtnIcon.style.opacity = runnersEnabled ? '1' : '0.3';
+            if (!runnersEnabled) {
+                runnerCtx.clearRect(0, 0, runnerCanvas.width, runnerCanvas.height);
+            }
+        });
+
+        // Fullscreen Toggle
+        fullscreenBtn.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {});
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        });
+
+        // Activity Tracking for UI Auto-Hide
+        window.addEventListener('mousemove', (e) => {
+            showUI();
+            if (runnersEnabled) {
+                const isHoverRunner = runners.some(r => r.isHit(e.clientX, e.clientY));
+                if (isHoverRunner) {
+                    bodyEl.style.cursor = 'pointer';
+                }
+            }
+        });
+        window.addEventListener('mousedown', showUI);
+        window.addEventListener('touchstart', showUI);
+
+        // Click to jump interaction for Pixel Runners
+        function handleRunnerClick(e) {
+            if (!runnersEnabled) return;
+            const currentTheme = themes[currentThemeIndex];
+            const mainColor = currentTheme.runnerColor || '#f59e0b';
+            
+            const px = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+            const py = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
+
+            let hasHit = false;
+            runners.forEach(runner => {
+                if (runner.isHit(px, py)) {
+                    runner.jump(mainColor);
+                    hasHit = true;
+                }
+            });
+
+            if (hasHit) {
+                runnerClickCount++;
+            }
+        }
+
+        window.addEventListener('click', handleRunnerClick);
+
+        // Keyboard Shortcuts
+        window.addEventListener('keydown', (e) => {
+            if (timeModal.classList.contains('pointer-events-none')) {
+                if (e.code === 'Space') {
+                    e.preventDefault();
+                    if (isRunning) pauseTimer();
+                    else startTimer();
+                } else if (e.code === 'KeyR') {
+                    resetTimer();
+                } else if (e.code === 'KeyF') {
+                    fullscreenBtn.click();
+                }
+            } else if (e.code === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Initial Initialization
+        updateDisplay();
+        applyTheme(themes[0]);
+        showUI();
+        initRunners();
+        animateRunners();
+    </script>
+</body>
+</html>

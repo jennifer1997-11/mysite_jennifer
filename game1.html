@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>女孩穿衣出任務 - 3D像素復古遊戲</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js CDN for 3D Voxel Engine -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Retro Pixel Font -->
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        * {
+            user-select: none;
+            -webkit-user-select: none;
+            font-family: 'DotGothic16', 'Press Start 2P', monospace, sans-serif;
+            touch-action: manipulation;
+        }
+
+        body {
+            background-color: #1a0933;
+            background-image: 
+                radial-gradient(#4a2b7c 15%, transparent 16%),
+                radial-gradient(#2d1254 15%, transparent 16%);
+            background-size: 32px 32px;
+            background-position: 0 0, 16px 16px;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Retro Pixelated Border Frame */
+        .pixel-box {
+            background-color: #2a1b4e;
+            border: 4px solid #000;
+            box-shadow: 
+                inset -4px -4px 0px 0px #150a2b,
+                inset 4px 4px 0px 0px #633a9c,
+                0px 6px 0px 0px #0d041a;
+            position: relative;
+        }
+
+        .pixel-box-green {
+            background-color: #1b4e2e;
+            border: 4px solid #000;
+            box-shadow: 
+                inset -4px -4px 0px 0px #0a2b16,
+                inset 4px 4px 0px 0px #3a9c5d,
+                0px 6px 0px 0px #041a0d;
+        }
+
+        .pixel-box-pink {
+            background-color: #581c45;
+            border: 4px solid #000;
+            box-shadow: 
+                inset -4px -4px 0px 0px #300c25,
+                inset 4px 4px 0px 0px #9b3d7f,
+                0px 6px 0px 0px #1a0413;
+        }
+
+        /* Interactive Retro Button */
+        .pixel-btn {
+            background: linear-gradient(180deg, #ff79c6 0%, #bd93f9 100%);
+            border: 3px solid #000;
+            box-shadow: inset -3px -3px 0px 0px #7b2cbf, inset 3px 3px 0px 0px #ffb86c, 0px 4px 0px 0px #000;
+            color: #000;
+            font-weight: bold;
+            transition: all 0.05s ease;
+            cursor: pointer;
+            text-shadow: 1px 1px 0px #fff;
+        }
+
+        .pixel-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: inset -3px -3px 0px 0px #7b2cbf, inset 3px 3px 0px 0px #ffb86c, 0px 6px 0px 0px #000;
+            filter: brightness(1.1);
+        }
+
+        .pixel-btn:active {
+            transform: translateY(3px);
+            box-shadow: inset -2px -2px 0px 0px #7b2cbf, inset 2px 2px 0px 0px #ffb86c, 0px 1px 0px 0px #000;
+        }
+
+        .pixel-btn-yellow {
+            background: linear-gradient(180deg, #f1fa8c 0%, #ffb86c 100%);
+            box-shadow: inset -3px -3px 0px 0px #c77700, inset 3px 3px 0px 0px #ffffcb, 0px 4px 0px 0px #000;
+        }
+
+        .pixel-btn-cyan {
+            background: linear-gradient(180deg, #8be9fd 0%, #50fa7b 100%);
+            box-shadow: inset -3px -3px 0px 0px #1b8a5a, inset 3px 3px 0px 0px #d4ffff, 0px 4px 0px 0px #000;
+        }
+
+        .pixel-tab {
+            border: 3px solid #000;
+            background: #38215c;
+            color: #d8b4fe;
+            cursor: pointer;
+        }
+
+        .pixel-tab.active {
+            background: #a855f7;
+            color: #ffffff;
+            box-shadow: inset -2px -2px 0px #581c87, inset 2px 2px 0px #e9d5ff;
+        }
+
+        /* Bouncing Slime Animation */
+        @keyframes slimeBounce {
+            0%, 100% { transform: scale(1, 1) translateY(0); }
+            30% { transform: scale(1.15, 0.85) translateY(0); }
+            50% { transform: scale(0.9, 1.1) translateY(-12px); }
+            70% { transform: scale(1.05, 0.95) translateY(0); }
+        }
+
+        .animate-slime {
+            animation: slimeBounce 2s infinite ease-in-out;
+        }
+
+        /* Pulsing Glow */
+        @keyframes pulseGlow {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(168, 85, 247, 0.8)); }
+            50% { filter: drop-shadow(0 0 15px rgba(236, 72, 153, 0.9)); }
+        }
+
+        .glow-effect {
+            animation: pulseGlow 1.8s infinite;
+        }
+
+        /* CRT Scanline Overlay Effect */
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+            background-size: 100% 4px;
+            z-index: 99;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        /* Custom Scrollbar for Closet */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e1035;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #8b5cf6;
+            border: 2px solid #000;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-between p-2 md:p-4 select-none">
+    <!-- CRT Overlay -->
+    <div class="scanlines"></div>
+
+    <!-- Top Retro Header Bar -->
+    <header class="w-full max-w-4xl pixel-box p-3 mb-2 flex items-center justify-between z-10">
+        <div class="flex items-center gap-2">
+            <!-- Cute Pixel Flower Logo Mascot -->
+            <div id="flowerMascot" class="relative w-9 h-9 flex items-center justify-center animate-slime cursor-pointer hover:scale-110 transition-transform" onclick="gameSound.playFlowerPop()" title="點擊可愛小花！">
+                <!-- SVG Cute Pixel/Retro Flower -->
+                <svg class="w-8 h-8 drop-shadow-[0_2px_0_#000]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Petals -->
+                    <circle cx="12" cy="5" r="3.5" fill="#ff79c6" stroke="#000" stroke-width="1.5"/>
+                    <circle cx="12" cy="19" r="3.5" fill="#ff79c6" stroke="#000" stroke-width="1.5"/>
+                    <circle cx="5" cy="12" r="3.5" fill="#ff79c6" stroke="#000" stroke-width="1.5"/>
+                    <circle cx="19" cy="12" r="3.5" fill="#ff79c6" stroke="#000" stroke-width="1.5"/>
+                    <circle cx="7" cy="7" r="3" fill="#ffb86c" stroke="#000" stroke-width="1.5"/>
+                    <circle cx="17" cy="7" r="3" fill="#ffb86c" stroke="#000" stroke-width="1.5"/>
+                    <circle cx="7" cy="17" r="3" fill="#ffb86c" stroke="#000" stroke-width="1.5"/>
+                    <circle cx="17" cy="17" r="3" fill="#ffb86c" stroke="#000" stroke-width="1.5"/>
+                    <!-- Flower Center Face -->
+                    <circle cx="12" cy="12" r="4.5" fill="#f1fa8c" stroke="#000" stroke-width="1.5"/>
+                    <!-- Cute Face Eyes & Smile -->
+                    <circle cx="10.5" cy="11.5" r="0.8" fill="#000"/>
+                    <circle cx="13.5" cy="11.5" r="0.8" fill="#000"/>
+                    <path d="M10.8 13.2 Q12 14.2 13.2 13.2" stroke="#000" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <h1 class="text-lg md:text-xl font-bold tracking-wider text-pink-300 drop-shadow-[0_2px_0_#000]">
+                女孩穿衣出任務 <span class="text-xs bg-pink-600 text-white px-2 py-0.5 rounded-full border border-black">3D像素版</span>
+            </h1>
+        </div>
+        <div class="flex items-center gap-2">
+            <button id="bgmToggleBtn" onclick="toggleBGM()" class="pixel-btn text-xs px-2.5 py-1 bg-purple-400 text-black">
+                🎵 音樂: 關
+            </button>
+            <button id="soundToggleBtn" onclick="toggleAudio()" class="pixel-btn text-xs px-2.5 py-1 bg-yellow-300 text-black">
+                🔊 音效: 開
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Game Display Frame -->
+    <main class="w-full max-w-4xl flex-1 flex flex-col justify-center items-center relative my-1">
+        
+        <!-- ================= VIEW 1: START / MENU ================= -->
+        <section id="viewStart" class="w-full h-full min-h-[480px] pixel-box flex flex-col items-center justify-center p-6 text-center space-y-6">
+            <div class="relative">
+                <div class="text-4xl md:text-5xl font-black text-yellow-300 drop-shadow-[0_4px_0_#000] tracking-wider mb-2 animate-bounce">
+                    女孩穿衣出任務！
+                </div>
+                <p class="text-pink-300 text-sm md:text-base bg-purple-950/80 px-4 py-1 rounded-full border border-pink-500 inline-block">
+                    史萊姆小遊戲風 × 3D Q版像素變裝
+                </p>
+            </div>
+
+            <!-- Voxel Preview Canvas Box -->
+            <div class="relative w-48 h-56 md:w-56 md:h-64 pixel-box-pink rounded-lg overflow-hidden flex items-center justify-center my-2 glow-effect">
+                <canvas id="startCanvas" class="w-full h-full cursor-grab active:cursor-grabbing"></canvas>
+                <div class="absolute bottom-2 left-0 right-0 text-[10px] text-pink-200 bg-black/60 py-0.5 text-center">
+                    🖱️ 拖曳畫面可3D旋轉角色
+                </div>
+            </div>
+
+            <div class="space-y-3 w-full max-w-xs">
+                <button onclick="switchView('viewMission')" class="pixel-btn pixel-btn-yellow w-full py-3 text-lg text-purple-950 font-extrabold tracking-widest">
+                    🎮 開始遊戲
+                </button>
+                <button onclick="showInstructions()" class="pixel-btn pixel-btn-cyan w-full py-2 text-sm text-slate-900">
+                    📖 遊戲說明
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= VIEW 2: MISSION SELECTION ================= -->
+        <section id="viewMission" class="w-full h-full min-h-[480px] pixel-box p-4 md:p-6 hidden flex flex-col justify-between">
+            <div>
+                <div class="text-center mb-4">
+                    <h2 class="text-xl md:text-2xl font-bold text-yellow-300 drop-shadow-[0_2px_0_#000]">
+                        📜 選擇任務指令
+                    </h2>
+                    <p class="text-xs md:text-sm text-purple-200 mt-1">請選擇今日女孩要前往挑戰的特訓任務！</p>
+                </div>
+
+                <!-- Mission Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 my-2">
+                    <!-- Mission 1 -->
+                    <div onclick="selectMission(0)" class="pixel-box p-3 hover:bg-purple-900/60 cursor-pointer transition border-2 hover:border-yellow-400 group flex gap-3 items-center">
+                        <div class="w-14 h-14 bg-red-900/80 rounded-lg border-2 border-black flex items-center justify-center text-3xl group-hover:scale-110 transition">
+                            ⚔️
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-yellow-300 text-sm md:text-base">討伐地牢史萊姆王</span>
+                                <span class="text-[10px] bg-red-600 px-2 py-0.5 rounded text-white border border-black">戰鬥力</span>
+                            </div>
+                            <p class="text-xs text-purple-200 mt-1">邪惡史萊姆王襲擊村莊！需要堅固裝甲與重型武器！</p>
+                        </div>
+                    </div>
+
+                    <!-- Mission 2 -->
+                    <div onclick="selectMission(1)" class="pixel-box p-3 hover:bg-purple-900/60 cursor-pointer transition border-2 hover:border-yellow-400 group flex gap-3 items-center">
+                        <div class="w-14 h-14 bg-cyan-900/80 rounded-lg border-2 border-black flex items-center justify-center text-3xl group-hover:scale-110 transition">
+                            🕶️
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-cyan-300 text-sm md:text-base">賽博朋克夜城潛入</span>
+                                <span class="text-[10px] bg-cyan-600 px-2 py-0.5 rounded text-white border border-black">科技感</span>
+                            </div>
+                            <p class="text-xs text-purple-200 mt-1">避開警衛監視網，需要霓虹戰術夾克與駭客裝備！</p>
+                        </div>
+                    </div>
+
+                    <!-- Mission 3 -->
+                    <div onclick="selectMission(2)" class="pixel-box p-3 hover:bg-purple-900/60 cursor-pointer transition border-2 hover:border-yellow-400 group flex gap-3 items-center">
+                        <div class="w-14 h-14 bg-pink-900/80 rounded-lg border-2 border-black flex items-center justify-center text-3xl group-hover:scale-110 transition">
+                            🪄
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-pink-300 text-sm md:text-base">魔法少女甜點救急</span>
+                                <span class="text-[10px] bg-pink-600 px-2 py-0.5 rounded text-white border border-black">甜美度</span>
+                            </div>
+                            <p class="text-xs text-purple-200 mt-1">蛋糕王國的糖果失蹤了！著裝華麗蕾絲裙與星星魔杖！</p>
+                        </div>
+                    </div>
+
+                    <!-- Mission 4 -->
+                    <div onclick="selectMission(3)" class="pixel-box p-3 hover:bg-purple-900/60 cursor-pointer transition border-2 hover:border-yellow-400 group flex gap-3 items-center">
+                        <div class="w-14 h-14 bg-emerald-900/80 rounded-lg border-2 border-black flex items-center justify-center text-3xl group-hover:scale-110 transition">
+                            🚀
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-emerald-300 text-sm md:text-base">未知星系宇宙探險</span>
+                                <span class="text-[10px] bg-emerald-600 px-2 py-0.5 rounded text-white border border-black">探索力</span>
+                            </div>
+                            <p class="text-xs text-purple-200 mt-1">登陸外星古蹟采集晶石！請準備太空防護服與噴射背包！</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 flex justify-between">
+                <button onclick="switchView('viewStart')" class="pixel-btn px-4 py-2 text-xs">
+                    ⬅️ 返回主選單
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= VIEW 3: DRESS UP CLOSET (3D VOXEL) ================= -->
+        <section id="viewCloset" class="w-full h-full min-h-[500px] pixel-box p-3 md:p-4 hidden flex flex-col justify-between">
+            <!-- Closet Top Banner -->
+            <div class="flex justify-between items-center bg-purple-950/80 p-2 rounded border border-purple-600 mb-2">
+                <div>
+                    <div class="text-xs text-pink-300">當前任務:</div>
+                    <div id="closetMissionName" class="font-bold text-yellow-300 text-sm">--</div>
+                </div>
+                <!-- Mission Match Score Bar -->
+                <div class="w-1/2 max-w-[200px]">
+                    <div class="flex justify-between text-[10px] mb-1">
+                        <span>裝備契合度</span>
+                        <span id="matchPercentText" class="font-bold text-yellow-300">0%</span>
+                    </div>
+                    <div class="w-full bg-black h-3 rounded-full border border-purple-400 overflow-hidden">
+                        <div id="matchProgressBar" class="bg-gradient-to-r from-red-500 via-yellow-400 to-green-400 h-full w-0% transition-all duration-300"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Middle Main Interaction Area: Left Viewport (3D Voxel) / Right (Category & Items) -->
+            <div class="flex-1 grid grid-cols-1 md:grid-cols-12 gap-3 items-stretch my-1">
+                
+                <!-- 3D Voxel Stage Preview (5 Cols) -->
+                <div class="md:col-span-5 pixel-box-pink rounded-lg relative min-h-[260px] md:min-h-[340px] flex flex-col items-center justify-between p-2 overflow-hidden">
+                    <!-- 3D Canvas -->
+                    <canvas id="closetCanvas" class="w-full h-full absolute inset-0 cursor-grab active:cursor-grabbing"></canvas>
+                    
+                    <!-- Floating Rotation Controls -->
+                    <div class="z-10 w-full flex justify-between items-center pointer-events-none px-1">
+                        <span class="text-[10px] bg-black/70 text-purple-200 px-2 py-0.5 rounded border border-purple-500 pointer-events-auto">
+                            🔄 360° 可旋轉
+                        </span>
+                        <button onclick="resetCamera()" class="text-[10px] bg-purple-800 text-white px-2 py-0.5 rounded border border-black pointer-events-auto hover:bg-purple-700">
+                            🎥 重置視角
+                        </button>
+                    </div>
+
+                    <!-- Color Swatch Customizer Bar -->
+                    <div class="z-10 bg-black/80 p-1.5 rounded-lg border border-purple-500 w-full flex justify-around items-center text-[10px]">
+                        <span class="text-yellow-300">髮色:</span>
+                        <div class="flex gap-1">
+                            <button onclick="changeHairColor('#ff79c6')" class="w-4 h-4 rounded-full bg-[#ff79c6] border border-white hover:scale-125 transition"></button>
+                            <button onclick="changeHairColor('#f1fa8c')" class="w-4 h-4 rounded-full bg-[#f1fa8c] border border-white hover:scale-125 transition"></button>
+                            <button onclick="changeHairColor('#8be9fd')" class="w-4 h-4 rounded-full bg-[#8be9fd] border border-white hover:scale-125 transition"></button>
+                            <button onclick="changeHairColor('#50fa7b')" class="w-4 h-4 rounded-full bg-[#50fa7b] border border-white hover:scale-125 transition"></button>
+                            <button onclick="changeHairColor('#bd93f9')" class="w-4 h-4 rounded-full bg-[#bd93f9] border border-white hover:scale-125 transition"></button>
+                            <button onclick="changeHairColor('#ff5555')" class="w-4 h-4 rounded-full bg-[#ff5555] border border-white hover:scale-125 transition"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Closet Item Selector Panel (7 Cols) -->
+                <div class="md:col-span-7 pixel-box p-2 flex flex-col justify-between">
+                    <!-- Category Tabs -->
+                    <div class="grid grid-cols-5 gap-1 mb-2 text-center text-xs font-bold">
+                        <button onclick="setClosetTab('hair')" id="tab-hair" class="pixel-tab py-1.5 rounded active">髮型</button>
+                        <button onclick="setClosetTab('top')" id="tab-top" class="pixel-tab py-1.5 rounded">上衣</button>
+                        <button onclick="setClosetTab('bottom')" id="tab-bottom" class="pixel-tab py-1.5 rounded">下裝</button>
+                        <button onclick="setClosetTab('acc')" id="tab-acc" class="pixel-tab py-1.5 rounded">裝備</button>
+                        <button onclick="setClosetTab('head')" id="tab-head" class="pixel-tab py-1.5 rounded">頭飾</button>
+                    </div>
+
+                    <!-- Item Selection Grid Container -->
+                    <div id="closetItemsGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-2 overflow-y-auto max-h-[220px] md:max-h-[260px] p-1 border border-purple-900 bg-black/40 rounded">
+                        <!-- Dynamic items generated by JS -->
+                    </div>
+
+                    <!-- Item Info Brief -->
+                    <div id="itemDescriptionBox" class="mt-2 p-2 bg-purple-950/90 rounded border border-purple-500 text-xs text-purple-200 h-11 flex items-center justify-between">
+                        <span id="selectedItemDesc">點擊上方配件進行換裝！</span>
+                        <span id="selectedItemTag" class="text-[10px] bg-yellow-500/20 text-yellow-300 border border-yellow-500/40 px-2 py-0.5 rounded">提示</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Action Controls -->
+            <div class="flex justify-between items-center mt-2">
+                <button onclick="switchView('viewMission')" class="pixel-btn px-4 py-2 text-xs">
+                    ⬅️ 更換任務
+                </button>
+                <button onclick="startMissionRun()" class="pixel-btn pixel-btn-yellow px-6 py-2.5 text-sm md:text-base font-black text-purple-950 flex items-center gap-1 animate-pulse">
+                    🚀 出發出任務！
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= VIEW 4: INTERACTIVE MISSION ARCADE ================= -->
+        <section id="viewArcade" class="w-full h-full min-h-[500px] pixel-box p-3 md:p-4 hidden flex flex-col justify-between relative overflow-hidden">
+            <!-- Arcade Header -->
+            <div class="flex justify-between items-center bg-black/80 px-3 py-1.5 rounded border border-purple-500 z-10">
+                <div class="flex items-center gap-2">
+                    <span class="text-xs text-yellow-400 font-bold">🎯 愛心射擊任務中</span>
+                    <span id="arcadeMissionTitle" class="text-xs text-pink-300">--</span>
+                </div>
+                <div class="flex gap-3 md:gap-4 text-xs">
+                    <div>消滅壞人: <span id="arcadeKillsText" class="text-pink-400 font-bold text-sm">0</span> 隻</div>
+                    <div>連擊: <span id="arcadeComboText" class="text-yellow-300 font-bold">0</span></div>
+                    <div>時間: <span id="arcadeTimerText" class="text-cyan-300 font-bold">20</span>s</div>
+                </div>
+            </div>
+
+            <!-- Mini Game Screen Canvas -->
+            <div class="relative w-full flex-1 my-2 rounded border-2 border-purple-500 overflow-hidden bg-purple-950 min-h-[280px]">
+                <canvas id="arcadeCanvas" class="w-full h-full block"></canvas>
+                
+                <!-- Arcade Onscreen Guidance Overlay -->
+                <div id="arcadeOverlay" class="absolute inset-0 bg-black/80 flex flex-col items-center justify-center p-4 text-center z-20">
+                    <div class="text-3xl font-black text-pink-400 mb-2 drop-shadow-[0_2px_0_#000] animate-pulse">
+                        💖 愛心發射！消滅壞人！
+                    </div>
+                    <p class="text-xs md:text-sm text-purple-200 mb-4 max-w-sm leading-relaxed">
+                        壞人正大量襲來！左右移動女孩，點擊發射按鈕或按<kbd class="bg-purple-900 border border-purple-400 px-1.5 py-0.5 rounded text-yellow-300">空白鍵</kbd>發射愛心彈，將壞人通通擊退！
+                    </p>
+                    <button onclick="launchArcadeGame()" class="pixel-btn pixel-btn-yellow px-8 py-3 text-base font-black text-black">
+                        💘 開始射擊任務
+                    </button>
+                </div>
+            </div>
+
+            <!-- Touch / Mobile Controls Bar -->
+            <div class="flex justify-center items-center gap-2 sm:gap-4 z-10">
+                <button id="btnArcadeLeft" class="pixel-btn px-4 sm:px-6 py-3 text-base sm:text-lg font-extrabold active:scale-95">◀ 左移</button>
+                <button id="btnArcadeShoot" class="pixel-btn pixel-btn-pink px-6 sm:px-10 py-3 text-base sm:text-lg font-black text-white bg-pink-600 border-2 border-pink-300 active:scale-95 animate-bounce">
+                    💖 發射愛心
+                </button>
+                <button id="btnArcadeRight" class="pixel-btn px-4 sm:px-6 py-3 text-base sm:text-lg font-extrabold active:scale-95">右移 ▶</button>
+            </div>
+        </section>
+
+        <!-- ================= VIEW 5: MISSION RESULTS & SNAPSHOT ================= -->
+        <section id="viewResult" class="w-full h-full min-h-[480px] pixel-box p-4 md:p-6 hidden flex flex-col items-center justify-between text-center">
+            <div>
+                <div id="resultRankBadge" class="text-4xl md:text-5xl font-black text-yellow-300 mb-1 animate-bounce">
+                    RANK S
+                </div>
+                <h2 class="text-xl md:text-2xl font-bold text-pink-300">任務圓滿完成！</h2>
+            </div>
+
+            <!-- Result Voxel Snapshot Frame -->
+            <div class="relative w-44 h-52 md:w-52 md:h-60 pixel-box-green rounded-lg overflow-hidden my-2 flex items-center justify-center">
+                <canvas id="resultCanvas" class="w-full h-full"></canvas>
+                <div class="absolute top-2 right-2 bg-yellow-400 text-purple-950 font-black text-[10px] px-2 py-0.5 rounded border border-black">
+                    特訓名片
+                </div>
+            </div>
+
+            <!-- Detailed Score Evaluation -->
+            <div class="w-full max-w-md bg-purple-950/80 p-3 rounded border border-purple-500 text-xs space-y-1.5 text-left">
+                <div class="flex justify-between items-center">
+                    <span class="text-purple-300">😈 成功消滅壞人總數:</span>
+                    <span id="resKillsTotal" class="font-bold text-pink-400 text-base">0 隻</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-purple-300">⚡ 最高連擊紀錄:</span>
+                    <span id="resMaxCombo" class="font-bold text-yellow-300">0 Combo</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-purple-300">👗 造型搭配契合度:</span>
+                    <span id="resFitScore" class="font-bold text-cyan-300">90分</span>
+                </div>
+                <div class="border-t border-purple-700 my-1"></div>
+                <div class="flex justify-between text-sm font-bold">
+                    <span class="text-pink-300">總成績評級:</span>
+                    <span id="resTotalEvaluation" class="text-yellow-300">完美的愛心神射手！</span>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex gap-3 w-full max-w-sm mt-2">
+                <button onclick="switchView('viewMission')" class="pixel-btn pixel-btn-yellow flex-1 py-2.5 text-xs font-bold text-black">
+                    🔄 挑戰其他任務
+                </button>
+                <button onclick="switchView('viewCloset')" class="pixel-btn pixel-btn-cyan flex-1 py-2.5 text-xs font-bold text-black">
+                    👗 重新造型
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer Copyright & retro slime credit -->
+    <footer class="w-full max-w-4xl text-center text-[10px] text-purple-400 py-1 z-10">
+        女孩穿衣出任務 © 2026 Retro Slime Studio | 復古史萊姆風格 3D Voxel Engine
+    </footer>
+
+    <!-- Instructions Modal Box -->
+    <div id="instructionsModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
+        <div class="pixel-box p-5 max-w-md w-full text-left space-y-3">
+            <h3 class="text-lg font-bold text-yellow-300 border-b border-purple-600 pb-2">📖 遊戲玩法說明</h3>
+            <ol class="list-decimal list-inside text-xs text-purple-200 space-y-2 leading-relaxed">
+                <li><strong class="text-pink-300">選擇任務：</strong>從地牢討伐、賽博潛入、甜點魔法、宇宙探險中選擇一項任務。</li>
+                <li><strong class="text-pink-300">3D像素換裝：</strong>在衣櫃中為3D Q版女孩挑選適合該任務風格的髮型、服裝與武器裝備，提高契合度！</li>
+                <li><strong class="text-pink-300">出門出任務：</strong>進入復古8-bit街機關卡，移動女孩收集道具並獲取高分。</li>
+                <li><strong class="text-pink-300">評級結算：</strong>根據換裝匹配度與小遊戲得分獲得最終S/A/B/C等級！</li>
+            </ol>
+            <div class="pt-2 text-right">
+                <button onclick="hideInstructions()" class="pixel-btn pixel-btn-yellow px-4 py-1.5 text-xs font-bold text-black">
+                    我知道了！
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic Section -->
+    <script>
+        // ==========================================
+        // 1. RETRO WEB AUDIO SYNTHESIZER (8-BIT SFX)
+        // ==========================================
+        class RetroAudio {
+            constructor() {
+                this.ctx = null;
+                this.enabled = true;
+                this.bgmPlaying = false;
+                this.bgmInterval = null;
+            }
+
+            init() {
+                if (!this.ctx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    this.ctx = new AudioContext();
+                }
+                if (this.ctx && this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+            }
+
+            playTone(freq, type, duration, vol = 0.1) {
+                if (!this.enabled) return;
+                this.init();
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    gain.gain.setValueAtTime(vol, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + duration);
+                } catch(e) {}
+            }
+
+            playClick() {
+                this.playTone(600, 'square', 0.05, 0.08);
+            }
+
+            playFlowerPop() {
+                if (!this.enabled) return;
+                this.init();
+                const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+                notes.forEach((freq, idx) => {
+                    setTimeout(() => this.playTone(freq, 'sine', 0.08, 0.12), idx * 40);
+                });
+            }
+
+            playDressUp() {
+                if (!this.enabled) return;
+                this.playTone(440, 'sine', 0.08, 0.1);
+                setTimeout(() => this.playTone(660, 'sine', 0.08, 0.1), 60);
+                setTimeout(() => this.playTone(880, 'triangle', 0.1, 0.12), 120);
+            }
+
+            playShootHeart() {
+                if (!this.enabled) return;
+                this.init();
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(1046.50, this.ctx.currentTime + 0.12);
+                    gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.12);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.12);
+                } catch(e) {}
+            }
+
+            playExplosion() {
+                if (!this.enabled) return;
+                this.init();
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(40, this.ctx.currentTime + 0.18);
+                    gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.18);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.18);
+                } catch(e) {}
+            }
+
+            playSlimeSquish() {
+                this.playFlowerPop();
+            }
+
+            playCoin() {
+                if (!this.enabled) return;
+                this.playTone(987.77, 'square', 0.08, 0.1);
+                setTimeout(() => this.playTone(1318.51, 'square', 0.2, 0.1), 80);
+            }
+
+            playVictory() {
+                if (!this.enabled) return;
+                const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+                notes.forEach((freq, idx) => {
+                    setTimeout(() => this.playTone(freq, 'triangle', 0.25, 0.12), idx * 120);
+                });
+            }
+
+            startBGM() {
+                if (this.bgmInterval) return;
+                this.init();
+                this.bgmPlaying = true;
+                let step = 0;
+                const melody = [261.63, 329.63, 392.00, 523.25, 392.00, 329.63, 293.66, 349.23, 440.00, 523.25, 440.00, 349.23];
+                const bass = [130.81, 130.81, 174.61, 174.61, 196.00, 196.00, 130.81, 130.81];
+                this.bgmInterval = setInterval(() => {
+                    if (!this.bgmPlaying || !this.enabled) return;
+                    const fMel = melody[step % melody.length];
+                    const fBass = bass[Math.floor(step / 2) % bass.length];
+                    this.playTone(fMel, 'triangle', 0.12, 0.03);
+                    if (step % 2 === 0) {
+                        this.playTone(fBass, 'sawtooth', 0.2, 0.02);
+                    }
+                    step++;
+                }, 200);
+            }
+
+            stopBGM() {
+                this.bgmPlaying = false;
+                if (this.bgmInterval) {
+                    clearInterval(this.bgmInterval);
+                    this.bgmInterval = null;
+                }
+            }
+        }
+
+        const gameSound = new RetroAudio();
+
+        // Unlock web audio context on first user touch/click/keypress
+        window.addEventListener('pointerdown', () => gameSound.init(), { once: true });
+        window.addEventListener('keydown', () => gameSound.init(), { once: true });
+
+        function toggleAudio() {
+            gameSound.enabled = !gameSound.enabled;
+            const btn = document.getElementById('soundToggleBtn');
+            btn.innerHTML = gameSound.enabled ? "🔊 音效: 開" : "🔇 音效: 關";
+            if (gameSound.enabled) gameSound.playClick();
+        }
+
+        let bgmOn = false;
+        function toggleBGM() {
+            gameSound.playClick();
+            bgmOn = !bgmOn;
+            const btn = document.getElementById('bgmToggleBtn');
+            if (bgmOn) {
+                btn.innerText = '🎵 音樂: 開';
+                btn.classList.remove('bg-purple-400');
+                btn.classList.add('bg-green-400');
+                gameSound.startBGM();
+            } else {
+                btn.innerText = '🎵 音樂: 關';
+                btn.classList.remove('bg-green-400');
+                btn.classList.add('bg-purple-400');
+                gameSound.stopBGM();
+            }
+        }
+
+        // ==========================================
+        // 2. GAME DATA & INVENTORY DATABASE
+        // ==========================================
+        const MISSIONS = [
+            { id: 'knight', name: '討伐地牢史萊姆王', tag: 'knight', reqDesc: '戰鬥力/重型裝甲/聖劍', color: '#ff5555' },
+            { id: 'cyber', name: '賽博朋克夜城潛入', tag: 'cyber', reqDesc: '科技感/霓虹戰術服/駭客光刃', color: '#8be9fd' },
+            { id: 'magic', name: '魔法少女甜點救急', tag: 'magic', reqDesc: '甜美度/華麗洋裝/星星魔杖', color: '#ff79c6' },
+            { id: 'space', name: '未知星系宇宙探險', tag: 'space', reqDesc: '探索力/太空裝備/雷射槍', color: '#50fa7b' }
+        ];
+
+        const CLOTHING_ITEMS = {
+            hair: [
+                { id: 'h0', name: '雙馬尾辮', tag: 'magic', color: '#ff79c6', desc: '活潑可愛的少女雙馬尾' },
+                { id: 'h1', name: '波浪騎士髮', tag: 'knight', color: '#f1fa8c', desc: '英姿颯爽的金色騎士長髮' },
+                { id: 'h2', name: '賽博雙包包', tag: 'cyber', color: '#8be9fd', desc: '充滿未來科技感的前衛髮型' },
+                { id: 'h3', name: '太空短髮', tag: 'space', color: '#bd93f9', desc: '俐落適合配戴太空頭盔的短髮' }
+            ],
+            top: [
+                { id: 't0', name: '騎士鎧甲胸甲', tag: 'knight', color: '#e2e8f0', desc: '防禦力極高的高階銀色鋼鐵鎧甲' },
+                { id: 't1', name: '霓虹賽博夾克', tag: 'cyber', color: '#06b6d4', desc: '帶有螢光發光管的酷炫戰術外衣' },
+                { id: 't2', name: '魔法蕾絲上衣', tag: 'magic', color: '#f472b6', desc: '綴滿蝴蝶結與夢幻褶邊的洋裝' },
+                { id: 't3', name: '太空防護服', tag: 'space', color: '#10b981', desc: '能抵禦外星高溫與輻射的太空上衣' }
+            ],
+            bottom: [
+                { id: 'b0', name: '騎士鋼鐵戰裙', tag: 'knight', color: '#94a3b8', desc: '兼具靈敏度與防護的百褶鋼鐵裙' },
+                { id: 'b1', name: '賽博機能短褲', tag: 'cyber', color: '#1e293b', desc: '附帶多功能收納口袋的機能短褲' },
+                { id: 'b2', name: '魔法芭蕾蓬蓬裙', tag: 'magic', color: '#fb7185', desc: '閃耀星光的蓬鬆魔法少女裙' },
+                { id: 'b3', name: '太空高階噴射褲', tag: 'space', color: '#047857', desc: '配備低重力推進噴頭的服裝裝備' }
+            ],
+            acc: [
+                { id: 'a0', name: '像素聖劍', tag: 'knight', color: '#facc15', desc: '專門克制史萊姆的傳說光輝寶劍' },
+                { id: 'a1', name: '駭客光影終端', tag: 'cyber', color: '#38bdf8', desc: '能快速破解警衛防火牆的裝備' },
+                { id: 'a2', name: '星星魔法魔杖', tag: 'magic', color: '#f43f5e', desc: '發射甜心光束治療失控怪物' },
+                { id: 'a3', name: '高能粒子雷射槍', tag: 'space', color: '#34d399', desc: '採集外星晶石與防禦的遠程裝備' },
+                { id: 'a4', name: '隨身史萊姆寵物', tag: 'magic', color: '#4ade80', desc: '圓滾滾黏答答的可口綠色史萊姆' }
+            ],
+            head: [
+                { id: 'e0', name: '勇者金冠', tag: 'knight', color: '#eab308', desc: '象徵榮譽與勇氣的黃金頭冠' },
+                { id: 'e1', name: '賽博戰術戰術鏡', tag: 'cyber', color: '#0284c7', desc: '具有夜視與數據分析功能的護目鏡' },
+                { id: 'e2', name: '魔法大蝴蝶結', tag: 'magic', color: '#ec4899', desc: '充滿少女心的大型蝴蝶結頭飾' },
+                { id: 'e3', name: '太空全罩頭盔', tag: 'space', color: '#059669', desc: '提供充足氧氣循環的科幻罩帽' }
+            ]
+        };
+
+        // State variables
+        let currentMissionIndex = 0;
+        let activeClosetTab = 'hair';
+        let equippedItems = {
+            hair: 'h0',
+            top: 't0',
+            bottom: 'b0',
+            acc: 'a0',
+            head: 'e0',
+            hairColor: '#ff79c6'
+        };
+
+        // ==========================================
+        // 3. THREE.JS 3D VOXEL CHARACTER RENDERER
+        // ==========================================
+        class VoxelGirl3D {
+            constructor(canvasId) {
+                this.canvas = document.getElementById(canvasId);
+                this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: true, alpha: true });
+                this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                
+                this.scene = new THREE.Scene();
+                this.camera = new THREE.PerspectiveCamera(45, this.canvas.clientWidth / this.canvas.clientHeight, 0.1, 100);
+                this.camera.position.set(0, 1.2, 5.5);
+
+                // Lighting
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+                this.scene.add(ambientLight);
+
+                const dirLight = new THREE.DirectionalLight(0xfff0dd, 0.6);
+                dirLight.position.set(5, 10, 7);
+                this.scene.add(dirLight);
+
+                // Group container for full girl mesh
+                this.characterGroup = new THREE.Group();
+                this.scene.add(this.characterGroup);
+
+                // Pedestal
+                this.createPedestal();
+
+                // Mouse Drag Rotation
+                this.isDragging = false;
+                this.previousMousePosition = { x: 0, y: 0 };
+                this.setupControls();
+
+                // Auto idle bounce parameter
+                this.bounceTime = 0;
+
+                this.resize();
+            }
+
+            setupControls() {
+                const onDown = (x, y) => {
+                    this.isDragging = true;
+                    this.previousMousePosition = { x, y };
+                };
+                const onMove = (x, y) => {
+                    if (!this.isDragging) return;
+                    const deltaX = x - this.previousMousePosition.x;
+                    this.characterGroup.rotation.y += deltaX * 0.015;
+                    this.previousMousePosition = { x, y };
+                };
+                const onUp = () => { this.isDragging = false; };
+
+                this.canvas.addEventListener('mousedown', e => onDown(e.clientX, e.clientY));
+                window.addEventListener('mousemove', e => onMove(e.clientX, e.clientY));
+                window.addEventListener('mouseup', onUp);
+
+                this.canvas.addEventListener('touchstart', e => {
+                    if(e.touches.length === 1) onDown(e.touches[0].clientX, e.touches[0].clientY);
+                }, {passive: true});
+                window.addEventListener('touchmove', e => {
+                    if(e.touches.length === 1) onMove(e.touches[0].clientX, e.touches[0].clientY);
+                }, {passive: true});
+                window.addEventListener('touchend', onUp);
+            }
+
+            createPedestal() {
+                const geo = new THREE.CylinderGeometry(1.6, 1.8, 0.3, 16);
+                const mat = new THREE.MeshStandardMaterial({ color: 0x4a2b7c, roughness: 0.4 });
+                const pedestal = new THREE.Mesh(geo, mat);
+                pedestal.position.y = -1.4;
+                this.scene.add(pedestal);
+
+                // Slime glow ring around pedestal
+                const ringGeo = new THREE.TorusGeometry(1.7, 0.05, 8, 24);
+                const ringMat = new THREE.MeshBasicMaterial({ color: 0xa855f7 });
+                const ring = new THREE.Mesh(ringGeo, ringMat);
+                ring.rotation.x = Math.PI / 2;
+                ring.position.y = -1.25;
+                this.scene.add(ring);
+            }
+
+            // Helper to build a single voxel box mesh
+            addVoxelBlock(group, x, y, z, w, h, d, colorHex) {
+                const geo = new THREE.BoxGeometry(w, h, d);
+                const mat = new THREE.MeshStandardMaterial({
+                    color: new THREE.Color(colorHex),
+                    roughness: 0.3,
+                    metalness: 0.1
+                });
+                const mesh = new THREE.Mesh(geo, mat);
+                mesh.position.set(x, y, z);
+                group.add(mesh);
+                return mesh;
+            }
+
+            // Rebuild complete Q-version character based on equipped state
+            updateCharacter(state) {
+                // Clear old character blocks
+                while(this.characterGroup.children.length > 0) {
+                    const obj = this.characterGroup.children[0];
+                    this.characterGroup.remove(obj);
+                }
+
+                const hairColor = state.hairColor || '#ff79c6';
+                const skinColor = '#ffdbac';
+                const eyeColor = '#1e1b4b';
+
+                // --- 1. HEAD (Big Chibi Head) ---
+                this.addVoxelBlock(this.characterGroup, 0, 0.7, 0, 1.1, 0.9, 1.0, skinColor);
+                
+                // Eyes & Cheek blush
+                this.addVoxelBlock(this.characterGroup, -0.28, 0.72, 0.51, 0.18, 0.25, 0.04, eyeColor); // L Eye
+                this.addVoxelBlock(this.characterGroup, 0.28, 0.72, 0.51, 0.18, 0.25, 0.04, eyeColor);  // R Eye
+                this.addVoxelBlock(this.characterGroup, -0.28, 0.78, 0.53, 0.06, 0.08, 0.02, '#ffffff'); // L Eye Highlight
+                this.addVoxelBlock(this.characterGroup, 0.28, 0.78, 0.53, 0.06, 0.08, 0.02, '#ffffff');  // R Eye Highlight
+                this.addVoxelBlock(this.characterGroup, -0.35, 0.52, 0.51, 0.18, 0.08, 0.02, '#f472b6'); // Blush L
+                this.addVoxelBlock(this.characterGroup, 0.35, 0.52, 0.51, 0.18, 0.08, 0.02, '#f472b6');  // Blush R
+
+                // --- 2. HAIR STYLES ---
+                // Bangs (Front)
+                this.addVoxelBlock(this.characterGroup, 0, 1.1, 0.1, 1.2, 0.25, 1.1, hairColor);
+                this.addVoxelBlock(this.characterGroup, -0.3, 0.98, 0.52, 0.35, 0.2, 0.1, hairColor);
+                this.addVoxelBlock(this.characterGroup, 0.3, 0.98, 0.52, 0.35, 0.2, 0.1, hairColor);
+
+                if (state.hair === 'h0') { // Twin Tails
+                    this.addVoxelBlock(this.characterGroup, -0.7, 0.7, 0, 0.3, 0.8, 0.3, hairColor);
+                    this.addVoxelBlock(this.characterGroup, 0.7, 0.7, 0, 0.3, 0.8, 0.3, hairColor);
+                } else if (state.hair === 'h1') { // Long Knight Hair
+                    this.addVoxelBlock(this.characterGroup, 0, 0.4, -0.4, 1.2, 1.0, 0.3, hairColor);
+                } else if (state.hair === 'h2') { // Cyber Buns
+                    this.addVoxelBlock(this.characterGroup, -0.55, 1.25, 0, 0.4, 0.4, 0.4, hairColor);
+                    this.addVoxelBlock(this.characterGroup, 0.55, 1.25, 0, 0.4, 0.4, 0.4, hairColor);
+                } else if (state.hair === 'h3') { // Short Bob
+                    this.addVoxelBlock(this.characterGroup, 0, 0.6, -0.2, 1.25, 0.7, 0.7, hairColor);
+                }
+
+                // --- 3. TORSO / TOP ---
+                const topColor = getItemColor('top', state.top);
+                this.addVoxelBlock(this.characterGroup, 0, -0.05, 0, 0.65, 0.55, 0.45, topColor);
+                // Arms
+                this.addVoxelBlock(this.characterGroup, -0.42, -0.05, 0, 0.18, 0.45, 0.2, topColor);
+                this.addVoxelBlock(this.characterGroup, 0.42, -0.05, 0, 0.18, 0.45, 0.2, topColor);
+                // Hands
+                this.addVoxelBlock(this.characterGroup, -0.42, -0.32, 0, 0.16, 0.15, 0.16, skinColor);
+                this.addVoxelBlock(this.characterGroup, 0.42, -0.32, 0, 0.16, 0.15, 0.16, skinColor);
+
+                // --- 4. BOTTOMS / SKIRT ---
+                const bottomColor = getItemColor('bottom', state.bottom);
+                if (state.bottom === 'b2' || state.bottom === 'b0') { // Skirt
+                    this.addVoxelBlock(this.characterGroup, 0, -0.42, 0, 0.8, 0.25, 0.6, bottomColor);
+                } else { // Shorts/Pants
+                    this.addVoxelBlock(this.characterGroup, 0, -0.42, 0, 0.62, 0.25, 0.42, bottomColor);
+                }
+
+                // --- 5. LEGS & SHOES ---
+                this.addVoxelBlock(this.characterGroup, -0.18, -0.7, 0, 0.2, 0.4, 0.22, skinColor);
+                this.addVoxelBlock(this.characterGroup, 0.18, -0.7, 0, 0.2, 0.4, 0.22, skinColor);
+                // Shoes
+                this.addVoxelBlock(this.characterGroup, -0.18, -0.92, 0.04, 0.22, 0.12, 0.3, topColor);
+                this.addVoxelBlock(this.characterGroup, 0.18, -0.92, 0.04, 0.22, 0.12, 0.3, topColor);
+
+                // --- 6. ACC / WEAPON GEAR ---
+                const accColor = getItemColor('acc', state.acc);
+                if (state.acc === 'a0') { // Holy Sword
+                    this.addVoxelBlock(this.characterGroup, 0.52, 0.1, 0.2, 0.1, 0.9, 0.1, accColor);
+                    this.addVoxelBlock(this.characterGroup, 0.52, -0.15, 0.2, 0.3, 0.08, 0.1, '#333333');
+                } else if (state.acc === 'a1') { // Cyber Deck
+                    this.addVoxelBlock(this.characterGroup, -0.5, 0, 0.2, 0.35, 0.25, 0.1, accColor);
+                } else if (state.acc === 'a2') { // Magic Wand
+                    this.addVoxelBlock(this.characterGroup, 0.52, 0.2, 0.2, 0.08, 0.8, 0.08, '#ffffff');
+                    this.addVoxelBlock(this.characterGroup, 0.52, 0.58, 0.2, 0.28, 0.28, 0.1, accColor);
+                } else if (state.acc === 'a3') { // Ray Gun
+                    this.addVoxelBlock(this.characterGroup, 0.52, -0.05, 0.25, 0.12, 0.2, 0.4, accColor);
+                } else if (state.acc === 'a4') { // Slime Pet
+                    this.addVoxelBlock(this.characterGroup, -0.8, -0.85, 0.2, 0.4, 0.35, 0.4, '#4ade80');
+                }
+
+                // --- 7. HEADGEAR ---
+                const headColor = getItemColor('head', state.head);
+                if (state.head === 'e0') { // Crown
+                    this.addVoxelBlock(this.characterGroup, 0, 1.3, 0, 0.5, 0.2, 0.5, headColor);
+                } else if (state.head === 'e1') { // Visor Goggles
+                    this.addVoxelBlock(this.characterGroup, 0, 0.72, 0.48, 0.9, 0.2, 0.2, headColor);
+                } else if (state.head === 'e2') { // Big Bow
+                    this.addVoxelBlock(this.characterGroup, 0, 1.25, 0.1, 0.8, 0.3, 0.15, headColor);
+                } else if (state.head === 'e3') { // Helmet Bubble
+                    const glassGeo = new THREE.SphereGeometry(0.72, 16, 16);
+                    const glassMat = new THREE.MeshStandardMaterial({
+                        color: 0x34d399,
+                        transparent: true,
+                        opacity: 0.35,
+                        roughness: 0.1
+                    });
+                    const glassMesh = new THREE.Mesh(glassGeo, glassMat);
+                    glassMesh.position.set(0, 0.7, 0);
+                    this.characterGroup.add(glassMesh);
+                }
+            }
+
+            resize() {
+                const w = this.canvas.clientWidth;
+                const h = this.canvas.clientHeight;
+                if (this.canvas.width !== w || this.canvas.height !== h) {
+                    this.renderer.setSize(w, h, false);
+                    this.camera.aspect = w / h;
+                    this.camera.updateProjectionMatrix();
+                }
+            }
+
+            render() {
+                this.resize();
+                
+                // Subtle idle bobbing animation
+                this.bounceTime += 0.04;
+                if (this.characterGroup) {
+                    this.characterGroup.position.y = Math.sin(this.bounceTime) * 0.05;
+                    if (!this.isDragging) {
+                        this.characterGroup.rotation.y += 0.005; // Slow ambient spin
+                    }
+                }
+
+                this.renderer.render(this.scene, this.camera);
+            }
+        }
+
+        // Helper to retrieve color from item database
+        function getItemColor(category, itemId) {
+            const item = CLOTHING_ITEMS[category].find(i => i.id === itemId);
+            return item ? item.color : '#a855f7';
+        }
+
+        // Global 3D Renderer Instances
+        let startRenderer = null;
+        let closetRenderer = null;
+        let resultRenderer = null;
+
+        // Initialize 3D Viewers on Load
+        window.addEventListener('load', () => {
+            startRenderer = new VoxelGirl3D('startCanvas');
+            closetRenderer = new VoxelGirl3D('closetCanvas');
+            resultRenderer = new VoxelGirl3D('resultCanvas');
+
+            startRenderer.updateCharacter(equippedItems);
+            closetRenderer.updateCharacter(equippedItems);
+            resultRenderer.updateCharacter(equippedItems);
+
+            // Animation Loop
+            function animate() {
+                requestAnimationFrame(animate);
+                if (startRenderer) startRenderer.render();
+                if (closetRenderer) closetRenderer.render();
+                if (resultRenderer) resultRenderer.render();
+            }
+            animate();
+
+            // Populate Initial Closet Items
+            renderClosetGrid();
+            updateMatchScore();
+        });
+
+        // View Switching Controller
+        function switchView(viewId) {
+            gameSound.playClick();
+            ['viewStart', 'viewMission', 'viewCloset', 'viewArcade', 'viewResult'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(viewId).classList.remove('hidden');
+
+            if (viewId === 'viewCloset') {
+                const mission = MISSIONS[currentMissionIndex];
+                document.getElementById('closetMissionName').innerText = mission.name;
+                updateMatchScore();
+            }
+        }
+
+        function showInstructions() {
+            gameSound.playClick();
+            document.getElementById('instructionsModal').classList.remove('hidden');
+        }
+
+        function hideInstructions() {
+            gameSound.playClick();
+            document.getElementById('instructionsModal').classList.add('hidden');
+        }
+
+        function resetCamera() {
+            gameSound.playClick();
+            if (closetRenderer) {
+                closetRenderer.characterGroup.rotation.y = 0;
+            }
+        }
+
+        function selectMission(idx) {
+            gameSound.playClick();
+            currentMissionIndex = idx;
+            switchView('viewCloset');
+        }
+
+        // ==========================================
+        // 4. CLOSET SELECTION & MATCH LOGIC
+        // ==========================================
+        function setClosetTab(tab) {
+            gameSound.playClick();
+            activeClosetTab = tab;
+            ['hair', 'top', 'bottom', 'acc', 'head'].forEach(t => {
+                const btn = document.getElementById(`tab-${t}`);
+                if (t === tab) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+            renderClosetGrid();
+        }
+
+        function renderClosetGrid() {
+            const grid = document.getElementById('closetItemsGrid');
+            grid.innerHTML = '';
+            
+            const items = CLOTHING_ITEMS[activeClosetTab];
+            items.forEach(item => {
+                const isSelected = equippedItems[activeClosetTab] === item.id;
+                const card = document.createElement('div');
+                card.className = `p-2 rounded border-2 cursor-pointer flex flex-col items-center justify-between text-center transition ${
+                    isSelected ? 'bg-purple-800 border-yellow-400 scale-105' : 'bg-purple-950/80 border-purple-800 hover:border-purple-500'
+                }`;
+                card.onclick = () => selectClothingItem(activeClosetTab, item);
+
+                card.innerHTML = `
+                    <div class="w-8 h-8 rounded-full border border-black mb-1 flex items-center justify-center text-xs font-bold shadow" style="background-color: ${item.color}">
+                        ${isSelected ? '✓' : ''}
+                    </div>
+                    <span class="text-[11px] font-bold text-yellow-200 leading-tight">${item.name}</span>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function selectClothingItem(category, item) {
+            gameSound.playDressUp();
+            equippedItems[category] = item.id;
+            
+            // Update 3D Voxel Models
+            closetRenderer.updateCharacter(equippedItems);
+            startRenderer.updateCharacter(equippedItems);
+            resultRenderer.updateCharacter(equippedItems);
+
+            // Update UI
+            renderClosetGrid();
+            updateMatchScore();
+
+            document.getElementById('selectedItemDesc').innerText = item.desc;
+            document.getElementById('selectedItemTag').innerText = `風格: ${item.tag.toUpperCase()}`;
+        }
+
+        function changeHairColor(colorHex) {
+            gameSound.playDressUp();
+            equippedItems.hairColor = colorHex;
+            closetRenderer.updateCharacter(equippedItems);
+            startRenderer.updateCharacter(equippedItems);
+            resultRenderer.updateCharacter(equippedItems);
+        }
+
+        // Calculate match percentage based on current mission requirement tag
+        function calculateMatchPercent() {
+            const currentMissionTag = MISSIONS[currentMissionIndex].tag;
+            let matchCount = 0;
+            const totalCategories = 5; // hair, top, bottom, acc, head
+
+            ['hair', 'top', 'bottom', 'acc', 'head'].forEach(cat => {
+                const itemId = equippedItems[cat];
+                const item = CLOTHING_ITEMS[cat].find(i => i.id === itemId);
+                if (item && item.tag === currentMissionTag) {
+                    matchCount++;
+                }
+            });
+
+            return Math.round((matchCount / totalCategories) * 100);
+        }
+
+        function updateMatchScore() {
+            const percent = calculateMatchPercent();
+            const bar = document.getElementById('matchProgressBar');
+            const text = document.getElementById('matchPercentText');
+            if (bar && text) {
+                bar.style.width = `${percent}%`;
+                text.innerText = `${percent}%`;
+            }
+        }
+
+        // ==========================================
+        // 5. RETRO ARCADE MISSION MINI-GAME
+        // ==========================================
+        // 5. RETRO ARCADE MISSION MINI-GAME (HEART SHOOTER)
+        // ==========================================
+        let arcadeGame = {
+            active: false,
+            kills: 0,
+            combo: 0,
+            maxCombo: 0,
+            score: 0,
+            timer: 20,
+            playerX: 0,
+            playerSpeed: 7,
+            bullets: [],
+            villains: [],
+            particles: [],
+            floatingTexts: [],
+            lastShotTime: 0,
+            animId: null,
+            timerInterval: null
+        };
+
+        function startMissionRun() {
+            gameSound.playClick();
+            switchView('viewArcade');
+            
+            const mission = MISSIONS[currentMissionIndex];
+            document.getElementById('arcadeMissionTitle').innerText = mission.name;
+            document.getElementById('arcadeOverlay').classList.remove('hidden');
+        }
+
+        function launchArcadeGame() {
+            gameSound.playClick();
+            document.getElementById('arcadeOverlay').classList.add('hidden');
+
+            const canvas = document.getElementById('arcadeCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Adjust canvas resolution dynamically based on parent container
+            const parent = canvas.parentElement;
+            canvas.width = parent.clientWidth || 600;
+            canvas.height = parent.clientHeight || 320;
+
+            arcadeGame.active = true;
+            arcadeGame.kills = 0;
+            arcadeGame.combo = 0;
+            arcadeGame.maxCombo = 0;
+            arcadeGame.score = 0;
+            arcadeGame.timer = 20;
+            arcadeGame.playerX = canvas.width / 2 - 20;
+            arcadeGame.bullets = [];
+            arcadeGame.villains = [];
+            arcadeGame.particles = [];
+            arcadeGame.floatingTexts = [];
+
+            document.getElementById('arcadeKillsText').innerText = '0';
+            document.getElementById('arcadeComboText').innerText = '0';
+            document.getElementById('arcadeTimerText').innerText = '20';
+
+            // Controls setup
+            let keyLeft = false;
+            let keyRight = false;
+
+            const fireHeartBullet = () => {
+                if (!arcadeGame.active) return;
+                const now = Date.now();
+                if (now - arcadeGame.lastShotTime < 130) return; // Cooldown 130ms
+                arcadeGame.lastShotTime = now;
+
+                gameSound.playShootHeart();
+
+                const playerCenterX = arcadeGame.playerX + 20;
+                // Position heart spawn from player launcher barrel at bottom of canvas
+                const groundY = canvas.height - 12;
+                const playerY = groundY - 46;
+
+                if (arcadeGame.combo >= 5) {
+                    // Spread shot on high combo
+                    arcadeGame.bullets.push({ x: playerCenterX - 10, y: playerY + 10, vx: -1.8, vy: -9, radius: 10 });
+                    arcadeGame.bullets.push({ x: playerCenterX, y: playerY + 10, vx: 0, vy: -10, radius: 12 });
+                    arcadeGame.bullets.push({ x: playerCenterX + 10, y: playerY + 10, vx: 1.8, vy: -9, radius: 10 });
+                } else {
+                    // Standard Single Heart Bullet
+                    arcadeGame.bullets.push({ x: playerCenterX, y: playerY + 10, vx: 0, vy: -10, radius: 11 });
+                }
+            };
+
+            const onKeyDown = (e) => {
+                if (e.key === 'ArrowLeft' || e.key === 'a') keyLeft = true;
+                if (e.key === 'ArrowRight' || e.key === 'd') keyRight = true;
+                if (e.key === ' ' || e.key === 'Spacebar') {
+                    e.preventDefault();
+                    fireHeartBullet();
+                }
+            };
+
+            const onKeyUp = (e) => {
+                if (e.key === 'ArrowLeft' || e.key === 'a') keyLeft = false;
+                if (e.key === 'ArrowRight' || e.key === 'd') keyRight = false;
+            };
+
+            window.addEventListener('keydown', onKeyDown);
+            window.addEventListener('keyup', onKeyUp);
+
+            // Mobile & Touch Controls
+            const btnL = document.getElementById('btnArcadeLeft');
+            const btnR = document.getElementById('btnArcadeRight');
+            const btnShoot = document.getElementById('btnArcadeShoot');
+
+            btnL.ontouchstart = btnL.onmousedown = (e) => { e.preventDefault(); keyLeft = true; };
+            btnL.ontouchend = btnL.onmouseup = (e) => { e.preventDefault(); keyLeft = false; };
+            btnR.ontouchstart = btnR.onmousedown = (e) => { e.preventDefault(); keyRight = true; };
+            btnR.ontouchend = btnR.onmouseup = (e) => { e.preventDefault(); keyRight = false; };
+            
+            btnShoot.onclick = btnShoot.ontouchstart = (e) => {
+                e.preventDefault();
+                fireHeartBullet();
+            };
+
+            // Canvas Click to shoot
+            canvas.onclick = () => fireHeartBullet();
+
+            let spawnTimer = 0;
+
+            // Timer Interval Countdown
+            arcadeGame.timerInterval = setInterval(() => {
+                arcadeGame.timer--;
+                document.getElementById('arcadeTimerText').innerText = arcadeGame.timer;
+                if (arcadeGame.timer <= 0) {
+                    endArcadeGame();
+                }
+            }, 1000);
+
+            // Helper to draw a heart shape on canvas
+            function drawHeart(ctx, x, y, size, color) {
+                ctx.save();
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                const topCurveHeight = size * 0.3;
+                ctx.moveTo(x, y + topCurveHeight);
+                // top left curve
+                ctx.bezierCurveTo(x, y, x - size / 2, y, x - size / 2, y + topCurveHeight);
+                // bottom left curve
+                ctx.bezierCurveTo(x - size / 2, y + (size + topCurveHeight) / 2, x, y + size, x, y + size);
+                // bottom right curve
+                ctx.bezierCurveTo(x, y + size, x + size / 2, y + (size + topCurveHeight) / 2, x + size / 2, y + topCurveHeight);
+                // top right curve
+                ctx.bezierCurveTo(x + size / 2, y, x, y, x, y + topCurveHeight);
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
+            }
+
+            function arcadeLoop() {
+                if (!arcadeGame.active) return;
+
+                // Keep canvas internal resolution matched to display size
+                if (canvas.parentElement && (canvas.width !== canvas.parentElement.clientWidth || canvas.height !== canvas.parentElement.clientHeight)) {
+                    canvas.width = canvas.parentElement.clientWidth;
+                    canvas.height = canvas.parentElement.clientHeight;
+                }
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Background gradient covering full canvas height
+                const bgGradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                bgGradient.addColorStop(0, '#11052C');
+                bgGradient.addColorStop(1, '#3D084B');
+                ctx.fillStyle = bgGradient;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Grid background effect across full canvas height
+                ctx.strokeStyle = 'rgba(168, 85, 247, 0.15)';
+                ctx.lineWidth = 1;
+                for (let x = 0; x < canvas.width; x += 30) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, canvas.height);
+                    ctx.stroke();
+                }
+
+                // Stage ground platform at the very bottom
+                const groundY = canvas.height - 12;
+                ctx.fillStyle = '#6b21a8';
+                ctx.fillRect(0, groundY, canvas.width, 12);
+                ctx.fillStyle = '#a855f7';
+                ctx.fillRect(0, groundY, canvas.width, 2);
+
+                // Update Player position
+                if (keyLeft) arcadeGame.playerX = Math.max(10, arcadeGame.playerX - arcadeGame.playerSpeed);
+                if (keyRight) arcadeGame.playerX = Math.min(canvas.width - 50, arcadeGame.playerX + arcadeGame.playerSpeed);
+
+                // Render Player Avatar fixed on the bottom ground platform
+                const playerHeight = 46;
+                const pY = groundY - playerHeight;
+
+                // Player Glow aura
+                ctx.shadowColor = '#ff79c6';
+                ctx.shadowBlur = 12;
+
+                ctx.fillStyle = equippedItems.hairColor;
+                ctx.fillRect(arcadeGame.playerX + 5, pY, 30, 15); // Hair
+                ctx.fillStyle = '#ffdbac';
+                ctx.fillRect(arcadeGame.playerX + 10, pY + 12, 20, 14); // Face
+                ctx.fillStyle = getItemColor('top', equippedItems.top);
+                ctx.fillRect(arcadeGame.playerX + 8, pY + 26, 24, 20); // Top Body
+                
+                // Gun / Heart Launcher in hand
+                ctx.fillStyle = '#ff3388';
+                ctx.fillRect(arcadeGame.playerX + 32, pY + 18, 10, 8);
+
+                ctx.shadowBlur = 0; // Reset shadow
+
+                // --- 1. UPDATE & RENDER BULLETS (HEARTS) ---
+                for (let i = arcadeGame.bullets.length - 1; i >= 0; i--) {
+                    const b = arcadeGame.bullets[i];
+                    b.x += b.vx;
+                    b.y += b.vy;
+
+                    // Draw heart bullet
+                    drawHeart(ctx, b.x, b.y - b.radius, b.radius * 2, '#ff4b8b');
+
+                    // Sparkle tail
+                    if (Math.random() > 0.4) {
+                        arcadeGame.particles.push({
+                            x: b.x + (Math.random() * 8 - 4),
+                            y: b.y + 10,
+                            vx: Math.random() * 2 - 1,
+                            vy: Math.random() * 2,
+                            size: 3 + Math.random() * 3,
+                            color: '#ffb86c',
+                            life: 12
+                        });
+                    }
+
+                    // Remove bullet if offscreen
+                    if (b.y < -20 || b.x < -20 || b.x > canvas.width + 20) {
+                        arcadeGame.bullets.splice(i, 1);
+                    }
+                }
+
+                // --- 2. SPAWN VILLAINS ---
+                spawnTimer++;
+                if (spawnTimer % 22 === 0) {
+                    const rand = Math.random();
+                    let vType = 'slime';
+                    let hp = 1;
+                    let speedY = 2 + Math.random() * 2;
+                    let size = 20;
+
+                    if (rand > 0.75) { // Boss Mini-Demon
+                        vType = 'demon';
+                        hp = 3;
+                        speedY = 1.2;
+                        size = 32;
+                    } else if (rand > 0.45) { // Bat
+                        vType = 'bat';
+                        hp = 1;
+                        speedY = 2.5;
+                        size = 22;
+                    }
+
+                    arcadeGame.villains.push({
+                        x: Math.random() * (canvas.width - 60) + 30,
+                        y: -30,
+                        vx: vType === 'bat' ? (Math.random() > 0.5 ? 2 : -2) : 0,
+                        vy: speedY,
+                        type: vType,
+                        hp: hp,
+                        maxHp: hp,
+                        size: size
+                    });
+                }
+
+                // --- 3. UPDATE & RENDER VILLAINS ---
+                for (let i = arcadeGame.villains.length - 1; i >= 0; i--) {
+                    const v = arcadeGame.villains[i];
+                    v.y += v.vy;
+                    v.x += v.vx;
+
+                    // Bat zig-zag movement
+                    if (v.type === 'bat') {
+                        if (v.x < 20 || v.x > canvas.width - 20) v.vx *= -1;
+                    }
+
+                    // Render Villain shapes
+                    if (v.type === 'slime') {
+                        // Slime Villain
+                        ctx.fillStyle = '#ef4444'; // Evil Red Slime
+                        ctx.beginPath();
+                        ctx.arc(v.x, v.y, v.size, 0, Math.PI * 2);
+                        ctx.fill();
+                        // Angry Eyes
+                        ctx.fillStyle = '#000000';
+                        ctx.fillRect(v.x - 8, v.y - 4, 5, 5);
+                        ctx.fillRect(v.x + 3, v.y - 4, 5, 5);
+                    } else if (v.type === 'bat') {
+                        // Bat Villain
+                        ctx.fillStyle = '#a855f7';
+                        ctx.beginPath();
+                        ctx.arc(v.x, v.y, v.size, 0, Math.PI * 2);
+                        ctx.fill();
+                        // Bat Wings
+                        ctx.fillRect(v.x - v.size - 10, v.y - 6, 12, 12);
+                        ctx.fillRect(v.x + v.size - 2, v.y - 6, 12, 12);
+                    } else if (v.type === 'demon') {
+                        // Demon Boss
+                        ctx.fillStyle = '#7c3aed';
+                        ctx.fillRect(v.x - v.size, v.y - v.size, v.size * 2, v.size * 2);
+                        // Horns
+                        ctx.fillStyle = '#f59e0b';
+                        ctx.fillRect(v.x - v.size, v.y - v.size - 8, 8, 8);
+                        ctx.fillRect(v.x + v.size - 8, v.y - v.size - 8, 8, 8);
+                        // HP Bar
+                        ctx.fillStyle = '#000000';
+                        ctx.fillRect(v.x - 20, v.y - v.size - 14, 40, 5);
+                        ctx.fillStyle = '#ef4444';
+                        ctx.fillRect(v.x - 20, v.y - v.size - 14, (v.hp / v.maxHp) * 40, 5);
+                    }
+
+                    // --- 4. BULLET-VILLAIN COLLISION DETECTION ---
+                    for (let j = arcadeGame.bullets.length - 1; j >= 0; j--) {
+                        const b = arcadeGame.bullets[j];
+                        const dist = Math.hypot(b.x - v.x, b.y - v.y);
+
+                        if (dist < v.size + b.radius) {
+                            // Hit!
+                            v.hp--;
+                            arcadeGame.bullets.splice(j, 1);
+
+                            // Heart Hit Explosion Particles
+                            for (let p = 0; p < 8; p++) {
+                                arcadeGame.particles.push({
+                                    x: v.x,
+                                    y: v.y,
+                                    vx: (Math.random() - 0.5) * 6,
+                                    vy: (Math.random() - 0.5) * 6,
+                                    size: 4 + Math.random() * 4,
+                                    color: '#ff79c6',
+                                    life: 15
+                                });
+                            }
+
+                            if (v.hp <= 0) {
+                                // Villain Defeated!
+                                gameSound.playExplosion();
+                                arcadeGame.kills++;
+                                arcadeGame.combo++;
+                                arcadeGame.maxCombo = Math.max(arcadeGame.maxCombo, arcadeGame.combo);
+                                arcadeGame.score += 100 + arcadeGame.combo * 10;
+
+                                document.getElementById('arcadeKillsText').innerText = arcadeGame.kills;
+                                document.getElementById('arcadeComboText').innerText = arcadeGame.combo;
+
+                                // Floating Score Text
+                                arcadeGame.floatingTexts.push({
+                                    x: v.x,
+                                    y: v.y,
+                                    text: `+1 擊退! (${arcadeGame.combo} Combo)`,
+                                    color: '#f1fa8c',
+                                    life: 25
+                                });
+
+                                arcadeGame.villains.splice(i, 1);
+                                break;
+                            } else {
+                                gameSound.playClick();
+                            }
+                        }
+                    }
+
+                    // Reached Bottom - Combo break
+                    if (v && v.y > canvas.height + 30) {
+                        arcadeGame.combo = 0;
+                        document.getElementById('arcadeComboText').innerText = '0';
+                        arcadeGame.villains.splice(i, 1);
+                    }
+                }
+
+                // --- 5. RENDER PARTICLES ---
+                for (let p = arcadeGame.particles.length - 1; p >= 0; p--) {
+                    const pt = arcadeGame.particles[p];
+                    pt.x += pt.vx;
+                    pt.y += pt.vy;
+                    pt.life--;
+
+                    ctx.fillStyle = pt.color;
+                    ctx.fillRect(pt.x, pt.y, pt.size, pt.size);
+
+                    if (pt.life <= 0) arcadeGame.particles.splice(p, 1);
+                }
+
+                // --- 6. RENDER FLOATING TEXTS ---
+                for (let t = arcadeGame.floatingTexts.length - 1; t >= 0; t--) {
+                    const ft = arcadeGame.floatingTexts[t];
+                    ft.y -= 1.2;
+                    ft.life--;
+
+                    ctx.font = 'bold 12px "DotGothic16", sans-serif';
+                    ctx.fillStyle = ft.color;
+                    ctx.fillText(ft.text, ft.x - 20, ft.y);
+
+                    if (ft.life <= 0) arcadeGame.floatingTexts.splice(t, 1);
+                }
+
+                arcadeGame.animId = requestAnimationFrame(arcadeLoop);
+            }
+
+            arcadeLoop();
+        }
+
+        function endArcadeGame() {
+            arcadeGame.active = false;
+            clearInterval(arcadeGame.timerInterval);
+            if (arcadeGame.animId) cancelAnimationFrame(arcadeGame.animId);
+
+            gameSound.playVictory();
+
+            // Calculate Final Results
+            const matchPercent = calculateMatchPercent();
+            const fitScore = Math.round(matchPercent * 1.2); // Max 120
+            const killsScore = arcadeGame.kills * 15;
+            const comboBonus = arcadeGame.maxCombo * 10;
+            const totalScore = fitScore + killsScore + comboBonus;
+
+            let rank = 'C';
+            let evalText = '消滅壞人新手！下次換上契合服裝再射擊擊退更多壞人！';
+
+            if (totalScore >= 300 || arcadeGame.kills >= 18) {
+                rank = 'S';
+                evalText = '★ 驚人的愛心神射手！完美消滅所有壞人！';
+            } else if (totalScore >= 200 || arcadeGame.kills >= 12) {
+                rank = 'A';
+                evalText = '身手不凡！順利擊退王國壞人特工！';
+            } else if (totalScore >= 120 || arcadeGame.kills >= 6) {
+                rank = 'B';
+                evalText = '表現不錯，成功達成任務基本討伐目標！';
+            }
+
+            document.getElementById('resultRankBadge').innerText = `RANK ${rank}`;
+            document.getElementById('resKillsTotal').innerText = `${arcadeGame.kills} 隻壞人`;
+            document.getElementById('resMaxCombo').innerText = `${arcadeGame.maxCombo} 連擊`;
+            document.getElementById('resFitScore').innerText = `${fitScore} 分 (${matchPercent}% 契合)`;
+            document.getElementById('resTotalEvaluation').innerText = evalText;
+
+            switchView('viewResult');
+        }
+    </script>
+</body>
+</html>

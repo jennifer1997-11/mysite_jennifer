@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小茉莉命名推薦所 🌸</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <!-- 引入復古可愛日系字體 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Noto+Sans+TC:wght@500;700;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --retro-dark: #332923;
+            --retro-bg: #FFF8EE;
+            --retro-cream: #FFFDF9;
+            --retro-pink: #FFB3C6;
+            --retro-yellow: #FFD15B;
+            --retro-green: #B5E2FA;
+            --retro-orange: #FF9F45;
+            --retro-mint: #95D5B2;
+        }
+
+        body {
+            font-family: 'Zen Maru Gothic', 'Noto Sans TC', sans-serif;
+            background-color: var(--retro-bg);
+            color: var(--retro-dark);
+            /* 復古微點波紋點綴背景 */
+            background-image: radial-gradient(#E8D8C8 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+        }
+
+        .title-font {
+            font-family: 'Mochiy Pop One', 'Zen Maru Gothic', cursive;
+        }
+
+        /* 復古硬邊陰影卡片 */
+        .retro-card {
+            background-color: var(--retro-cream);
+            border: 3.5px solid var(--retro-dark);
+            box-shadow: 6px 6px 0px 0px var(--retro-dark);
+            border-radius: 24px;
+        }
+
+        .retro-card-sm {
+            background-color: #FFFFFF;
+            border: 3px solid var(--retro-dark);
+            box-shadow: 4px 4px 0px 0px var(--retro-dark);
+            border-radius: 18px;
+        }
+
+        /* 復古按鍵點擊實體感 */
+        .retro-btn {
+            border: 3px solid var(--retro-dark);
+            box-shadow: 4px 4px 0px 0px var(--retro-dark);
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .retro-btn:hover:not(:disabled) {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px 0px var(--retro-dark);
+        }
+
+        .retro-btn:active:not(:disabled) {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px 0px var(--retro-dark);
+        }
+
+        /* 選項按鈕狀態 */
+        .option-btn {
+            background-color: #FFFFFF;
+            color: var(--retro-dark);
+        }
+
+        .option-btn:hover {
+            background-color: #FFF3D6;
+        }
+
+        .option-btn.selected {
+            background-color: var(--retro-yellow);
+            color: var(--retro-dark);
+            box-shadow: 4px 4px 0px 0px var(--retro-dark);
+            transform: translate(-1px, -1px);
+            font-weight: 900;
+        }
+
+        /* 產生按鈕專用 */
+        .generate-btn {
+            background-color: #FF847C;
+            color: #FFFFFF;
+            border: 3.5px solid var(--retro-dark);
+            box-shadow: 5px 5px 0px 0px var(--retro-dark);
+            text-shadow: 2px 2px 0px var(--retro-dark);
+        }
+
+        .generate-btn:hover:not(:disabled) {
+            background-color: #FF6B6B;
+        }
+
+        .generate-btn:disabled {
+            background-color: #E2E8F0;
+            color: #94A3B8;
+            border-color: #CBD5E1;
+            box-shadow: 3px 3px 0px 0px #CBD5E1;
+            text-shadow: none;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* 淡入動畫 */
+        .fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 印章戳印效果 */
+        .stamp-mark {
+            border: 3px dashed #E63946;
+            color: #E63946;
+            transform: rotate(-8deg);
+            border-radius: 12px;
+            font-family: 'Mochiy Pop One', cursive;
+        }
+
+        /* 像素風格圖片極速渲染與背景飄移 */
+        .pixel-art {
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        @keyframes floatLeftToRight {
+            0% {
+                transform: translateX(-80px) translateY(0px) rotate(0deg);
+                opacity: 0;
+            }
+            8% {
+                opacity: 0.85;
+            }
+            92% {
+                opacity: 0.85;
+            }
+            100% {
+                transform: translateX(calc(100vw + 80px)) translateY(-25px) rotate(20deg);
+                opacity: 0;
+            }
+        }
+
+        .pixel-float-item {
+            position: absolute;
+            left: 0;
+            pointer-events: none;
+            animation: floatLeftToRight linear infinite;
+            filter: drop-shadow(2px 3px 0px rgba(51, 41, 35, 0.15));
+        }
+    </style>
+<body class="min-h-screen py-6 px-3.5 sm:py-10 sm:px-6 relative selection:bg-yellow-300 overflow-x-hidden">
+
+    <!-- 動態像素背景層 -->
+    <div id="pixel-bg-layer" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
+
+    <!-- 頂部可愛靜態貼紙與容器 -->
+    <div class="max-w-4xl mx-auto relative z-10 w-full">
+        <!-- 靜態蝴蝶結貼紙 -->
+        <div class="absolute -top-3 -left-1 sm:-top-4 sm:-left-6 text-2xl sm:text-5xl pointer-events-none select-none z-20">🎀</div>
+        <div class="absolute -top-2 -right-1 sm:-top-2 sm:-right-6 text-2xl sm:text-5xl pointer-events-none select-none z-20">🌼</div>
+
+        <!-- 標頭區塊 -->
+        <header class="text-center mb-6 sm:mb-8 fade-in relative px-2">
+            <div class="inline-block bg-yellow-300 text-stone-800 border-2 border-stone-800 px-3 py-1 rounded-full text-[11px] min-[380px]:text-xs sm:text-sm font-bold tracking-widest mb-2.5 shadow-[2px_2px_0px_0px_#332923]">
+                ✦ RETRO NAMING STUDIO ✦
+            </div>
+            <h1 class="title-font text-2xl min-[380px]:text-3xl min-[500px]:text-4xl sm:text-5xl font-black text-stone-800 tracking-wider mb-2.5 flex items-center justify-center gap-1.5 sm:gap-2">
+                <span>🌸</span>
+                <span class="break-keep">小茉莉命名推薦所</span>
+                <span>✨</span>
+            </h1>
+            <p class="text-xs sm:text-base font-bold text-stone-600 max-w-lg mx-auto bg-white/80 py-2 px-3.5 sm:px-4 rounded-2xl border-2 border-stone-800/20 inline-block leading-relaxed">
+                挑選 5 款風格 × 5 款意象 × 5 款祝福，讓靈感小精靈為您揀選專屬好名字！
+            </p>
+        </header>
+
+        <!-- 載入中狀態 (固定 3 秒療癒小精靈) -->
+        <div id="loading" class="retro-card p-8 sm:p-12 text-center my-8 sm:my-12 fade-in max-w-md mx-auto w-full">
+            <div class="inline-block animate-spin text-4xl sm:text-5xl mb-3 sm:mb-4">🧸</div>
+            <p class="title-font text-stone-700 text-base sm:text-lg font-bold">小精靈正在翻閱命名秘典...</p>
+            <p class="text-[11px] sm:text-xs text-stone-500 mt-2 font-medium">正在連線讀取最新的名字資料庫</p>
+        </div>
+
+        <!-- 主要步驟選擇區 -->
+        <div id="main-content" class="hidden fade-in space-y-5 sm:space-y-8">
+            
+            <!-- 1. 風格選擇 -->
+            <section class="retro-card p-4 sm:p-7 relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 w-12 h-12 sm:w-16 sm:h-16 bg-pink-200 rounded-full border-2 border-stone-800 opacity-40 pointer-events-none"></div>
+                <div class="flex items-center justify-between mb-3.5 sm:mb-4">
+                    <h2 class="title-font text-base sm:text-xl font-bold flex items-center gap-2 text-stone-800">
+                        <span class="bg-pink-300 text-stone-800 border-2 border-stone-800 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm shadow-[2px_2px_0px_0px_#332923]">1</span>
+                        選擇名字風格
+                    </h2>
+                    <span id="style-badge" class="text-[11px] sm:text-xs font-bold px-2 py-0.5 sm:px-2.5 sm:py-1 bg-stone-100 border border-stone-800 rounded-full text-stone-500">未選擇</span>
+                </div>
+                <div id="style-options" class="grid grid-cols-2 min-[440px]:grid-cols-3 sm:grid-cols-5 gap-2 sm:gap-2.5">
+                    <!-- 由 JS 動態生成 -->
+                </div>
+            </section>
+
+            <!-- 2. 意象選擇 -->
+            <section class="retro-card p-4 sm:p-7 relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 w-12 h-12 sm:w-16 sm:h-16 bg-blue-200 rounded-full border-2 border-stone-800 opacity-40 pointer-events-none"></div>
+                <div class="flex items-center justify-between mb-3.5 sm:mb-4">
+                    <h2 class="title-font text-base sm:text-xl font-bold flex items-center gap-2 text-stone-800">
+                        <span class="bg-sky-300 text-stone-800 border-2 border-stone-800 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm shadow-[2px_2px_0px_0px_#332923]">2</span>
+                        選擇喜愛意象
+                    </h2>
+                    <span id="image-badge" class="text-[11px] sm:text-xs font-bold px-2 py-0.5 sm:px-2.5 sm:py-1 bg-stone-100 border border-stone-800 rounded-full text-stone-500">未選擇</span>
+                </div>
+                <div id="image-options" class="grid grid-cols-2 min-[440px]:grid-cols-3 sm:grid-cols-5 gap-2 sm:gap-2.5">
+                    <!-- 由 JS 動態生成 -->
+                </div>
+            </section>
+
+            <!-- 3. 祝福選擇 -->
+            <section class="retro-card p-4 sm:p-7 relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 w-12 h-12 sm:w-16 sm:h-16 bg-amber-200 rounded-full border-2 border-stone-800 opacity-40 pointer-events-none"></div>
+                <div class="flex items-center justify-between mb-3.5 sm:mb-4">
+                    <h2 class="title-font text-base sm:text-xl font-bold flex items-center gap-2 text-stone-800">
+                        <span class="bg-amber-300 text-stone-800 border-2 border-stone-800 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm shadow-[2px_2px_0px_0px_#332923]">3</span>
+                        選擇寄予祝福
+                    </h2>
+                    <span id="bless-badge" class="text-[11px] sm:text-xs font-bold px-2 py-0.5 sm:px-2.5 sm:py-1 bg-stone-100 border border-stone-800 rounded-full text-stone-500">未選擇</span>
+                </div>
+                <div id="bless-options" class="grid grid-cols-2 min-[440px]:grid-cols-3 sm:grid-cols-5 gap-2 sm:gap-2.5">
+                    <!-- 由 JS 動態生成 -->
+                </div>
+            </section>
+
+            <!-- 產生結果按鈕 -->
+            <div class="text-center pt-2 px-2">
+                <button id="generate-btn" disabled
+                    class="generate-btn retro-btn title-font text-lg min-[380px]:text-xl sm:text-2xl py-3.5 sm:py-4 px-6 sm:px-10 rounded-2xl w-full sm:w-auto tracking-wider sm:tracking-widest font-black transition-all">
+                    ✨ 揭曉專屬命名 ✨
+                </button>
+                <p id="error-msg" class="text-stone-500 font-bold mt-3 text-xs sm:text-sm">
+                    💡 請點選上面三個類別各一款，解鎖推薦按鈕喔！
+                </p>
+            </div>
+        </div>
+
+        <!-- 命名結果頁區塊 -->
+        <div id="result-section" class="hidden mt-4 sm:mt-6 fade-in">
+            <div class="retro-card p-4 sm:p-10 text-center relative overflow-hidden bg-amber-50/50">
+                
+                <!-- 裝飾花紋標籤 -->
+                <div class="inline-block bg-orange-400 text-white font-black px-3 py-1 sm:px-4 sm:py-1 rounded-full border-2 border-stone-800 text-[11px] sm:text-sm tracking-wider mb-3 sm:mb-4 shadow-[2px_2px_0px_0px_#332923]">
+                    ✦ SPECIAL RECOMMENDATION ✦
+                </div>
+
+                <!-- 拍立得相框樣式 -->
+                <div class="max-w-md w-full mx-auto bg-white border-3 border-stone-800 p-4 min-[380px]:p-6 sm:p-8 rounded-3xl shadow-[5px_5px_0px_0px_#332923] sm:shadow-[6px_6px_0px_0px_#332923] relative mb-5 sm:mb-6">
+                    
+                    <!-- 復古印章裝飾 -->
+                    <div class="absolute top-3 right-3 sm:top-4 sm:right-4 stamp-mark px-1.5 py-0.5 sm:px-2 sm:py-1 text-[10px] sm:text-xs font-bold pointer-events-none">
+                        JASMINE<br>APPROVED
+                    </div>
+
+                    <p class="text-[11px] sm:text-xs font-bold text-stone-400 tracking-widest mb-1">您的專屬命定之名</p>
+                    
+                    <!-- 名字呈現 -->
+                    <div id="result-name" class="title-font text-4xl min-[380px]:text-5xl sm:text-7xl font-black text-stone-800 my-3 sm:my-4 tracking-wider sm:tracking-widest drop-shadow-sm break-keep">
+                        <!-- 動態填入名字 -->
+                    </div>
+                    
+                    <!-- 標籤列表 -->
+                    <div id="result-tags" class="flex flex-wrap justify-center gap-1.5 sm:gap-2 mb-4">
+                        <!-- 動態填入標籤 -->
+                    </div>
+
+                    <!-- 寓意內文卡片 -->
+                    <div class="bg-amber-50 p-3.5 min-[380px]:p-4 sm:p-5 rounded-2xl border-2 border-stone-800/80 text-left">
+                        <div class="flex items-center gap-1.5 font-bold text-stone-800 text-xs sm:text-sm mb-1.5 sm:mb-2 title-font">
+                            <span>📖</span> 寓意與祝福解析：
+                        </div>
+                        <p id="result-desc" class="text-stone-700 font-medium leading-relaxed text-xs sm:text-base">
+                            <!-- 動態填入寓意 -->
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-2.5 sm:gap-3 justify-center items-center w-full max-w-md mx-auto">
+                    <button onclick="resetApp()" class="retro-btn bg-yellow-300 text-stone-800 font-bold title-font py-3 px-6 sm:px-8 rounded-2xl text-sm sm:text-base w-full sm:w-auto min-h-[48px] flex items-center justify-center">
+                        🔄 重新挑選風格
+                    </button>
+                    <button onclick="rePickSameCategory()" class="retro-btn bg-white text-stone-800 font-bold title-font py-3 px-6 sm:px-8 rounded-2xl text-sm sm:text-base w-full sm:w-auto min-h-[48px] flex items-center justify-center">
+                        🎲 換一個同風格名字
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Web Audio API 音效合成器（無須外部音效檔，100%穩定即時發聲）
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        function getAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new AudioCtx();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        // 1. 一般按鈕點擊音效 (清脆 Blip)
+        function playClickSound() {
+            try {
+                const ctx = getAudioContext();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(450, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(750, ctx.currentTime + 0.05);
+
+                gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                osc.start();
+                osc.stop(ctx.currentTime + 0.05);
+            } catch(e) {}
+        }
+
+        // 2. 選項點擊音效 (可愛 Pop 聲)
+        function playSelectSound() {
+            try {
+                const ctx = getAudioContext();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(500, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.07);
+
+                gain.gain.setValueAtTime(0.18, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.07);
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                osc.start();
+                osc.stop(ctx.currentTime + 0.07);
+            } catch(e) {}
+        }
+
+        // 3. 揭曉名字結果音效 (日系復古魔法琶音 / Fanfare)
+        function playFanfareSound() {
+            try {
+                const ctx = getAudioContext();
+                // C Major 7th ascending arpeggio (C5, E5, G5, B5, C6, E6)
+                const notes = [523.25, 659.25, 783.99, 987.77, 1046.50, 1318.51];
+                notes.forEach((freq, idx) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.07);
+
+                    gain.gain.setValueAtTime(0, ctx.currentTime + idx * 0.07);
+                    gain.gain.linearRampToValueAtTime(0.18, ctx.currentTime + idx * 0.07 + 0.02);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.07 + 0.35);
+
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+
+                    osc.start(ctx.currentTime + idx * 0.07);
+                    osc.stop(ctx.currentTime + idx * 0.07 + 0.35);
+                });
+            } catch(e) {}
+        }
+
+        // 4. 洗牌/換名字音效
+        function playRerollSound() {
+            try {
+                const ctx = getAudioContext();
+                const notes = [783.99, 659.25, 880, 1046.50];
+                notes.forEach((freq, idx) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.05);
+
+                    gain.gain.setValueAtTime(0.12, ctx.currentTime + idx * 0.05);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.05 + 0.08);
+
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+
+                    osc.start(ctx.currentTime + idx * 0.05);
+                    osc.stop(ctx.currentTime + idx * 0.05 + 0.08);
+                });
+            } catch(e) {}
+        }
+
+        // 狀態管理
+        const state = {
+            data: [], // 解析後的完整資料
+            selections: {
+                style: null,
+                image: null,
+                bless: null
+            },
+            currentPick: null, // 紀錄當前顯示的名字與寓意項目
+            uniqueCategories: {
+                style: [],
+                image: [],
+                bless: []
+            },
+            columnKeys: {
+                name: ['名字', '名稱', 'Name', 'name', '姓名'],
+                style: ['風格', 'Style', 'style'],
+                image: ['意象', 'Image', 'image'],
+                bless: ['祝福', 'Bless', 'bless'],
+                desc: ['寓意', '說明', '解釋', '描述', 'Desc', 'Meaning', '解析', '寓意與祝福解析']
+            }
+        };
+
+        // 復古備用數據 (當無法讀取 CSV 時無縫切換，包含範例資料)
+        const mockData = [
+            {"名字": "李宥晴", "風格": "清新", "意象": "陽光", "祝福": "平安", "寓意": "宥有寬容、包容與仁厚之意，晴象徵陽光與開朗，寓意女孩心胸寬廣、待人溫暖，以樂觀從容的心迎接人生。"},
+            {"名字": "李茉昕", "風格": "優雅", "意象": "花朵", "祝福": "希望", "寓意": "茉如茉莉般清新高雅，昕為早晨之光，象徵清雅脫俗、充滿朝氣與生命力。"},
+            {"名字": "李予彤", "風格": "溫柔", "意象": "彩霞", "祝福": "快樂", "寓意": "予代表給予與包容，彤為紅潤溫暖之色彩，寓意熱情真摯、富有愛心與感染力。"},
+            {"名字": "李沐昕", "風格": "清新", "意象": "雨露", "祝福": "健康", "寓意": "沐如沐春風、濡養滋潤，昕代表破曉曙光，寓意生機勃勃、心境純淨。"},
+            {"名字": "李語昕", "風格": "活潑", "意象": "微風", "祝福": "智慧", "寓意": "語代表才華橫溢與善於表達，昕帶有光明磊落之意，寓意聰慧伶俐、開朗大方。"}
+        ];
+
+        // 最新 Google Sheets 發布 CSV 網址 (gid=1654298850)
+        const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTXpWF-XjZub8ah1d_L3JdWNd0vLHnmMp4ZVJZJz97Cdk5CvvoF8xd2cXncObjoq6hWGdVGkRJ2JfyH/pub?gid=1654298850&single=true&output=csv';
+
+        let loadingStartTime = 0;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadingStartTime = Date.now();
+            initApp();
+            initPixelBackground();
+        });
+
+        function initPixelBackground() {
+            const bgContainer = document.getElementById('pixel-bg-layer');
+            if (!bgContainer) return;
+
+            // 像素紫色花朵 SVG (對應小花圖示)
+            const flowerSVG = `<svg class="pixel-art" viewBox="0 0 16 16" width="40" height="40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 1h4v2H6z" fill="#D6A4E8"/>
+                <path d="M5 2h6v2H5z" fill="#C585E2"/>
+                <path d="M2 4h4v4H2z" fill="#D6A4E8"/>
+                <path d="M10 4h4v4h-4z" fill="#D6A4E8"/>
+                <path d="M1 5h2v2H1z" fill="#B368D2"/>
+                <path d="M13 5h2v2h-2z" fill="#B368D2"/>
+                <path d="M3 8h4v2H3z" fill="#C585E2"/>
+                <path d="M9 8h4v2H9z" fill="#C585E2"/>
+                <path d="M6 4h4v4H6z" fill="#FF9A3C"/>
+                <path d="M7 5h2v2H7z" fill="#FFC048"/>
+                <path d="M7 10h2v5H7z" fill="#4E9F3D"/>
+                <path d="M4 11h3v2H4z" fill="#78C850"/>
+                <path d="M3 12h2v1H3z" fill="#2D6A4F"/>
+                <path d="M9 11h3v2H9z" fill="#78C850"/>
+                <path d="M11 12h2v1h-2z" fill="#2D6A4F"/>
+            </svg>`;
+
+            // 像素紅色蝴蝶結 SVG (對應蝴蝶結圖示)
+            const ribbonSVG = `<svg class="pixel-art" viewBox="0 0 16 16" width="40" height="40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2 3h4v4H2z" fill="#FF3366"/>
+                <path d="M1 4h2v2H1z" fill="#FF6688"/>
+                <path d="M2 3h2v1H2z" fill="#FFCCE0"/>
+                <path d="M2 6h4v1H2z" fill="#C41E3A"/>
+                <path d="M10 3h4v4h-4z" fill="#FF3366"/>
+                <path d="M13 4h2v2h-2z" fill="#FF6688"/>
+                <path d="M12 3h2v1h-2z" fill="#FFCCE0"/>
+                <path d="M10 6h4v1H10z" fill="#C41E3A"/>
+                <path d="M6 3h4v4H6z" fill="#D90429"/>
+                <path d="M7 4h2v2H7z" fill="#FF6688"/>
+                <path d="M3 7h3v5H3z" fill="#D90429"/>
+                <path d="M2 10h3v3H2z" fill="#900C3F"/>
+                <path d="M2 12h2v2H2z" fill="#590219"/>
+                <path d="M10 7h3v5h-3z" fill="#D90429"/>
+                <path d="M11 10h3v3h-3z" fill="#900C3F"/>
+                <path d="M12 12h2v2h-2z" fill="#590219"/>
+            </svg>`;
+
+            const count = 14; // 背景漂浮數量
+            for (let i = 0; i < count; i++) {
+                const item = document.createElement('div');
+                item.className = 'pixel-float-item';
+                const isFlower = i % 2 === 0;
+                item.innerHTML = isFlower ? flowerSVG : ribbonSVG;
+
+                // 垂直分佈位置 (3% ~ 93%)
+                const topPos = (i * (90 / count)) + Math.random() * 4 + 2; 
+                const duration = 15 + Math.random() * 12; // 移動週期 15秒 ~ 27秒
+                const delay = -Math.random() * duration; // 負值 delay 讓畫面開啟時就充滿飄移動畫
+                const scale = 0.8 + Math.random() * 0.55; // 縮放比例
+
+                item.style.top = `${topPos}%`;
+                item.style.animationDuration = `${duration}s`;
+                item.style.animationDelay = `${delay}s`;
+                item.style.transform = `scale(${scale})`;
+
+                bgContainer.appendChild(item);
+            }
+        }
+
+        function initApp() {
+            Papa.parse(CSV_URL, {
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    if (results.data && results.data.length > 0) {
+                        processData(results.data);
+                    } else {
+                        console.warn("CSV 解析無資料，載入備用資料庫");
+                        processData(mockData);
+                    }
+                },
+                error: function(err) {
+                    console.error("CSV 讀取失敗，載入備用資料庫:", err);
+                    processData(mockData);
+                }
+            });
+        }
+
+        function processData(rawData) {
+            const firstRow = rawData[0] || {};
+            const actualKeys = {
+                name: findKey(firstRow, state.columnKeys.name) || '名字',
+                style: findKey(firstRow, state.columnKeys.style) || '風格',
+                image: findKey(firstRow, state.columnKeys.image) || '意象',
+                bless: findKey(firstRow, state.columnKeys.bless) || '祝福',
+                desc: findKey(firstRow, state.columnKeys.desc) || '寓意'
+            };
+
+            // 洗淨並格式化資料
+            state.data = rawData.map(row => ({
+                name: (row[actualKeys.name] || '').trim(),
+                style: (row[actualKeys.style] || '').trim(),
+                image: (row[actualKeys.image] || '').trim(),
+                bless: (row[actualKeys.bless] || '').trim(),
+                desc: (row[actualKeys.desc] || '').trim() || '蘊含著美好期許與無限祝福的名字。'
+            })).filter(item => item.name !== '');
+
+            // 固定為您指定的 5 款風格、5 款意象、5 款祝福選項
+            state.uniqueCategories.style = ['清新', '古典', '現代', '優雅', '活潑'];
+            state.uniqueCategories.image = ['自然', '星空', '海洋', '花朵', '陽光'];
+            state.uniqueCategories.bless = ['平安', '快樂', '健康', '智慧', '成功'];
+
+            renderUI();
+        }
+
+        function findKey(rowObj, possibleKeys) {
+            const keys = Object.keys(rowObj);
+            for (let pk of possibleKeys) {
+                const match = keys.find(k => k.toLowerCase().includes(pk.toLowerCase()));
+                if (match) return match;
+            }
+            return null;
+        }
+
+        function extractTopUnique(dataArray, key, limit) {
+            const counts = {};
+            dataArray.forEach(item => {
+                const val = item[key];
+                if (val && val !== '未知') {
+                    counts[val] = (counts[val] || 0) + 1;
+                }
+            });
+            return Object.keys(counts)
+                .sort((a, b) => counts[b] - counts[a])
+                .slice(0, limit);
+        }
+
+        function fillDefaultOptions(arr, defaults) {
+            let i = 0;
+            while(arr.length < 5 && i < defaults.length) {
+                if(!arr.includes(defaults[i])) {
+                    arr.push(defaults[i]);
+                }
+                i++;
+            }
+        }
+
+        function renderUI() {
+            const elapsedTime = Date.now() - loadingStartTime;
+            const remainingTime = Math.max(0, 3000 - elapsedTime);
+
+            setTimeout(() => {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('main-content').classList.remove('hidden');
+
+                renderButtonGrid('style-options', state.uniqueCategories.style, 'style');
+                renderButtonGrid('image-options', state.uniqueCategories.image, 'image');
+                renderButtonGrid('bless-options', state.uniqueCategories.bless, 'bless');
+
+                document.getElementById('generate-btn').addEventListener('click', generateRecommendation);
+            }, remainingTime);
+        }
+
+        function renderButtonGrid(containerId, options, category) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn retro-btn py-2.5 sm:py-3 px-1.5 sm:px-2 rounded-2xl text-stone-800 font-bold text-xs min-[360px]:text-sm sm:text-base transition-all min-h-[44px] sm:min-h-[48px] flex items-center justify-center w-full';
+                btn.innerText = opt;
+                btn.onclick = () => handleSelect(category, opt, containerId);
+                container.appendChild(btn);
+            });
+        }
+
+        function handleSelect(category, value, containerId) {
+            playSelectSound(); // 播放選項點擊音效
+            state.selections[category] = value;
+
+            const container = document.getElementById(containerId);
+            const buttons = container.querySelectorAll('button');
+            buttons.forEach(btn => {
+                if (btn.innerText === value) {
+                    btn.classList.add('selected');
+                } else {
+                    btn.classList.remove('selected');
+                }
+            });
+
+            // 更新選取徽章文字
+            const badge = document.getElementById(`${category}-badge`);
+            if (badge) {
+                badge.innerText = `✓ ${value}`;
+                badge.className = "text-xs font-bold px-2.5 py-1 bg-yellow-300 border border-stone-800 rounded-full text-stone-800 shadow-[1px_1px_0px_0px_#332923]";
+            }
+
+            checkReadyState();
+        }
+
+        function checkReadyState() {
+            const { style, image, bless } = state.selections;
+            const btn = document.getElementById('generate-btn');
+            const errorMsg = document.getElementById('error-msg');
+            
+            if (style && image && bless) {
+                btn.disabled = false;
+                errorMsg.innerText = '🎉 太棒了！三項都已選擇，快點擊按鈕產生名字吧！';
+                errorMsg.className = 'text-emerald-700 font-bold mt-3 text-xs sm:text-sm animate-pulse';
+            } else {
+                btn.disabled = true;
+                errorMsg.innerText = '💡 請點選上面三個類別各一款，解鎖推薦按鈕喔！';
+                errorMsg.className = 'text-stone-500 font-bold mt-3 text-xs sm:text-sm';
+            }
+        }
+
+        function generateRecommendation() {
+            playFanfareSound(); // 播放勝利/登場音樂音效
+            const { style, image, bless } = state.selections;
+
+            // 針對選定的關鍵字進行多重權重搜尋與比對
+            let bestMatches = [];
+            let maxScore = -1;
+
+            state.data.forEach(item => {
+                let score = 0;
+                
+                // 1. 優先比對風格、意象、祝福欄位文字
+                if (item.style && (item.style === style || item.style.includes(style))) score += 4;
+                if (item.image && (item.image === image || item.image.includes(image))) score += 3;
+                if (item.bless && (item.bless === bless || item.bless.includes(bless))) score += 3;
+
+                // 2. 若欄位標籤非完全一致，搜尋寓意解析文字中是否涵蓋這些選項關鍵字
+                if (item.desc) {
+                    if (item.desc.includes(style)) score += 2;
+                    if (item.desc.includes(image)) score += 2;
+                    if (item.desc.includes(bless)) score += 2;
+                }
+
+                if (score > maxScore) {
+                    maxScore = score;
+                    bestMatches = [item];
+                } else if (score === maxScore && score > 0) {
+                    bestMatches.push(item);
+                }
+            });
+
+            // 取得對應最佳匹配的資料項目（包含名字與專屬寓意）
+            const finalPick = (bestMatches.length > 0 ? bestMatches[Math.floor(Math.random() * bestMatches.length)] : (state.data[0] || null));
+
+            document.getElementById('main-content').classList.add('hidden');
+            const resultSection = document.getElementById('result-section');
+            resultSection.classList.remove('hidden');
+
+            displayResult(finalPick, style, image, bless);
+
+            // 觸發復古歡慶彩帶
+            try {
+                confetti({
+                    particleCount: 70,
+                    spread: 60,
+                    origin: { y: 0.6 },
+                    colors: ['#FFD15B', '#FF847C', '#95D5B2', '#B5E2FA', '#FFB3C6']
+                });
+            } catch(e){}
+        }
+
+        function displayResult(result, reqStyle, reqImage, reqBless) {
+            if (!result) {
+                result = {
+                    name: '李宥晴',
+                    style: reqStyle,
+                    image: reqImage,
+                    bless: reqBless,
+                    desc: '宥有寬容、包容與仁厚之意，晴象徵陽光與開朗，寓意女孩心胸寬廣、待人溫暖，以樂觀從容的心迎接人生。'
+                };
+            }
+
+            // 保存當前推薦項目
+            state.currentPick = result;
+
+            // 呈現表格中真實對應的名字
+            const nameEl = document.getElementById('result-name');
+            const descEl = document.getElementById('result-desc');
+            const tagsContainer = document.getElementById('result-tags');
+
+            nameEl.innerText = result.name || '特別推薦';
+            
+            tagsContainer.innerHTML = `
+                <span class="px-3 py-1 bg-pink-200 border-2 border-stone-800 text-stone-800 rounded-full text-xs font-bold shadow-[2px_2px_0px_0px_#332923]">#${reqStyle}</span>
+                <span class="px-3 py-1 bg-sky-200 border-2 border-stone-800 text-stone-800 rounded-full text-xs font-bold shadow-[2px_2px_0px_0px_#332923]">#${reqImage}</span>
+                <span class="px-3 py-1 bg-amber-200 border-2 border-stone-800 text-stone-800 rounded-full text-xs font-bold shadow-[2px_2px_0px_0px_#332923]">#${reqBless}</span>
+            `;
+            
+            // 呈現表格中專屬對應的寓意與祝福解析
+            descEl.innerHTML = result.desc || '蘊含著美好期許與無限祝福的名字。';
+
+            // 觸發拍立得卡片淡入刷新動畫
+            const resultCard = nameEl.closest('.retro-card') || nameEl.parentElement;
+            if (resultCard) {
+                resultCard.classList.remove('fade-in');
+                void resultCard.offsetWidth; // 觸發 reflow 重新撥放動畫
+                resultCard.classList.add('fade-in');
+            }
+        }
+
+        function rePickSameCategory() {
+            playRerollSound(); // 播放洗牌換名音效
+            const currentStyle = state.selections.style || '清新';
+            const { image, bless } = state.selections;
+
+            // 1. 從資料庫搜尋符合相同風格的名字候選清單
+            let sameStyleCandidates = state.data.filter(item => {
+                return (item.style && item.style.includes(currentStyle)) || 
+                       (item.desc && item.desc.includes(currentStyle));
+            });
+
+            // 2. 若同風格候選較少，使用全部資料作為備用選池
+            if (sameStyleCandidates.length === 0) {
+                sameStyleCandidates = [...state.data];
+            }
+
+            // 3. 強制排除目前顯示的名字，確保換到新名字
+            let availableCandidates = sameStyleCandidates.filter(item => {
+                return !state.currentPick || item.name !== state.currentPick.name;
+            });
+
+            // 4. 若同風格排除後沒有其他名字，則從全庫排除當前名字
+            if (availableCandidates.length === 0) {
+                availableCandidates = state.data.filter(item => !state.currentPick || item.name !== state.currentPick.name);
+            }
+
+            // 5. 隨機抽取新名字（若資料庫僅 1 筆則維持原樣）
+            const newPick = availableCandidates.length > 0 
+                ? availableCandidates[Math.floor(Math.random() * availableCandidates.length)]
+                : state.currentPick;
+
+            // 6. 重新渲染畫面與動畫
+            displayResult(newPick, currentStyle, image || '陽光', bless || '平安');
+
+            // 7. 輕巧彩帶動畫反饋
+            try {
+                confetti({
+                    particleCount: 40,
+                    spread: 50,
+                    origin: { y: 0.6 },
+                    colors: ['#FFD15B', '#FF847C', '#95D5B2', '#B5E2FA', '#FFB3C6']
+                });
+            } catch(e){}
+        }
+
+        function resetApp() {
+            playClickSound(); // 播放重新挑選音效
+            state.selections = { style: null, image: null, bless: null };
+            
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+
+            ['style', 'image', 'bless'].forEach(cat => {
+                const badge = document.getElementById(`${cat}-badge`);
+                if (badge) {
+                    badge.innerText = '未選擇';
+                    badge.className = 'text-xs font-bold px-2.5 py-1 bg-stone-100 border border-stone-800 rounded-full text-stone-500';
+                }
+            });
+
+            checkReadyState();
+
+            document.getElementById('result-section').classList.add('hidden');
+            document.getElementById('main-content').classList.remove('hidden');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

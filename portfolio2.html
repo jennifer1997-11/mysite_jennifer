@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEE CHENG-EN (李政恩) | Culinary Specialist Portfolio</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        taupe: {
+                            100: '#f4f0eb',
+                            200: '#e5dcd3',
+                            500: '#94806a',
+                            600: '#78644e', // French Earth Brown
+                            700: '#5e4d3b',
+                            800: '#46392c',
+                        },
+                        cream: {
+                            50: '#fdfbf7',  // Primary light background
+                            100: '#f6f2eb', // Secondary card background
+                            200: '#eae3d9', // Soft border line
+                            300: '#dcd1c2',
+                        },
+                        charcoal: {
+                            900: '#1d1b19', // Main headings text
+                            800: '#2b2825',
+                            700: '#403c37', // Subtext / Paragraph
+                            500: '#6d6760',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', '"Noto Serif TC"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', '"Noto Sans TC"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #fdfbf7;
+            color: #2b2825;
+            font-family: 'Plus Jakarta Sans', 'Noto Sans TC', sans-serif;
+            overflow-x: hidden;
+        }
+        .french-card {
+            background: #ffffff;
+            border: 1px solid #eae3d9;
+            box-shadow: 0 4px 20px -5px rgba(120, 100, 78, 0.05);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .french-card:hover {
+            border-color: #94806a;
+            box-shadow: 0 12px 30px -8px rgba(120, 100, 78, 0.12);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fdfbf7;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #dcd1c2;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #78644e;
+        }
+        /* Smooth Drawer Animation & Safety Fixes */
+        #mobileMenu {
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease-in-out, visibility 0.35s;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            pointer-events: none;
+            visibility: hidden;
+        }
+        #mobileMenu.open {
+            max-height: 420px;
+            opacity: 1;
+            pointer-events: auto;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body class="selection:bg-taupe-600 selection:text-white">
+
+    <!-- Navigation Bar -->
+    <nav class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-cream-50/95 backdrop-blur-md border-b border-cream-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-full border border-taupe-600 flex items-center justify-center bg-white text-taupe-600 font-serif font-bold text-xl group-hover:bg-taupe-600 group-hover:text-white transition-colors shrink-0">
+                    L
+                </div>
+                <div>
+                    <span class="font-serif font-bold text-base sm:text-xl tracking-wider text-charcoal-900 block leading-tight">LEE CHENG-EN</span>
+                    <span class="text-[9px] sm:text-[10px] text-taupe-600 tracking-widest uppercase font-sans font-semibold block">Culinary Specialist</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Menu -->
+            <div class="hidden md:flex items-center space-x-6 lg:space-x-8 text-sm font-medium">
+                <a href="#about" data-i18n="nav_about" class="text-charcoal-700 hover:text-taupe-600 transition-colors py-2">關於我</a>
+                <a href="#experience" data-i18n="nav_exp" class="text-charcoal-700 hover:text-taupe-600 transition-colors py-2">工作經歷</a>
+                <a href="#awards" data-i18n="nav_awards" class="text-charcoal-700 hover:text-taupe-600 transition-colors py-2">國際獎項</a>
+                <a href="#education" data-i18n="nav_edu" class="text-charcoal-700 hover:text-taupe-600 transition-colors py-2">教育訓練</a>
+                
+                <!-- Language Toggle Button (Desktop) -->
+                <button onclick="toggleLanguage()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-cream-300 bg-white text-xs font-semibold text-charcoal-800 hover:border-taupe-600 transition-all">
+                    <i class="fa-solid fa-globe text-taupe-600"></i>
+                    <span id="langLabel">EN | 繁中</span>
+                </button>
+
+                <a href="#contact" data-i18n="nav_contact" class="px-5 py-2.5 rounded-md bg-taupe-600 text-white hover:bg-taupe-700 font-medium transition-all duration-300 shadow-sm">
+                    聯繫
+                </a>
+            </div>
+
+            <!-- Mobile Menu & Lang Switcher Trigger -->
+            <div class="flex items-center gap-2 sm:gap-3 md:hidden">
+                <button onclick="toggleLanguage()" class="flex items-center gap-1 px-3 py-1.5 rounded-full border border-cream-300 bg-white text-xs font-semibold text-charcoal-800 active:scale-95 transition-transform" aria-label="Toggle Language">
+                    <i class="fa-solid fa-globe text-taupe-600"></i>
+                    <span id="mobileLangLabel">EN</span>
+                </button>
+                <button id="mobileMenuBtn" class="text-charcoal-800 hover:text-taupe-600 p-2.5 rounded-lg focus:outline-none active:bg-cream-200 transition-colors" aria-label="Open Nav Menu">
+                    <i id="mobileMenuIcon" class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer -->
+        <div id="mobileMenu" class="md:hidden bg-white border-b border-cream-200 px-6 py-2 space-y-1 shadow-xl">
+            <a href="#about" data-i18n="nav_about" class="block text-charcoal-800 hover:text-taupe-600 text-base py-3 border-b border-cream-100 font-medium">關於我</a>
+            <a href="#experience" data-i18n="nav_exp" class="block text-charcoal-800 hover:text-taupe-600 text-base py-3 border-b border-cream-100 font-medium">工作經歷</a>
+            <a href="#awards" data-i18n="nav_awards" class="block text-charcoal-800 hover:text-taupe-600 text-base py-3 border-b border-cream-100 font-medium">國際獎項</a>
+            <a href="#education" data-i18n="nav_edu" class="block text-charcoal-800 hover:text-taupe-600 text-base py-3 border-b border-cream-100 font-medium">教育訓練</a>
+            <a href="#contact" data-i18n="nav_contact" class="block text-center w-full my-4 px-5 py-3 rounded-md bg-taupe-600 text-white font-medium shadow-sm active:bg-taupe-700">
+                聯繫
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-28 pb-16 md:pt-36 md:pb-24 bg-cream-50 overflow-hidden">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            
+            <!-- Responsive Layout: Stacked in exact sequence on Mobile, 2-Column Grid on Desktop -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-6 lg:gap-10 items-center md:items-start">
+                
+                <!-- 1. Slogan Badge (Mobile: Order 1, Desktop: Row 1 Right Column) -->
+                <div class="order-1 md:order-1 md:col-start-5 md:col-span-8 flex justify-center md:justify-start">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-cream-100 border border-cream-300 text-taupe-700 text-xs sm:text-sm font-medium max-w-full shadow-xs">
+                        <span class="w-2 h-2 rounded-full bg-taupe-600 animate-pulse shrink-0"></span>
+                        <span data-i18n="hero_status" class="truncate sm:whitespace-normal">米其林餐廳工作經驗與澳洲跨文化實戰力｜尋求高階餐廳核心主廚與廚藝團隊夥伴</span>
+                    </div>
+                </div>
+
+                <!-- 2. Name & Subtitle (Mobile: Order 2, Desktop: Row 2 Right Column) -->
+                <div class="order-2 md:order-2 md:col-start-5 md:col-span-8 text-center md:text-left space-y-1">
+                    <h1 class="font-serif font-bold text-charcoal-900 tracking-tight leading-tight">
+                        <span data-i18n="hero_name" class="block text-3xl sm:text-4xl lg:text-5xl font-bold">李政恩</span> 
+                        <span class="block text-base sm:text-xl lg:text-2xl font-serif font-normal text-taupe-600 mt-1 tracking-widest uppercase">LEE CHENG-EN</span>
+                    </h1>
+                    <p data-i18n="hero_subtitle" class="text-base sm:text-lg lg:text-xl text-taupe-700 font-serif italic pt-0.5">
+                        Chef de Partie & Fine Dining Specialist
+                    </p>
+                </div>
+
+                <!-- 3. Headshot Photo Card (Mobile: Order 3 Centered, Desktop: Left Column Spanning Full Height) -->
+                <div class="order-3 md:order-3 md:col-span-4 md:row-start-1 md:row-span-6 flex flex-col items-center justify-self-center md:justify-self-start w-full my-1 md:my-0">
+                    <div class="french-card p-3 sm:p-4 rounded-2xl bg-white shadow-md w-44 sm:w-52 md:w-64 lg:w-72 transition-all">
+                        <!-- Headshot Photo Container -->
+                        <div class="aspect-square rounded-xl overflow-hidden border border-cream-200 w-full mb-2 md:mb-3">
+                            <img src="https://duk.tw/hx0vBO.png" alt="Lee Cheng-En Headshot" class="w-full h-full object-cover">
+                        </div>
+                        
+                        <!-- Desktop Contact Details inside Card -->
+                        <div class="hidden md:block pt-2.5 border-t border-cream-100 space-y-2 text-xs">
+                            <div class="flex items-center justify-between text-charcoal-700">
+                                <span class="text-charcoal-500 flex items-center gap-1.5 font-sans">
+                                    <i class="fa-solid fa-envelope text-taupe-600"></i> Email
+                                </span>
+                                <a href="mailto:leolee9519@gmail.com" class="font-mono hover:text-taupe-600 transition-colors">leolee9519@gmail.com</a>
+                            </div>
+                            <div class="flex items-center justify-between text-charcoal-700">
+                                <span class="text-charcoal-500 flex items-center gap-1.5 font-sans">
+                                    <i class="fa-solid fa-mobile-screen text-taupe-600"></i> 電話
+                                </span>
+                                <a href="tel:+886908293475" class="font-mono hover:text-taupe-600 transition-colors">+886 908-293-475</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Bio Paragraph (Mobile: Order 4, Desktop: Row 3 Right Column) -->
+                <div class="order-4 md:order-4 md:col-start-5 md:col-span-8 text-center md:text-left">
+                    <p data-i18n="hero_bio" class="text-charcoal-700 text-sm sm:text-base leading-relaxed max-w-2xl font-light">
+                        畢業於法國廚藝殿堂 <span class="text-taupe-700 font-semibold">FERRANDI Paris</span> 與開平餐飲學校。擁有法、德兩國米其林一星餐廳、澳洲一年熱門餐廳高流量實戰、以及台北喜來登飯店高級法餐歷練，結合跨國廚藝視野、高節奏控場實力與國際競賽金牌背書。
+                    </p>
+                </div>
+
+                <!-- 5. Quick Info Badges & Mobile Contacts (Mobile: Order 5, Desktop: Row 4 Right Column) -->
+                <div class="order-5 md:order-5 md:col-start-5 md:col-span-8 flex flex-col items-center md:items-start gap-3">
+                    <div class="flex flex-wrap justify-center md:justify-start gap-2 sm:gap-2.5 text-xs sm:text-sm text-charcoal-700 max-w-2xl">
+                        <div class="flex items-center gap-2 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-md bg-white border border-cream-200 shadow-sm">
+                            <i class="fa-solid fa-cake-candles text-taupe-600"></i>
+                            <span data-i18n="info_age">25 歲</span>
+                        </div>
+                        <div class="flex items-center gap-2 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-md bg-white border border-cream-200 shadow-sm">
+                            <i class="fa-solid fa-earth-americas text-taupe-600"></i>
+                            <span data-i18n="info_nationality">台灣籍 (Taiwanese)</span>
+                        </div>
+                        <div class="flex items-center gap-2 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-md bg-white border border-cream-200 shadow-sm">
+                            <i class="fa-solid fa-plane-departure text-taupe-600"></i>
+                            <span data-i18n="info_aus_exp">澳洲 1 年實戰經歷</span>
+                        </div>
+                        <div class="flex items-center gap-2 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-md bg-white border border-cream-200 shadow-sm">
+                            <i class="fa-solid fa-language text-taupe-600"></i>
+                            <span data-i18n="info_languages">中文母語｜英文 & 法文日常流利</span>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Quick Contacts -->
+                    <div class="flex flex-wrap justify-center gap-4 text-xs sm:text-sm text-charcoal-700 pt-1 md:hidden">
+                        <a href="mailto:leolee9519@gmail.com" class="flex items-center gap-1.5 text-charcoal-800 hover:text-taupe-600 font-mono transition-colors">
+                            <i class="fa-solid fa-envelope text-taupe-600"></i> leolee9519@gmail.com
+                        </a>
+                        <a href="tel:+886908293475" class="flex items-center gap-1.5 text-charcoal-800 hover:text-taupe-600 font-mono transition-colors">
+                            <i class="fa-solid fa-mobile-screen text-taupe-600"></i> +886 908-293-475
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 6. CTA Buttons (Mobile: Order 6, Desktop: Row 5 Right Column) -->
+                <div class="order-6 md:order-6 md:col-start-5 md:col-span-8 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 sm:gap-4 w-full sm:w-auto pt-1">
+                    <a href="#experience" data-i18n="btn_explore" class="w-full sm:w-auto px-7 py-3 rounded-md bg-taupe-600 hover:bg-taupe-700 active:bg-taupe-800 text-white font-medium text-center transition-all duration-300 shadow-md active:scale-95 cursor-pointer block">
+                        探索經歷與榮譽
+                    </a>
+                    <a href="#contact" data-i18n="btn_contact_hero" class="w-full sm:w-auto px-7 py-3 rounded-md bg-white hover:bg-cream-100 text-charcoal-800 border border-cream-300 text-center transition-all duration-300 shadow-sm active:scale-95 cursor-pointer block">
+                        聯繫
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Statement & Career Goal Section -->
+    <section id="about" class="py-16 sm:py-20 bg-cream-100/60 border-y border-cream-200 scroll-mt-20 md:scroll-mt-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+                <h2 class="text-xs font-mono text-taupe-600 uppercase tracking-widest mb-2">Philosophy & Ambition</h2>
+                <h3 data-i18n="section_about_title" class="text-2xl sm:text-4xl font-serif font-bold text-charcoal-900">個人簡述與職涯願景</h3>
+                <div class="w-12 h-0.5 bg-taupe-600 mx-auto mt-4"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                <!-- Personal Statement Card -->
+                <div class="french-card rounded-2xl p-6 sm:p-8 bg-white relative overflow-hidden">
+                    <div class="w-12 h-12 rounded-xl bg-cream-100 flex items-center justify-center text-taupe-600 text-xl mb-5">
+                        <i class="fa-solid fa-utensils"></i>
+                    </div>
+                    <h4 class="text-xl sm:text-2xl font-serif font-bold text-charcoal-900 mb-3">
+                        <span data-i18n="ps_title">個人簡述</span> 
+                        <span class="text-xs font-sans font-normal text-charcoal-500 block sm:inline sm:ml-2">Personal Statement</span>
+                    </h4>
+                    <p data-i18n="ps_desc" class="text-charcoal-700 leading-relaxed font-light text-sm sm:text-base">
+                        畢業於開平餐飲學校與法國 FERRANDI Paris 廚藝學院，累積四年以上台、法、德米其林星級餐廳與五星級飯店之精緻餐飲歷練，並獲國際廚藝競賽金牌肯定。<b>此外，擁有一年澳洲熱門餐廳（Bang Bang Byron Bay）實戰經驗，不僅深化對東南亞與現代創意料理之跨文化食材運用，更培養出高出餐節奏下的控場能力與流利英文溝通之國際協作力。</b>目前正積極尋求加入高階餐廳，發揮核心廚藝與團隊管理實力，共同打造卓越餐飲體驗。
+                    </p>
+                </div>
+
+                <!-- Career Objective Card -->
+                <div class="french-card rounded-2xl p-8 bg-white relative overflow-hidden">
+                    <div class="w-12 h-12 rounded-xl bg-cream-100 flex items-center justify-center text-taupe-600 text-xl mb-5">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <h4 class="text-xl sm:text-2xl font-serif font-bold text-charcoal-900 mb-3">
+                        <span data-i18n="co_title">職涯目標</span> 
+                        <span class="text-xs font-sans font-normal text-charcoal-500 block sm:inline sm:ml-2">Career Objective</span>
+                    </h4>
+                    <p data-i18n="co_desc" class="text-charcoal-700 leading-relaxed font-light text-sm sm:text-base">
+                        期望在經驗豐富的主廚指導與團隊合作下，發揮法式嚴謹技術與澳洲跨文化出餐優勢。目標在於持續深化個人烹飪技藝、推動菜色創新研發與廚房作業模組化，成長為兼具精準執行力與國際創造力的高階餐廳核心主廚。
+                    </p>
+                </div>
+            </div>
+
+            <!-- Language Proficiency Cards (Mandarin, English, French) -->
+            <div class="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+                <!-- Native Chinese -->
+                <div class="french-card rounded-xl p-5 sm:p-6 bg-white flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-cream-100 flex items-center justify-center text-xl shrink-0">
+                        🇹🇼
+                    </div>
+                    <div>
+                        <h5 class="text-base font-bold text-charcoal-900">Mandarin(中文)</h5>
+                        <p data-i18n="lang_zh_level" class="text-xs text-taupe-600 font-semibold mt-0.5">Native (母語)</p>
+                        <p data-i18n="lang_zh_desc" class="text-xs text-charcoal-500 mt-1">母語高度表達與無障礙廚房團隊溝通</p>
+                    </div>
+                </div>
+
+                <!-- English -->
+                <div class="french-card rounded-xl p-5 sm:p-6 bg-white flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-cream-100 flex items-center justify-center text-xl shrink-0">
+                        🇬🇧
+                    </div>
+                    <div>
+                        <h5 class="text-base font-bold text-charcoal-900">English (英語)</h5>
+                        <p data-i18n="lang_en_level" class="text-xs text-taupe-600 font-semibold mt-0.5">Conversational & Kitchen Professional (日常流利/工作專業)</p>
+                        <p data-i18n="lang_en_desc" class="text-xs text-charcoal-500 mt-1">一年澳洲廚房實戰，能順暢於高節奏國際化環境進行領導溝通與協作</p>
+                    </div>
+                </div>
+
+                <!-- French -->
+                <div class="french-card rounded-xl p-5 sm:p-6 bg-white flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-cream-100 flex items-center justify-center text-xl shrink-0">
+                        🇫🇷
+                    </div>
+                    <div>
+                        <h5 class="text-base font-bold text-charcoal-900">French (法語)</h5>
+                        <p data-i18n="lang_fr_level" class="text-xs text-taupe-600 font-semibold mt-0.5">Conversational (日常流利)</p>
+                        <p data-i18n="lang_fr_desc" class="text-xs text-charcoal-500 mt-1">熟悉經典法餐烹飪術語、正統站點運務與廚房法語指令</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Career Timeline Section -->
+    <section id="experience" class="py-16 sm:py-20 bg-cream-50 scroll-mt-20 md:scroll-mt-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
+                <h2 class="text-xs font-mono text-taupe-600 uppercase tracking-widest mb-2">Track Record</h2>
+                <h3 data-i18n="section_exp_title" class="text-2xl sm:text-4xl font-serif font-bold text-charcoal-900">專業工作經歷</h3>
+                <p data-i18n="section_exp_subtitle" class="text-charcoal-500 text-xs sm:text-sm mt-2">涵蓋米其林一星餐廳、五星級飯店、澳洲熱門餐廳與頂級餐酒館之精緻廚藝歷練</p>
+                <div class="w-12 h-0.5 bg-taupe-600 mx-auto mt-4"></div>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-10 sm:mb-12" id="filterContainer">
+                <button onclick="filterExperience('all', this)" data-i18n="filter_all" class="exp-filter-btn px-4 py-2 sm:px-5 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-taupe-600 text-white shadow-sm transition-all active:scale-95">
+                    全部經歷 (All)
+                </button>
+                <button onclick="filterExperience('michelin', this)" data-i18n="filter_michelin" class="exp-filter-btn px-4 py-2 sm:px-5 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-white text-charcoal-700 border border-cream-300 hover:border-taupe-600 transition-all active:scale-95">
+                    ⭐ 米其林星級 (Michelin)
+                </button>
+                <button onclick="filterExperience('hotel', this)" data-i18n="filter_hotel" class="exp-filter-btn px-4 py-2 sm:px-5 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-white text-charcoal-700 border border-cream-300 hover:border-taupe-600 transition-all active:scale-95">
+                    🏨 飯店/法餐 (Hotel Fine Dining)
+                </button>
+                <button onclick="filterExperience('bistro', this)" data-i18n="filter_bistro" class="exp-filter-btn px-4 py-2 sm:px-5 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-white text-charcoal-700 border border-cream-300 hover:border-taupe-600 transition-all active:scale-95">
+                    🍷 精緻餐酒館/澳洲 (Bistro & Aus)
+                </button>
+            </div>
+
+            <!-- Timeline Container -->
+            <div class="relative border-l-2 border-cream-300 ml-3 md:ml-36 space-y-8 sm:space-y-10">
+
+                <!-- Item 0: Bang Bang Byron Bay -->
+                <div class="experience-card relative group pl-5 sm:pl-8 md:pl-10" data-category="bistro">
+                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-taupe-600 border-4 border-cream-50 group-hover:scale-125 transition-transform"></div>
+                    <div class="hidden md:block absolute -left-36 top-1 w-28 text-right text-xs font-mono font-bold text-taupe-600">
+                        2025.09 – 2026.04
+                    </div>
+
+                    <div class="french-card rounded-2xl p-5 sm:p-8 bg-white">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                            <span class="md:hidden text-xs font-mono font-bold text-taupe-600 bg-cream-100 px-2.5 py-1 rounded">
+                                2025.09 – 2026.04
+                            </span>
+                            <span data-i18n="tag_bangbang" class="px-3 py-1 rounded-full text-xs font-bold bg-teal-50 text-teal-800 border border-teal-200">
+                                澳洲東南亞創意料理 (Pan-Asian Fusion)
+                            </span>
+                        </div>
+                        <h4 class="text-xl sm:text-2xl font-serif font-bold text-charcoal-900">BANG BANG Byron Bay</h4>
+                        <p class="text-taupe-600 text-sm font-medium mt-0.5">Chef (主廚 / 廚師 - 實戰 1 年)</p>
+                        <div class="mt-3 flex items-center gap-2 text-xs text-charcoal-500">
+                            <span><i class="fa-solid fa-location-dot text-charcoal-400 mr-1"></i> 澳洲 拜倫灣 (Byron Bay, Australia)</span>
+                        </div>
+                        <p data-i18n="exp0_desc" class="mt-3 sm:mt-4 text-charcoal-700 text-xs sm:text-sm leading-relaxed font-light">
+                            於澳洲熱門東南亞風情創意餐廳 BANG BANG 擔任 Chef，負責餐點製作與熱線出餐。靈活運用亞洲創意菜色食材、傳統辛香料與現代烹飪技法，在澳洲極具節奏感與高客流量的餐飲環境中，持續維持優異餐點品質與高出餐效率，並建立流利的全英文團隊溝通與跨文化協作能力。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 1: Antoine Room -->
+                <div class="experience-card relative group pl-5 sm:pl-8 md:pl-10" data-category="hotel">
+                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-cream-300 group-hover:bg-taupe-600 border-4 border-cream-50 group-hover:scale-125 transition-all"></div>
+                    <div class="hidden md:block absolute -left-36 top-1 w-28 text-right text-xs font-mono font-bold text-charcoal-500">
+                        2023.01 – 2025.07
+                    </div>
+
+                    <div class="french-card rounded-2xl p-5 sm:p-8 bg-white">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                            <span class="md:hidden text-xs font-mono font-bold text-taupe-600 bg-cream-100 px-2.5 py-1 rounded">
+                                2023.01 – 2025.07
+                            </span>
+                            <span data-i18n="tag_hotel" class="px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200">
+                                五星級飯店高級法餐
+                            </span>
+                        </div>
+                        <h4 class="text-xl sm:text-2xl font-serif font-bold text-charcoal-900">Antoine Room (安東廳)</h4>
+                        <p class="text-taupe-600 text-sm font-medium mt-0.5">Sheraton Grand Taipei Hotel 台北喜來登大飯店</p>
+                        <div class="mt-3 flex flex-wrap items-center gap-2 text-xs text-charcoal-500">
+                            <span class="px-2.5 py-1 bg-cream-100 rounded text-charcoal-800 font-semibold"><i class="fa-solid fa-user-check text-taupe-600 mr-1"></i> No.1 / Head of Station</span>
+                            <span><i class="fa-solid fa-location-dot text-charcoal-400 mr-1"></i> 台灣 台北</span>
+                        </div>
+                        <p data-i18n="exp1_desc" class="mt-3 sm:mt-4 text-charcoal-700 text-xs sm:text-sm leading-relaxed font-light">
+                            擔任站點負責人（Head of Station），綜理法式經典料理站點運作、食材備料品質管控與尖峰時刻餐點輸出，維持喜來登安東廳一貫之頂級法餐品質。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 2: Piccolo Polpo Bistro -->
+                <div class="experience-card relative group pl-5 sm:pl-8 md:pl-10" data-category="bistro">
+                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-cream-300 group-hover:bg-taupe-600 border-4 border-cream-50 group-hover:scale-125 transition-all"></div>
+                    <div class="hidden md:block absolute -left-36 top-1 w-28 text-right text-xs font-mono font-bold text-charcoal-500">
+                        2022.03 – 2022.11
+                    </div>
+
+                    <div class="french-card rounded-2xl p-5 sm:p-8 bg-white">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                            <span class="md:hidden text-xs font-mono font-bold text-taupe-600 bg-cream-100 px-2.5 py-1 rounded">
+                                2022.03 – 2022.11
+                            </span>
+                            <span data-i18n="tag_bistro" class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-800 border border-blue-200">
+                                人氣美饌餐酒館
+                            </span>
+                        </div>
+                        <h4 class="text-xl sm:text-2xl font-serif font-bold text-charcoal-900">Piccolo Polpo Bistro (小章魚餐酒館)</h4>
+                        <p class="text-taupe-600 text-sm font-medium mt-0.5">Chef de Partie (副站點主廚 / 三廚)</p>
+                        <div class="mt-3 flex items-center gap-2 text-xs text-charcoal-500">
+                            <span><i class="fa-solid fa-location-dot text-charcoal-400 mr-1"></i> 台灣 恆春南灣 (Hengchun South Bay)</span>
+                        </div>
+                        <p data-i18n="exp2_desc" class="mt-3 sm:mt-4 text-charcoal-700 text-xs sm:text-sm leading-relaxed font-light">
+                            負責熱菜與特色餐點製作，靈活運用當地在地食材與地中海風格烹飪技法，在高出餐量的快速步調中維持優異品質。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 3: The Traders Club Bistro -->
+                <div class="experience-card relative group pl-5 sm:pl-8 md:pl-10" data-category="bistro">
+                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-cream-300 group-hover:bg-taupe-600 border-4 border-cream-50 group-hover:scale-125 transition-all"></div>
+                    <div class="hidden md:block absolute -left-36 top-1 w-28 text-right text-xs font-mono font-bold text-charcoal-500">
+                        2021.01 – 2021.07
+                    </div>
+
+                    <div class="french-card rounded-2xl p-5 sm:p-8 bg-white">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                            <span class="md:hidden text-xs font-mono font-bold text-taupe-600 bg-cream-100 px-2.5 py-1 rounded">
+                                2021.01 – 2021.07
+                            </span>
+                            <span data-i18n="tag_urban_bistro" class="px-3 py-1 rounded-full text-xs font-bold bg-purple-50 text-purple-800 border border-purple-200">
+                                都市頂級餐酒館
+                            </span>
+                        </div>
+                        <h4 class="text-xl sm:text-2xl font-serif font-bold text-charcoal-900">The Traders Club Bistro</h4>
+                        <p class="text-taupe-600 text-sm font-medium mt-0.5">Chef de Partie (副站點主廚 / 三廚)</p>
+                        <div class="mt-3 flex items-center gap-2 text-xs text-charcoal-500">
+                            <span><i class="fa-solid fa-location-dot text-charcoal-400 mr-1"></i> 台灣 台北</span>
+                        </div>
+                        <p data-i18n="exp3_desc" class="mt-3 sm:mt-4 text-charcoal-700 text-xs sm:text-sm leading-relaxed font-light">
+                            參與菜單研發與廚房作業區模組化設定，負責熱菜站點與團隊溝通協調。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 4: Traube (1 Michelin Star) -->
+                <div class="experience-card relative group pl-5 sm:pl-8 md:pl-10" data-category="michelin">
+                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-amber-500 border-4 border-cream-50 group-hover:scale-125 transition-all"></div>
+                    <div class="hidden md:block absolute -left-36 top-1 w-28 text-right text-xs font-mono font-bold text-taupe-600">
+                        2020.06 – 2020.12
+                    </div>
+
+                    <div class="french-card rounded-2xl p-5 sm:p-8 bg-white border-taupe-500/40">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                            <span class="md:hidden text-xs font-mono font-bold text-taupe-600 bg-cream-100 px-2.5 py-1 rounded">
+                                2020.06 – 2020.12
+                            </span>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900 border border-amber-300 flex items-center gap-1">
+                                <i class="fa-solid fa-star text-amber-600"></i> 米其林一星 (1 Michelin Star)
+                            </span>
+                        </div>
+                        <h4 class="text-xl sm:text-2xl font-serif font-bold text-charcoal-900">Traube</h4>
+                        <p class="text-taupe-600 text-sm font-medium mt-0.5">Chef de Partie (副站點主廚)</p>
+                        <div class="mt-3 flex items-center gap-2 text-xs text-charcoal-500">
+                            <span><i class="fa-solid fa-location-dot text-charcoal-400 mr-1"></i> 德國 (Blansingen, Germany)</span>
+                        </div>
+                        <p data-i18n="exp4_desc" class="mt-3 sm:mt-4 text-charcoal-700 text-xs sm:text-sm leading-relaxed font-light">
+                            前往德國一星米其林餐廳 Traube 服勤，吸收歐洲道地精緻餐飲極致標準、食材嚴格處理細節與國際團隊協作體驗。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 5: Frédéric Simonin (1 Michelin Star) -->
+                <div class="experience-card relative group pl-5 sm:pl-8 md:pl-10" data-category="michelin">
+                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-amber-500 border-4 border-cream-50 group-hover:scale-125 transition-all"></div>
+                    <div class="hidden md:block absolute -left-36 top-1 w-28 text-right text-xs font-mono font-bold text-taupe-600">
+                        2020.02 – 2020.06
+                    </div>
+
+                    <div class="french-card rounded-2xl p-5 sm:p-8 bg-white border-taupe-500/40">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                            <span class="md:hidden text-xs font-mono font-bold text-taupe-600 bg-cream-100 px-2.5 py-1 rounded">
+                                2020.02 – 2020.06
+                            </span>
+                            <span data-i18n="tag_michelin_intern" class="px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900 border border-amber-300 flex items-center gap-1">
+                                <i class="fa-solid fa-star text-amber-600"></i> 米其林一星 實習 (5 個月)
+                            </span>
+                        </div>
+                        <h4 class="text-xl sm:text-2xl font-serif font-bold text-charcoal-900">Frédéric Simonin</h4>
+                        <p class="text-taupe-600 text-sm font-medium mt-0.5">Culinary Intern (5 Months Internship)</p>
+                        <div class="mt-3 flex items-center gap-2 text-xs text-charcoal-500">
+                            <span><i class="fa-solid fa-location-dot text-charcoal-400 mr-1"></i> 法國 巴黎 (Paris, France)</span>
+                        </div>
+                        <p data-i18n="exp5_desc" class="mt-3 sm:mt-4 text-charcoal-700 text-xs sm:text-sm leading-relaxed font-light">
+                            於巴黎名廚 Frédéric Simonin 的米其林餐廳實習五個月，深入學習經典正統法菜靈魂、高階擺盤藝術與極致精準度要求。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 6: In Between at Eslite Hotel -->
+                <div class="experience-card relative group pl-5 sm:pl-8 md:pl-10" data-category="hotel">
+                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-cream-300 border-4 border-cream-50 group-hover:scale-125 transition-all"></div>
+                    <div class="hidden md:block absolute -left-36 top-1 w-28 text-right text-xs font-mono font-bold text-charcoal-500">
+                        2018.04 – 2018.07
+                    </div>
+
+                    <div class="french-card rounded-2xl p-5 sm:p-8 bg-white">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                            <span class="md:hidden text-xs font-mono font-bold text-taupe-600 bg-cream-100 px-2.5 py-1 rounded">
+                                2018.04 – 2018.07
+                            </span>
+                            <span data-i18n="tag_hotel_intern" class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200">
+                                飯店實習 (3 個月)
+                            </span>
+                        </div>
+                        <h4 class="text-xl sm:text-2xl font-serif font-bold text-charcoal-900">“In Between” 靜慮餐廳 at 誠品行旅</h4>
+                        <p class="text-taupe-600 text-sm font-medium mt-0.5">Culinary Intern (誠品行旅 Eslite Hotel)</p>
+                        <div class="mt-3 flex items-center gap-2 text-xs text-charcoal-500">
+                            <span><i class="fa-solid fa-location-dot text-charcoal-400 mr-1"></i> 台灣 台北</span>
+                        </div>
+                        <p data-i18n="exp6_desc" class="mt-3 sm:mt-4 text-charcoal-700 text-xs sm:text-sm leading-relaxed font-light">
+                            參與飯店法式排餐備料、冷盤與點心輔助，奠定飯店體務廚房運作基礎。
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Awards Section -->
+    <section id="awards" class="py-16 sm:py-20 bg-cream-100/60 border-y border-cream-200 scroll-mt-20 md:scroll-mt-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+                <h2 class="text-xs font-mono text-taupe-600 uppercase tracking-widest mb-2">Excellence & Achievements</h2>
+                <h3 data-i18n="section_awards_title" class="text-2xl sm:text-4xl font-serif font-bold text-charcoal-900">國際廚藝競賽與榮譽</h3>
+                <div class="w-12 h-0.5 bg-taupe-600 mx-auto mt-4"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                
+                <!-- Gold Award -->
+                <div class="french-card rounded-2xl p-6 sm:p-8 bg-white flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-5 sm:mb-6">
+                            <span class="px-3 py-1 rounded-full bg-taupe-600 text-white font-bold text-xs tracking-wider uppercase">
+                                <i class="fa-solid fa-trophy mr-1"></i> GOLD AWARD 金獎
+                            </span>
+                            <span class="font-mono text-xs text-taupe-600 font-bold">2018.04</span>
+                        </div>
+                        <h4 class="text-lg sm:text-xl font-serif font-bold text-charcoal-900 mb-1">FHA Culinary Challenge</h4>
+                        <p class="text-xs text-taupe-600 font-medium mb-3 sm:mb-4">新加坡 FHA 國際廚藝挑戰賽 (Singapore)</p>
+                        <p data-i18n="award1_desc" class="text-charcoal-700 text-xs sm:text-sm font-light leading-relaxed">
+                            獨自設計並於現場完成三人份「精緻冷前菜 (Cold Starter)」與「熱主菜 (Hot Dish)」，展現卓越菜色平衡度與高超技藝，榮獲國際金獎最高肯定。
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-cream-200 flex items-center gap-2 text-xs text-charcoal-500">
+                        <i class="fa-solid fa-medal text-taupe-600"></i>
+                        <span data-i18n="award1_tag">國際頂尖廚藝大賽認證</span>
+                    </div>
+                </div>
+
+                <!-- Bronze Award -->
+                <div class="french-card rounded-2xl p-6 sm:p-8 bg-white flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-5 sm:mb-6">
+                            <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-900 border border-amber-300 font-bold text-xs tracking-wider uppercase">
+                                <i class="fa-solid fa-award mr-1"></i> BRONZE AWARD 銅獎
+                            </span>
+                            <span class="font-mono text-xs text-charcoal-500 font-bold">2017.11</span>
+                        </div>
+                        <h4 class="text-lg sm:text-xl font-serif font-bold text-charcoal-900 mb-1">FHC China Competition</h4>
+                        <p class="text-xs text-taupe-600 font-medium mb-3 sm:mb-4">第 19 屆 FHC 中國國際烹飪藝術大賽</p>
+                        <p data-i18n="award2_desc" class="text-charcoal-700 text-xs sm:text-sm font-light leading-relaxed">
+                            參賽項目：<span class="text-charcoal-900 font-medium">Poultry – Chicken Breast (家禽類-雞胸)</span>。以精準火候控管與香氣搭配獲評審青睞榮獲銅獎。
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-cream-200 flex items-center gap-2 text-xs text-charcoal-500">
+                        <i class="fa-solid fa-utensils text-taupe-600"></i>
+                        <span data-i18n="award2_tag">家禽禽肉烹調專項競賽</span>
+                    </div>
+                </div>
+
+                <!-- 2nd Place -->
+                <div class="french-card rounded-2xl p-6 sm:p-8 bg-white flex flex-col justify-between md:col-span-2 lg:col-span-1">
+                    <div>
+                        <div class="flex items-center justify-between mb-5 sm:mb-6">
+                            <span class="px-3 py-1 rounded-full bg-slate-100 text-slate-800 border border-slate-300 font-bold text-xs tracking-wider uppercase">
+                                <i class="fa-solid fa-medal mr-1"></i> 2nd PLACE 亞軍
+                            </span>
+                            <span class="font-mono text-xs text-charcoal-500 font-bold">2017.04</span>
+                        </div>
+                        <h4 class="text-lg sm:text-xl font-serif font-bold text-charcoal-900 mb-1">Taiwan Culinary Challenge</h4>
+                        <p class="text-xs text-taupe-600 font-medium mb-3 sm:mb-4">台灣西餐烹飪挑戰賽</p>
+                        <p data-i18n="award3_desc" class="text-charcoal-700 text-xs sm:text-sm font-light leading-relaxed">
+                            設計並呈獻 <span class="text-charcoal-900 font-medium">4 款開胃小點 (4 Canapés - 2 Cold, 2 Hot)</span>，憑藉微型精緻擺盤與口感層次，榮獲全國第二名亞軍。
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-cream-200 flex items-center gap-2 text-xs text-charcoal-500">
+                        <i class="fa-solid fa-wine-glass text-taupe-600"></i>
+                        <span data-i18n="award3_tag">Canapés 開胃一口點心製作</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="py-16 sm:py-20 bg-cream-50 scroll-mt-20 md:scroll-mt-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+                <h2 class="text-xs font-mono text-taupe-600 uppercase tracking-widest mb-2">Academic & Culinary Training</h2>
+                <h3 data-i18n="section_edu_title" class="text-2xl sm:text-4xl font-serif font-bold text-charcoal-900">教育背景與專業培訓</h3>
+                <div class="w-12 h-0.5 bg-taupe-600 mx-auto mt-4"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                
+                <!-- Ferrandi Paris -->
+                <div class="french-card rounded-2xl p-6 sm:p-8 bg-white flex flex-col sm:flex-row items-start gap-5 sm:gap-6">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-cream-100 flex items-center justify-center text-taupe-600 text-xl sm:text-2xl shrink-0">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs font-mono font-bold text-taupe-600 bg-cream-100 px-2.5 py-1 rounded inline-block">2019.09 – 2020.02</span>
+                        <h4 class="text-xl sm:text-2xl font-serif font-bold text-charcoal-900 mt-2 sm:mt-3">Ferrandi Paris</h4>
+                        <p class="text-taupe-600 text-xs sm:text-sm font-medium">Culinary Training Program (法國斐濟安地廚藝學院)</p>
+                        <p data-i18n="edu_graduated" class="text-charcoal-400 text-xs mt-1">Graduated (已畢業)</p>
+                        <p data-i18n="edu1_desc" class="mt-3 sm:mt-4 text-charcoal-700 text-xs sm:text-sm leading-relaxed font-light">
+                            於享譽全球有「廚藝界哈佛」之稱的法國 FERRANDI Paris 接受專業廚藝研習，承襲最純正的法式經典烹飪技術、廚房管理與高階烹調邏輯。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Kai Ping Culinary High School -->
+                <div class="french-card rounded-2xl p-6 sm:p-8 bg-white flex flex-col sm:flex-row items-start gap-5 sm:gap-6">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-cream-100 flex items-center justify-center text-taupe-600 text-xl sm:text-2xl shrink-0">
+                        <i class="fa-solid fa-school"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs font-mono font-bold text-charcoal-500 bg-cream-100 px-2.5 py-1 rounded inline-block">2015.09 – 2018.06</span>
+                        <h4 class="text-xl sm:text-2xl font-serif font-bold text-charcoal-900 mt-2 sm:mt-3">Kai Ping Culinary High School</h4>
+                        <p class="text-taupe-600 text-xs sm:text-sm font-medium">開平餐飲學校 – High School Diploma in Culinary Arts</p>
+                        <p data-i18n="edu_graduated" class="text-charcoal-400 text-xs mt-1">Graduated (已畢業)</p>
+                        <p data-i18n="edu2_desc" class="mt-3 sm:mt-4 text-charcoal-700 text-xs sm:text-sm leading-relaxed font-light">
+                            接受四年完整的專業廚藝養成與高強度實作訓練，培養出優異的刀工技巧、廚房衛生概念以及團隊協作精神。
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Action Section -->
+    <section id="contact" class="py-16 sm:py-20 bg-cream-100/80 border-t border-cream-200 relative overflow-hidden scroll-mt-20 md:scroll-mt-24">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <h2 class="text-xs font-mono text-taupe-600 uppercase tracking-widest mb-2">Get In Touch</h2>
+            <h3 data-i18n="contact_heading" class="text-2xl sm:text-5xl font-serif font-bold text-charcoal-900 mb-4 sm:mb-6">與我聯繫</h3>
+            <p data-i18n="contact_subtitle" class="text-charcoal-700 max-w-xl mx-auto text-sm sm:text-lg mb-8 sm:mb-10 font-light">
+                如果您正在尋找具備國際米其林廚房歷練、澳洲高流量實戰經驗與創造力兼具的核心廚藝團隊成員，歡迎隨時透過以下方式與我聯繫。
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-w-2xl mx-auto mb-8 sm:mb-10">
+                <!-- Email Box -->
+                <div class="french-card rounded-2xl p-5 sm:p-6 bg-white flex flex-col items-center justify-center">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-cream-100 flex items-center justify-center text-taupe-600 text-lg sm:text-xl mb-3">
+                        <i class="fa-regular fa-envelope"></i>
+                    </div>
+                    <span class="text-xs text-charcoal-500 uppercase tracking-wider mb-1">電子郵件 Email</span>
+                    <span class="text-charcoal-900 font-mono font-semibold text-xs sm:text-sm mb-3">leolee9519@gmail.com</span>
+                    <button onclick="copyToClipboard('leolee9519@gmail.com', currentLang === 'zh' ? 'Email 已複製' : 'Email Copied')" data-i18n="btn_copy_email" class="px-4 py-2 rounded-md bg-taupe-600 hover:bg-taupe-700 text-white text-xs font-medium transition-all shadow-sm active:scale-95">
+                        <i class="fa-regular fa-copy mr-1"></i> 複製 Email
+                    </button>
+                </div>
+
+                <!-- Phone Box -->
+                <div class="french-card rounded-2xl p-5 sm:p-6 bg-white flex flex-col items-center justify-center">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-cream-100 flex items-center justify-center text-taupe-600 text-lg sm:text-xl mb-3">
+                        <i class="fa-solid fa-mobile-screen"></i>
+                    </div>
+                    <span class="text-xs text-charcoal-500 uppercase tracking-wider mb-1">行動電話 Cellphone</span>
+                    <span class="text-charcoal-900 font-mono font-semibold text-xs sm:text-sm mb-3">+886 908-293-475</span>
+                    <a href="tel:+886908293475" data-i18n="btn_call_phone" class="px-4 py-2 rounded-md bg-taupe-600 hover:bg-taupe-700 text-white text-xs font-medium transition-all shadow-sm active:scale-95">
+                        <i class="fa-solid fa-phone mr-1"></i> 直接撥打電話
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 bg-cream-50 border-t border-cream-200 text-center text-charcoal-500 text-xs">
+        <div class="max-w-7xl mx-auto px-4">
+            <p>© <span id="currentYear"></span> LEE CHENG-EN (<span data-i18n="footer_name">李政恩</span>) - All Rights Reserved.</p>
+            <p class="mt-1 text-charcoal-400">Designed for Professional Fine Dining Portfolio</p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification Box -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-charcoal-900 text-white px-5 py-3 rounded-lg shadow-2xl font-medium flex items-center gap-2 text-sm">
+        <i class="fa-solid fa-circle-check text-taupe-500"></i>
+        <span id="toastMsg">訊息通知</span>
+    </div>
+
+    <!-- JavaScript Logic & Bilingual Dictionary -->
+    <script>
+        // Set dynamic current year
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // ----------------------------------------------------
+        // Mobile Navigation Drawer Control & Global Smooth Scroll
+        // ----------------------------------------------------
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuIcon = document.getElementById('mobileMenuIcon');
+
+        function toggleMobileMenu() {
+            const isOpen = mobileMenu.classList.contains('open');
+            if (isOpen) {
+                mobileMenu.classList.remove('open');
+                mobileMenuIcon.classList.remove('fa-xmark');
+                mobileMenuIcon.classList.add('fa-bars');
+            } else {
+                mobileMenu.classList.add('open');
+                mobileMenuIcon.classList.remove('fa-bars');
+                mobileMenuIcon.classList.add('fa-xmark');
+            }
+        }
+
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+        }
+
+        // Global smooth scroll handler for all anchor links (Hero CTA buttons, desktop/mobile nav, etc.)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href');
+                if (!targetId || targetId === '#') {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    return;
+                }
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    e.preventDefault();
+
+                    // Auto close mobile drawer if open
+                    if (mobileMenu && mobileMenu.classList.contains('open')) {
+                        mobileMenu.classList.remove('open');
+                        mobileMenuIcon.classList.remove('fa-xmark');
+                        mobileMenuIcon.classList.add('fa-bars');
+                    }
+
+                    // Precise offset calculation taking fixed navbar into account
+                    const navHeader = document.querySelector('nav');
+                    const navHeight = navHeader ? navHeader.offsetHeight : 80;
+                    const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                    const offsetPosition = Math.max(0, elementPosition - navHeight + 8);
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // ----------------------------------------------------
+        // Bilingual i18n Dictionary State
+        // ----------------------------------------------------
+        let currentLang = 'zh';
+
+        const i18nData = {
+            zh: {
+                nav_about: "關於我",
+                nav_exp: "工作經歷",
+                nav_awards: "國際獎項",
+                nav_edu: "教育訓練",
+                nav_contact: "聯繫",
+                
+                hero_status: "米其林餐廳工作經驗與澳洲跨文化實戰力｜尋求高階餐廳核心主廚與廚藝團隊夥伴",
+                hero_name: "李政恩",
+                hero_subtitle: "Chef de Partie & Fine Dining Specialist",
+                hero_bio: "畢業於法國廚藝殿堂 <b>FERRANDI Paris</b> 與開平餐飲學校。擁有法、德兩國米其林一星餐廳、澳洲一年熱門餐廳高流量實戰、以及台北喜來登飯店高級法餐歷練，結合跨國廚藝視野、高節奏控場實力與國際競賽金牌背書。",
+                info_age: "25 歲",
+                info_nationality: "台灣籍 (Taiwanese)",
+                info_aus_exp: "澳洲 1 年實戰經歷",
+                info_languages: "中文母語｜英文 & 法文日常流利",
+                btn_explore: "探索經歷與榮譽",
+                btn_contact_hero: "聯繫",
+
+                section_about_title: "個人簡述與職涯願景",
+                ps_title: "個人簡述",
+                ps_desc: "畢業於開平餐飲學校與法國 FERRANDI Paris 廚藝學院，累積四年以上台、法、德米其林星級餐廳與五星級飯店之精緻餐飲歷練，並獲國際廚藝競賽金牌肯定。<b>此外，擁有一年澳洲熱門餐廳（Bang Bang Byron Bay）實戰經驗，不僅深化對東南亞與現代創意料理之跨文化食材運用，更培養出高出餐節奏下的控場能力與流利英文溝通之國際協作力。</b>目前正積極尋求加入高階餐廳，發揮核心廚藝與團隊管理實力，共同打造卓越餐飲體驗。",
+                co_title: "職涯目標",
+                co_desc: "期望在經驗豐富的主廚指導與團隊合作下，發揮法式嚴謹技術與澳洲跨文化出餐優勢。目標在於持續深化個人烹飪技藝、推動菜色創新研發與廚房作業模組化，成長為兼具精準執行力與國際創造力的高階餐廳核心主廚。",
+                
+                lang_zh_level: "Native (母語)",
+                lang_zh_desc: "母語高度表達與無障礙廚房團隊溝通",
+                lang_en_level: "Conversational & Kitchen Professional (日常流利/工作專業)",
+                lang_en_desc: "一年澳洲廚房實戰，能順暢於高節奏國際化環境進行領導溝通與協作",
+                lang_fr_level: "Conversational (日常流利)",
+                lang_fr_desc: "熟悉經典法餐烹飪術語、正統站點運務與廚房法語指令",
+
+                section_exp_title: "專業工作經歷",
+                section_exp_subtitle: "涵蓋米其林一星餐廳、五星級飯店、澳洲熱門餐廳與頂級餐酒館之精緻廚藝歷練",
+                filter_all: "全部經歷 (All)",
+                filter_michelin: "⭐ 米其林星級 (Michelin)",
+                filter_hotel: "🏨 飯店/法餐 (Hotel Fine Dining)",
+                filter_bistro: "🍷 精緻餐酒館/澳洲 (Bistro & Aus)",
+
+                tag_bangbang: "澳洲東南亞創意料理 (Pan-Asian Fusion)",
+                tag_hotel: "五星級飯店高級法餐",
+                tag_bistro: "人氣美饌餐酒館",
+                tag_urban_bistro: "都市頂級餐酒館",
+                tag_michelin_intern: "米其林一星 實習 (5 個月)",
+                tag_hotel_intern: "飯店實習 (3 個月)",
+
+                exp0_desc: "於澳洲熱門東南亞風情創意餐廳 BANG BANG 擔任 Chef，負責餐點製作與熱線出餐。靈活運用亞洲創意菜色食材、傳統辛香料與現代烹飪技法，在澳洲極具節奏感與高客流量的餐飲環境中，持續維持優異餐點品質與高出餐效率，並建立流利的全英文團隊溝通與跨文化協作能力。",
+                exp1_desc: "擔任站點負責人（Head of Station），綜理法式經典料理站點運作、食材備料品質管控與尖峰時刻餐點輸出，維持喜來登安東廳一貫之頂級法餐品質。",
+                exp2_desc: "負責熱菜與特色餐點製作，靈活運用當地在地食材與地中海風格烹飪技法，在高出餐量的快速步調中維持優異品質。",
+                exp3_desc: "參與菜單研發與廚房作業區模組化設定，負責熱菜站點與團隊溝通協調。",
+                exp4_desc: "前往德國一星米其林餐廳 Traube 服勤，吸收歐洲道地精緻餐飲極致標準、食材嚴格處理細節與國際團隊協作體驗。",
+                exp5_desc: "於巴黎名廚 Frédéric Simonin 的米其林餐廳實習五個月，深入學習經典正統法菜靈魂、高階擺盤藝術與極致精準度要求。",
+                exp6_desc: "參與飯店法式排餐備料、冷盤與點心輔助，奠定飯店體務廚房運作基礎。",
+
+                section_awards_title: "國際廚藝競賽與榮譽",
+                award1_desc: "獨自設計並於現場完成三人份「精緻冷前菜 (Cold Starter)」與「熱主菜 (Hot Dish)」，展現卓越菜色平衡度與高超技藝，榮獲國際金獎最高肯定。",
+                award1_tag: "國際頂尖廚藝大賽認證",
+                award2_desc: "參賽項目：Poultry – Chicken Breast (家禽類-雞胸)。以精準火候控管與香氣搭配獲評審青睞榮獲銅獎。",
+                award2_tag: "家禽禽肉烹調專項競賽",
+                award3_desc: "設計並呈獻 4 款開胃小點 (4 Canapés - 2 Cold, 2 Hot)，憑藉微型精緻擺盤與口感層次，榮獲全國第二名亞軍。",
+                award3_tag: "Canapés 開胃一口點心製作",
+
+                section_edu_title: "教育背景與專業培訓",
+                edu_graduated: "Graduated (已畢業)",
+                edu1_desc: "於享譽全球有「廚藝界哈佛」之稱的法國 FERRANDI Paris 接受專業廚藝研習，承襲最純正的法式經典烹飪技術、廚房管理與高階烹調邏輯。",
+                edu2_desc: "接受四年完整的專業廚藝養成與高強度實作訓練，培養出優異的刀工技巧、廚房衛生概念以及團隊協作精神。",
+
+                contact_heading: "與我聯繫",
+                contact_subtitle: "如果您正在尋找具備國際米其林廚房歷練、澳洲高流量實戰經驗與創造力兼具的核心廚藝團隊成員，歡迎隨時透過以下方式與我聯繫。",
+                btn_copy_email: "<i class=\"fa-regular fa-copy mr-1\"></i> 複製 Email",
+                btn_call_phone: "<i class=\"fa-solid fa-phone mr-1\"></i> 直接撥打電話",
+                footer_name: "李政恩"
+            },
+            en: {
+                nav_about: "About",
+                nav_exp: "Experience",
+                nav_awards: "Awards",
+                nav_edu: "Education",
+                nav_contact: "Contact",
+
+                hero_status: "Michelin Experience & Australian Cross-Cultural Agility | Seeking Head Chef & Culinary Leadership Roles",
+                hero_name: "LEE CHENG-EN",
+                hero_subtitle: "Chef de Partie & Fine Dining Specialist",
+                hero_bio: "Graduated from <b>FERRANDI Paris</b> and Kai Ping Culinary High School. Experienced across 1-Michelin-starred kitchens in France & Germany, 1 year of high-volume service in Australia, and 5-star hotel fine dining (Antoine Room). Combines global culinary vision, high-volume speed, and international gold award credentials.",
+                info_age: "25 Years Old",
+                info_nationality: "Taiwanese",
+                info_aus_exp: "1 Year Australia Experience",
+                info_languages: "Native Chinese | Conversational English & French",
+                btn_explore: "Explore Credentials",
+                btn_contact_hero: "Contact",
+
+                section_about_title: "Personal Statement & Vision",
+                ps_title: "Personal Statement",
+                ps_desc: "Graduated from Kai Ping Culinary High School and FERRANDI Paris with over 4 years of solid experience in Michelin-starred restaurants and 5-star hotels across Taiwan, France, and Germany, backed by an international Gold Medal. <b>Additionally, with 1 year of hands-on experience in Australia's vibrant dining scene (Bang Bang Byron Bay), I have mastered cross-cultural ingredient fusion, high-volume service execution, and fluent English communication in multicultural teams.</b> Actively seeking key chef and culinary leadership roles in top-tier fine dining establishments.",
+                co_title: "Career Objective",
+                co_desc: "To integrate classic French precision with Australian cross-cultural service agility. Dedicated to advancing culinary techniques, driving dish R&D, and station modularization to grow into a visionary Head Chef for high-end dining venues.",
+
+                lang_zh_level: "Native Speaker",
+                lang_zh_desc: "Native fluency in verbal & team communication.",
+                lang_en_level: "Conversational & Professional Kitchen English",
+                lang_en_desc: "1 year of Australian kitchen practice, leading & communicating fluently in fast-paced international kitchens.",
+                lang_fr_level: "Conversational",
+                lang_fr_desc: "Familiar with classic French culinary terms & station operations.",
+
+                section_exp_title: "Professional Experience",
+                section_exp_subtitle: "Fine dining expertise spanning 1-Michelin star restaurants, 5-star hotels, Australian hot spots, and gourmet bistros.",
+                filter_all: "All Experience",
+                filter_michelin: "⭐ Michelin Star",
+                filter_hotel: "🏨 Hotel Fine Dining",
+                filter_bistro: "🍷 Bistro & Aus",
+
+                tag_bangbang: "Pan-Asian Fusion (Australia)",
+                tag_hotel: "5-Star Hotel Fine Dining",
+                tag_bistro: "Gourmet Bistro",
+                tag_urban_bistro: "Urban Fine Bistro",
+                tag_michelin_intern: "1 Michelin Star Intern (5 Mos)",
+                tag_hotel_intern: "Hotel Intern (3 Mos)",
+
+                exp0_desc: "Served as Chef at Bang Bang Byron Bay (1 year hands-on experience), specializing in vibrant Pan-Asian fusion cuisine. Executed high-volume service using Australian local produce, Asian spices, and modern culinary techniques, maintaining speed and consistency while mastering English kitchen communication.",
+                exp1_desc: "Served as Head of Station (No. 1), leading station operations, ingredient quality control, and peak service execution to uphold the prestigious standards of Antoine Room.",
+                exp2_desc: "Managed hot dish station and signatures at Piccolo Polpo Bistro, utilizing local Taiwanese ingredients with Mediterranean techniques in a high-volume environment.",
+                exp3_desc: "Assisted in menu development, station modularization, and hot line teamwork coordination.",
+                exp4_desc: "Worked at 1 Michelin Star restaurant Traube in Germany, absorbing authentic European fine dining standards, precision ingredient handling, and multicultural kitchen teamwork.",
+                exp5_desc: "5-month internship under Chef Frédéric Simonin in Paris, mastering the essence of classic French gastronomy, refined plating, and extreme precision.",
+                exp6_desc: "Assisted in French steakhouse prep, cold appetizers, and pastry support, building a solid foundation in hotel kitchen operations.",
+
+                section_awards_title: "Competitions & Honors",
+                award1_desc: "Designed and executed a cold starter and hot dish for 3 people live on-site, demonstrating exceptional flavor balance and technique to win the Gold Award.",
+                award1_tag: "International Culinary Competition Gold",
+                award2_desc: "Category: Poultry – Chicken Breast. Recognized with Bronze Award for precise heat control and aroma pairings.",
+                award2_tag: "Poultry Culinary Specialization",
+                award3_desc: "Created 4 Canapés (2 Cold, 2 Hot), winning 2nd Place nationwide with intricate miniature plating and layered textures.",
+                award3_tag: "Canapés & Gourmet Small Bites",
+
+                section_edu_title: "Education & Training",
+                edu_graduated: "Graduated",
+                edu1_desc: "Completed professional culinary training at FERRANDI Paris ('The Harvard of Gastronomy'), mastering classic French technique, kitchen organization, and high-level culinary logic.",
+                edu2_desc: "Completed 4 years of intensive culinary foundation, knife skills, kitchen hygiene, and team collaboration training.",
+
+                contact_heading: "Contact Me",
+                contact_subtitle: "If you are looking for a chef with Michelin kitchen experience, Australian high-volume agility, and strong leadership drive, please feel free to get in touch.",
+                btn_copy_email: "<i class=\"fa-regular fa-copy mr-1\"></i> Copy Email",
+                btn_call_phone: "<i class=\"fa-solid fa-phone mr-1\"></i> Call Directly",
+                footer_name: "Lee Cheng-En"
+            }
+        };
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'zh' ? 'en' : 'zh';
+            
+            // Update Toggle Button Text
+            document.getElementById('langLabel').textContent = currentLang === 'zh' ? 'EN | 繁中' : '繁中 | EN';
+            document.getElementById('mobileLangLabel').textContent = currentLang === 'zh' ? 'EN' : '繁中';
+
+            // Iterate over all data-i18n elements
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18nData[currentLang][key]) {
+                    el.innerHTML = i18nData[currentLang][key];
+                }
+            });
+        }
+
+        // Experience Filter Function
+        function filterExperience(category, clickedBtn) {
+            const cards = document.querySelectorAll('.experience-card');
+            const buttons = document.querySelectorAll('.exp-filter-btn');
+
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-taupe-600', 'text-white');
+                btn.classList.add('bg-white', 'text-charcoal-700', 'border', 'border-cream-300');
+            });
+
+            if (clickedBtn) {
+                clickedBtn.classList.remove('bg-white', 'text-charcoal-700', 'border', 'border-cream-300');
+                clickedBtn.classList.add('bg-taupe-600', 'text-white');
+            }
+
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Copy to Clipboard with Fallback
+        function copyToClipboard(text, message) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast(message);
+                }).catch(() => {
+                    fallbackCopyTextToClipboard(text, message);
+                });
+            } else {
+                fallbackCopyTextToClipboard(text, message);
+            }
+        }
+
+        function fallbackCopyTextToClipboard(text, message) {
+            const tempInput = document.createElement('input');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            try {
+                document.execCommand('copy');
+                showToast(message);
+            } catch (err) {
+                console.error('Unable to copy', err);
+            }
+            document.body.removeChild(tempInput);
+        }
+
+        // Show Toast Function
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            toastMsg.textContent = msg;
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

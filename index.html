@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>珍妮佛作品集 | 精選 Web 應用與互動遊戲</title>
+    <meta name="description" content="珍妮佛作品集 - 收錄 8 款精選網頁互動遊戲、實用生產力工具與個人專業履歷作品。">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;900&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome 6 Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-primary: #F8FAFC;
+            --bg-secondary: #FFFFFF;
+            --bg-card: rgba(255, 255, 255, 0.88);
+            --bg-card-hover: #FFFFFF;
+            --border-color: rgba(226, 232, 240, 0.9);
+            --border-highlight: rgba(99, 102, 241, 0.3);
+            --text-primary: #0F172A;
+            --text-secondary: #475569;
+            --text-muted: #94A3B8;
+            --accent-primary: #6366F1;
+            --accent-primary-hover: #4F46E5;
+            --accent-gradient: linear-gradient(135deg, #6366F1 0%, #A855F7 50%, #EC4899 100%);
+            --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.04);
+            --shadow-md: 0 10px 30px -5px rgba(15, 23, 42, 0.08);
+            --shadow-lg: 0 20px 40px -10px rgba(99, 102, 241, 0.12);
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --file-badge-bg: #EEF2FF;
+            --file-badge-text: #4F46E5;
+            --file-badge-border: #C7D2FE;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0B0F19;
+            --bg-secondary: #111827;
+            --bg-card: rgba(17, 24, 39, 0.85);
+            --bg-card-hover: rgba(30, 41, 59, 0.95);
+            --border-color: rgba(51, 65, 85, 0.6);
+            --border-highlight: rgba(129, 140, 248, 0.4);
+            --text-primary: #F8FAFC;
+            --text-secondary: #CBD5E1;
+            --text-muted: #64748B;
+            --accent-primary: #818CF8;
+            --accent-primary-hover: #6366F1;
+            --accent-gradient: linear-gradient(135deg, #818CF8 0%, #C084FC 50%, #F472B6 100%);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 10px 30px -5px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 20px 40px -10px rgba(99, 102, 241, 0.25);
+            --glass-bg: rgba(17, 24, 39, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --file-badge-bg: rgba(99, 102, 241, 0.15);
+            --file-badge-text: #A5B4FC;
+            --file-badge-border: rgba(99, 102, 241, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+        }
+
+        body {
+            font-family: 'Outfit', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ambient Background Glow */
+        .ambient-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .ambient-blob-1 {
+            position: absolute;
+            top: -10%;
+            left: -5%;
+            width: 50vw;
+            height: 50vw;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(99, 102, 241, 0) 70%);
+            filter: blur(60px);
+        }
+
+        .ambient-blob-2 {
+            position: absolute;
+            top: 30%;
+            right: -10%;
+            width: 45vw;
+            height: 45vw;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.12) 0%, rgba(236, 72, 153, 0) 70%);
+            filter: blur(70px);
+        }
+
+        .ambient-blob-3 {
+            position: absolute;
+            bottom: -10%;
+            left: 25%;
+            width: 40vw;
+            height: 40vw;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.12) 0%, rgba(14, 165, 233, 0) 70%);
+            filter: blur(60px);
+        }
+
+        /* Layout Container */
+        .page-container {
+            position: relative;
+            z-index: 1;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 5rem 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .page-container {
+                padding: 3.5rem 2rem 6rem 2rem;
+            }
+        }
+
+        /* Header Navigation */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            border-radius: 20px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 3.5rem;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .brand-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: var(--accent-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            font-size: 1.25rem;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+        }
+
+        .brand-text h1 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-text span {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .theme-toggle-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .theme-toggle-btn:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            max-width: 840px;
+            margin: 0 auto 3.5rem auto;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            background: var(--file-badge-bg);
+            border: 1px solid var(--file-badge-border);
+            color: var(--file-badge-text);
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            letter-spacing: 0.02em;
+        }
+
+        .hero-title {
+            font-size: 2.75rem;
+            font-weight: 900;
+            line-height: 1.18;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        @media (min-width: 768px) {
+            .hero-title {
+                font-size: 3.5rem;
+            }
+        }
+
+        .hero-title-highlight {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .hero-desc {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        /* Stats Bar */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            max-width: 640px;
+            margin: 0 auto 2.5rem auto;
+        }
+
+        @media (min-width: 640px) {
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1rem 0.75rem;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stat-num {
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .stat-label {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-top: 0.25rem;
+        }
+
+        /* Toolbar Filter & Search */
+        .toolbar-wrapper {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.25rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        @media (min-width: 840px) {
+            .toolbar-wrapper {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+        }
+
+        /* Filter Pills */
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            font-weight: 600;
+            padding: 0.55rem 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .filter-btn:hover {
+            color: var(--text-primary);
+            background: var(--bg-card-hover);
+        }
+
+        .filter-btn.active {
+            background: var(--accent-primary);
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+        }
+
+        .filter-btn .badge-count {
+            background: rgba(0, 0, 0, 0.12);
+            color: inherit;
+            padding: 0.1rem 0.45rem;
+            border-radius: 9999px;
+            font-size: 0.72rem;
+            font-weight: 700;
+        }
+
+        .filter-btn.active .badge-count {
+            background: rgba(255, 255, 255, 0.25);
+            color: #FFFFFF;
+        }
+
+        /* Search & View Mode Controls */
+        .controls-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-grow: 1;
+            justify-content: flex-end;
+        }
+
+        .search-box {
+            position: relative;
+            flex-grow: 1;
+            max-width: 320px;
+        }
+
+        .search-box i.fa-magnifying-glass {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            pointer-events: none;
+        }
+
+        .search-input {
+            width: 100%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.55rem 2.2rem 0.55rem 2.5rem;
+            border-radius: 12px;
+            font-size: 0.88rem;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+
+        .search-clear-btn {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: none;
+        }
+
+        .search-clear-btn.visible {
+            display: block;
+        }
+
+        .view-toggle {
+            display: flex;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 3px;
+        }
+
+        .view-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .view-btn.active {
+            background: var(--accent-primary);
+            color: #FFFFFF;
+        }
+
+        /* Portfolio Grid */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.75rem;
+        }
+
+        @media (min-width: 640px) {
+            .portfolio-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .portfolio-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 1280px) {
+            .portfolio-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* Portfolio List Mode */
+        .portfolio-grid.list-view {
+            grid-template-columns: 1fr !important;
+            gap: 1rem;
+        }
+
+        .portfolio-grid.list-view .project-card {
+            display: grid;
+            grid-template-columns: 80px 1fr auto;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.25rem 1.5rem;
+        }
+
+        @media (max-width: 640px) {
+            .portfolio-grid.list-view .project-card {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+
+        .portfolio-grid.list-view .card-banner {
+            height: 80px;
+            border-radius: 14px;
+        }
+
+        .portfolio-grid.list-view .card-body {
+            padding: 0;
+        }
+
+        .portfolio-grid.list-view .card-footer {
+            padding: 0;
+            border-top: none;
+            flex-direction: column;
+            justify-content: center;
+            min-width: 160px;
+        }
+
+        /* Card Styles */
+        .project-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--border-highlight);
+            box-shadow: var(--shadow-lg);
+            background: var(--bg-card-hover);
+        }
+
+        /* Card Visual Banner */
+        .card-banner {
+            height: 140px;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .card-banner-bg {
+            position: absolute;
+            inset: 0;
+            opacity: 0.85;
+            transition: transform 0.5s ease;
+        }
+
+        .project-card:hover .card-banner-bg {
+            transform: scale(1.08);
+        }
+
+        .card-icon-wrapper {
+            position: relative;
+            z-index: 2;
+            width: 68px;
+            height: 68px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            font-size: 2rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.35s ease;
+        }
+
+        .project-card:hover .card-icon-wrapper {
+            transform: scale(1.1) rotate(4deg);
+        }
+
+        /* Category Floating Badge */
+        .category-floating-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            z-index: 3;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(8px);
+            color: #FFFFFF;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 0.25rem 0.65rem;
+            border-radius: 9999px;
+            letter-spacing: 0.03em;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Card Body */
+        .card-body {
+            padding: 1.4rem 1.4rem 1.1rem 1.4rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        /* File Name Box - Mandatory Feature */
+        .file-name-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--file-badge-text);
+            background: var(--file-badge-bg);
+            border: 1px solid var(--file-badge-border);
+            padding: 0.3rem 0.65rem;
+            border-radius: 8px;
+            margin-bottom: 0.85rem;
+            width: fit-content;
+        }
+
+        .file-name-badge i {
+            font-size: 0.85rem;
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            line-height: 1.35;
+            color: var(--text-primary);
+            margin-bottom: 0.6rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-desc {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.55;
+            margin-bottom: 1.1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex-grow: 1;
+        }
+
+        /* Tech Tags */
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: auto;
+            padding-bottom: 0.5rem;
+        }
+
+        .tech-pill {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: rgba(148, 163, 184, 0.12);
+            padding: 0.2rem 0.55rem;
+            border-radius: 6px;
+        }
+
+        /* Card Footer */
+        .card-footer {
+            padding: 1rem 1.4rem 1.4rem 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            border-top: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* Primary "開啟" (Open) Button */
+        .btn-open {
+            flex-grow: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.2rem;
+            border-radius: 12px;
+            font-size: 0.92rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: #FFFFFF;
+            background: var(--accent-gradient);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+            border: none;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-open:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.45);
+            filter: brightness(1.08);
+        }
+
+        .btn-preview {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-preview:hover {
+            color: var(--accent-primary);
+            border-color: var(--accent-primary);
+            transform: translateY(-2px);
+            background: var(--bg-card-hover);
+        }
+
+        /* Modal Preview Window */
+        .preview-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .preview-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 1100px;
+            height: 88vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.5);
+            transform: scale(0.96);
+            transition: transform 0.25s ease;
+        }
+
+        .preview-modal.active .modal-container {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--glass-bg);
+        }
+
+        .modal-title-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .modal-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            padding: 0.25rem 0.55rem;
+            border-radius: 6px;
+            background: var(--file-badge-bg);
+            color: var(--file-badge-text);
+            font-weight: 600;
+        }
+
+        .modal-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .modal-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .modal-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .modal-btn:hover {
+            color: var(--text-primary);
+            border-color: var(--accent-primary);
+        }
+
+        .modal-btn.btn-close:hover {
+            background: rgba(239, 68, 68, 0.15);
+            color: #EF4444;
+            border-color: #EF4444;
+        }
+
+        .modal-iframe-wrapper {
+            flex-grow: 1;
+            width: 100%;
+            position: relative;
+            background: #FFFFFF;
+        }
+
+        .modal-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Empty State */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 5rem 1.5rem;
+            background: var(--glass-bg);
+            border: 1px dashed var(--border-color);
+            border-radius: 20px;
+            display: none;
+        }
+
+        .empty-state.visible {
+            display: block;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        .page-footer {
+            margin-top: 5rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+
+        @media (min-width: 640px) {
+            .page-footer {
+                flex-direction: row;
+            }
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+        }
+
+        .footer-tech {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Card Banner Gradients */
+        .grad-game1 { background: linear-gradient(135deg, #4C1D95 0%, #7C3AED 50%, #C026D3 100%); }
+        .grad-game2 { background: linear-gradient(135deg, #F43F5E 0%, #FB7185 50%, #FBBF24 100%); }
+        .grad-game3 { background: linear-gradient(135deg, #064E3B 0%, #059669 50%, #10B981 100%); }
+        .grad-port1 { background: linear-gradient(135deg, #9A3412 0%, #EA580C 50%, #0D9488 100%); }
+        .grad-port2 { background: linear-gradient(135deg, #44403C 0%, #78716C 50%, #D97706 100%); }
+        .grad-tool1 { background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 50%, #38BDF8 100%); }
+        .grad-tool2 { background: linear-gradient(135deg, #312E81 0%, #4F46E5 50%, #818CF8 100%); }
+        .grad-tool3 { background: linear-gradient(135deg, #0C4A6E 0%, #0284C7 50%, #38BDF8 100%); }
+
+        /* Animation utilities */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Lighting Backdrop -->
+    <div class="ambient-glow" aria-hidden="true">
+        <div class="ambient-blob-1"></div>
+        <div class="ambient-blob-2"></div>
+        <div class="ambient-blob-3"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="page-container">
+
+        <!-- Top Navigation -->
+        <header class="navbar">
+            <a href="index.html" class="brand-logo" title="珍妮佛作品集">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-sparkles"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>珍妮佛作品集</h1>
+                    <span>Jennifer's Portfolio</span>
+                </div>
+            </a>
+
+            <div class="nav-controls">
+                <button id="themeToggleBtn" class="theme-toggle-btn" title="切換深色/淺色主題" aria-label="切換主題">
+                    <i class="fa-regular fa-moon" id="themeIcon"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-badge">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> 精選 8 款 Web 應用與互動作品
+            </div>
+            <h2 class="hero-title">
+                探索創意與技術的<br>
+                <span class="hero-title-highlight">數位作品展示庫</span>
+            </h2>
+            <p class="hero-desc">
+                收錄 3D 像素復古小遊戲、五行吉凶取名所、CRT 賽博龐克計時器、專業行銷與主廚履歷，以及全端數據與地圖工具。
+            </p>
+
+            <!-- Quick Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-num" id="statTotalCount">8</div>
+                    <div class="stat-label">專案總數</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num">3</div>
+                    <div class="stat-label">主題分類</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num">100%</div>
+                    <div class="stat-label">RWD 響應式</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num">Pure</div>
+                    <div class="stat-label">極速載入</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filter & Search Toolbar -->
+        <section class="toolbar-wrapper">
+            <!-- Category Filter Pills -->
+            <div class="filter-group" role="tablist">
+                <button class="filter-btn active" data-category="all" role="tab" aria-selected="true">
+                    <i class="fa-solid fa-border-all"></i> 全部
+                    <span class="badge-count" id="countAll">8</span>
+                </button>
+                <button class="filter-btn" data-category="game" role="tab" aria-selected="false">
+                    <i class="fa-solid fa-gamepad"></i> 互動遊戲
+                    <span class="badge-count" id="countGame">3</span>
+                </button>
+                <button class="filter-btn" data-category="tool" role="tab" aria-selected="false">
+                    <i class="fa-solid fa-screwdriver-wrench"></i> 實用工具
+                    <span class="badge-count" id="countTool">3</span>
+                </button>
+                <button class="filter-btn" data-category="portfolio" role="tab" aria-selected="false">
+                    <i class="fa-solid fa-briefcase"></i> 個人作品集
+                    <span class="badge-count" id="countPortfolio">2</span>
+                </button>
+            </div>
+
+            <!-- Search & View Mode -->
+            <div class="controls-group">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchInput" class="search-input" placeholder="搜尋作品名稱或檔案名稱..." aria-label="搜尋作品">
+                    <button id="searchClearBtn" class="search-clear-btn" title="清除搜尋">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <div class="view-toggle" role="group" aria-label="排版模式切換">
+                    <button class="view-btn active" id="viewGridBtn" title="網格檢視">
+                        <i class="fa-solid fa-table-cells-large"></i>
+                    </button>
+                    <button class="view-btn" id="viewListBtn" title="清單檢視">
+                        <i class="fa-solid fa-list-ul"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Grid -->
+        <main id="portfolioGrid" class="portfolio-grid">
+
+            <!-- Card 1: game1.html -->
+            <article class="project-card" data-category="game" data-filename="game1.html" data-keywords="女孩穿衣出任務 3D 像素 復古 遊戲 threejs 換裝冒險 pixel voxel">
+                <div class="card-banner">
+                    <div class="card-banner-bg grad-game1"></div>
+                    <div class="category-floating-badge"><i class="fa-solid fa-gamepad"></i> 互動遊戲</div>
+                    <div class="card-icon-wrapper">
+                        <i class="fa-solid fa-shirt"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="file-name-badge">
+                        <i class="fa-regular fa-file-code"></i> game1.html
+                    </div>
+                    <h3 class="card-title">女孩穿衣出任務 - 3D像素復古遊戲</h3>
+                    <p class="card-desc">結合 Three.js 打造的 3D 像素立體穿搭與換裝冒險小遊戲，支援多樣化造型挑選與場景互動體驗。</p>
+                    <div class="tech-tags">
+                        <span class="tech-pill">Three.js</span>
+                        <span class="tech-pill">3D Voxel</span>
+                        <span class="tech-pill">Pixel Art</span>
+                        <span class="tech-pill">TailwindCSS</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="game1.html" class="btn-open" title="開啟 女孩穿衣出任務">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> 開啟
+                    </a>
+                    <button class="btn-preview" onclick="openPreview('game1.html', '女孩穿衣出任務 - 3D像素復古遊戲')" title="快速預覽">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+            </article>
+
+            <!-- Card 2: game2.html -->
+            <article class="project-card" data-category="game" data-filename="game2.html" data-keywords="小茉莉命名推薦所 命名 姓名學 日系 復古 可愛 櫻花 測驗 confetti">
+                <div class="card-banner">
+                    <div class="card-banner-bg grad-game2"></div>
+                    <div class="category-floating-badge"><i class="fa-solid fa-gamepad"></i> 互動娛樂</div>
+                    <div class="card-icon-wrapper">
+                        <i class="fa-solid fa-seedling"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="file-name-badge">
+                        <i class="fa-regular fa-file-code"></i> game2.html
+                    </div>
+                    <h3 class="card-title">小茉莉命名推薦所 🌸</h3>
+                    <p class="card-desc">日系復古可愛風格的中文取名與靈感推薦所，包含五行筆畫分析、吉凶推薦與彩帶慶祝特效。</p>
+                    <div class="tech-tags">
+                        <span class="tech-pill">Canvas Confetti</span>
+                        <span class="tech-pill">PapaParse</span>
+                        <span class="tech-pill">日系字體</span>
+                        <span class="tech-pill">TailwindCSS</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="game2.html" class="btn-open" title="開啟 小茉莉命名推薦所">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> 開啟
+                    </a>
+                    <button class="btn-preview" onclick="openPreview('game2.html', '小茉莉命名推薦所 🌸')" title="快速預覽">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+            </article>
+
+            <!-- Card 3: game3.html -->
+            <article class="project-card" data-category="game" data-filename="game3.html" data-keywords="復古極簡大數字倒數計時器 倒數計時 恐龍 跑酷 賽博龐克 CRT 8-bit Web Audio">
+                <div class="card-banner">
+                    <div class="card-banner-bg grad-game3"></div>
+                    <div class="category-floating-badge"><i class="fa-solid fa-stopwatch"></i> 計時遊戲</div>
+                    <div class="card-icon-wrapper">
+                        <i class="fa-solid fa-stopwatch-20"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="file-name-badge">
+                        <i class="fa-regular fa-file-code"></i> game3.html
+                    </div>
+                    <h3 class="card-title">復古極簡大數字倒數計時器</h3>
+                    <p class="card-desc">賽博龐克與 CRT 綠光螢幕風格的倒數計時器，內建 8-bit 小恐龍跑酷遊戲與多種音效主題。</p>
+                    <div class="tech-tags">
+                        <span class="tech-pill">Canvas 8-Bit</span>
+                        <span class="tech-pill">Web Audio API</span>
+                        <span class="tech-pill">CRT Filter</span>
+                        <span class="tech-pill">TailwindCSS</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="game3.html" class="btn-open" title="開啟 復古極簡大數字倒數計時器">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> 開啟
+                    </a>
+                    <button class="btn-preview" onclick="openPreview('game3.html', '復古極簡大數字倒數計時器')" title="快速預覽">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+            </article>
+
+            <!-- Card 4: portfolio.html -->
+            <article class="project-card" data-category="portfolio" data-filename="portfolio.html" data-keywords="Senior Marketing Executive Portfolio 行銷 履歷 作品集 企劃 品牌 數據">
+                <div class="card-banner">
+                    <div class="card-banner-bg grad-port1"></div>
+                    <div class="category-floating-badge"><i class="fa-solid fa-briefcase"></i> 個人作品集</div>
+                    <div class="card-icon-wrapper">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="file-name-badge">
+                        <i class="fa-regular fa-file-code"></i> portfolio.html
+                    </div>
+                    <h3 class="card-title">Senior Marketing Executive | 作品集</h3>
+                    <p class="card-desc">高級品牌行銷經理人專業作品集，展示品牌策略策劃、社群成長數據、整合行銷案例與成效指標。</p>
+                    <div class="tech-tags">
+                        <span class="tech-pill">Plus Jakarta Sans</span>
+                        <span class="tech-pill">FontAwesome</span>
+                        <span class="tech-pill">Modern Grid</span>
+                        <span class="tech-pill">TailwindCSS</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="portfolio.html" class="btn-open" title="開啟 Marketing Portfolio">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> 開啟
+                    </a>
+                    <button class="btn-preview" onclick="openPreview('portfolio.html', 'Senior Marketing Executive | Portfolio')" title="快速預覽">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+            </article>
+
+            <!-- Card 5: portfolio2.html -->
+            <article class="project-card" data-category="portfolio" data-filename="portfolio2.html" data-keywords="LEE CHENG-EN 李政恩 Culinary Specialist Portfolio 主廚 法餐 料理 履歷 米其林">
+                <div class="card-banner">
+                    <div class="card-banner-bg grad-port2"></div>
+                    <div class="category-floating-badge"><i class="fa-solid fa-utensils"></i> 主廚履歷</div>
+                    <div class="card-icon-wrapper">
+                        <i class="fa-solid fa-kitchen-set"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="file-name-badge">
+                        <i class="fa-regular fa-file-code"></i> portfolio2.html
+                    </div>
+                    <h3 class="card-title">LEE CHENG-EN (李政恩) | 主廚作品集</h3>
+                    <p class="card-desc">法式與當代料理主廚個人履歷，典雅大地色系風格，收錄招牌菜品賞析、廚藝歷程與星級料理哲學。</p>
+                    <div class="tech-tags">
+                        <span class="tech-pill">Cormorant Garamond</span>
+                        <span class="tech-pill">Noto Serif TC</span>
+                        <span class="tech-pill">大地色系</span>
+                        <span class="tech-pill">TailwindCSS</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="portfolio2.html" class="btn-open" title="開啟 李政恩主廚作品集">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> 開啟
+                    </a>
+                    <button class="btn-preview" onclick="openPreview('portfolio2.html', 'LEE CHENG-EN (李政恩) | Culinary Specialist Portfolio')" title="快速預覽">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+            </article>
+
+            <!-- Card 6: tools1.html -->
+            <article class="project-card" data-category="tool" data-filename="tools1.html" data-keywords="餐廳訂貨申請表單系統 採購 訂貨 表單 excel xlsx sheetjs alpinejs 營運">
+                <div class="card-banner">
+                    <div class="card-banner-bg grad-tool1"></div>
+                    <div class="category-floating-badge"><i class="fa-solid fa-screwdriver-wrench"></i> 實用工具</div>
+                    <div class="card-icon-wrapper">
+                        <i class="fa-solid fa-clipboard-list"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="file-name-badge">
+                        <i class="fa-regular fa-file-code"></i> tools1.html
+                    </div>
+                    <h3 class="card-title">餐廳訂貨申請表單系統</h3>
+                    <p class="card-desc">針對餐飲門市設計的食材與耗材訂貨申請單，支援品項分類即時加總、列印預覽與 Excel (.xlsx) 檔案匯出。</p>
+                    <div class="tech-tags">
+                        <span class="tech-pill">Alpine.js</span>
+                        <span class="tech-pill">SheetJS (XLSX)</span>
+                        <span class="tech-pill">列印預覽支援</span>
+                        <span class="tech-pill">TailwindCSS</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="tools1.html" class="btn-open" title="開啟 餐廳訂貨申請表單系統">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> 開啟
+                    </a>
+                    <button class="btn-preview" onclick="openPreview('tools1.html', '餐廳訂貨申請表單系統')" title="快速預覽">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+            </article>
+
+            <!-- Card 7: tools2.html -->
+            <article class="project-card" data-category="tool" data-filename="tools2.html" data-keywords="PrivaGuard Studio 本地端個資假名化與合規脫敏系統 資安 隱私 脫敏 身分證 個資 mask lucide">
+                <div class="card-banner">
+                    <div class="card-banner-bg grad-tool2"></div>
+                    <div class="category-floating-badge"><i class="fa-solid fa-shield-halved"></i> 資安工具</div>
+                    <div class="card-icon-wrapper">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="file-name-badge">
+                        <i class="fa-regular fa-file-code"></i> tools2.html
+                    </div>
+                    <h3 class="card-title">PrivaGuard Studio | 個資脫敏系統</h3>
+                    <p class="card-desc">純前端本地運行的個資遮罩與假名化工具，支援身分證、電話、Email 等敏感資料脫敏，保護隱私不外流。</p>
+                    <div class="tech-tags">
+                        <span class="tech-pill">Lucide Icons</span>
+                        <span class="tech-pill">SheetJS (XLSX)</span>
+                        <span class="tech-pill">純前端安全脫敏</span>
+                        <span class="tech-pill">TailwindCSS</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="tools2.html" class="btn-open" title="開啟 PrivaGuard Studio">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> 開啟
+                    </a>
+                    <button class="btn-preview" onclick="openPreview('tools2.html', 'PrivaGuard Studio | 本地端個資假名化與合規脫敏系統')" title="快速預覽">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+            </article>
+
+            <!-- Card 8: tools3.html -->
+            <article class="project-card" data-category="tool" data-filename="tools3.html" data-keywords="台灣衝浪浪點互動地圖 Taiwan Surf Map leaflet 地圖 浪點 衝浪 戶外 openstreetmap">
+                <div class="card-banner">
+                    <div class="card-banner-bg grad-tool3"></div>
+                    <div class="category-floating-badge"><i class="fa-solid fa-map-location-dot"></i> 互動地圖</div>
+                    <div class="card-icon-wrapper">
+                        <i class="fa-solid fa-water"></i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="file-name-badge">
+                        <i class="fa-regular fa-file-code"></i> tools3.html
+                    </div>
+                    <h3 class="card-title">台灣衝浪浪點互動地圖</h3>
+                    <p class="card-desc">整合全台灣北中南東各大衝浪熱點的互動式地圖，提供浪況等級標示、季節指南、浪點特色與交通導航。</p>
+                    <div class="tech-tags">
+                        <span class="tech-pill">Leaflet.js</span>
+                        <span class="tech-pill">OpenStreetMap</span>
+                        <span class="tech-pill">全台浪點庫</span>
+                        <span class="tech-pill">TailwindCSS</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="tools3.html" class="btn-open" title="開啟 台灣衝浪浪點互動地圖">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> 開啟
+                    </a>
+                    <button class="btn-preview" onclick="openPreview('tools3.html', '台灣衝浪浪點互動地圖 Taiwan Surf Map')" title="快速預覽">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+            </article>
+
+            <!-- Empty Search Results Placeholder -->
+            <div id="emptyState" class="empty-state">
+                <i class="fa-regular fa-folder-open"></i>
+                <h3>找不到相符的作品</h3>
+                <p>請嘗試其他搜尋關鍵字或切換分類標籤</p>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="page-footer">
+            <div class="footer-brand">
+                <i class="fa-solid fa-sparkles" style="color: var(--accent-primary);"></i>
+                <span>珍妮佛作品集 &copy; 2026 Jennifer's Portfolio</span>
+            </div>
+            <div class="footer-tech">
+                <span><i class="fa-brands fa-html5"></i> HTML5</span>
+                <span><i class="fa-brands fa-css3-alt"></i> CSS3</span>
+                <span><i class="fa-brands fa-js"></i> JavaScript</span>
+                <span><i class="fa-solid fa-mobile-screen"></i> RWD</span>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Quick Preview Modal -->
+    <div id="previewModal" class="preview-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <span id="modalBadge" class="modal-badge">game1.html</span>
+                    <h4 id="modalTitle" class="modal-title">作品預覽</h4>
+                </div>
+                <div class="modal-actions">
+                    <a id="modalExternalLink" href="#" target="_blank" class="modal-btn" title="另開新分頁檢視">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                    <button class="modal-btn btn-close" onclick="closePreview()" title="關閉預覽 (Esc)">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-iframe-wrapper">
+                <iframe id="previewIframe" class="modal-iframe" src="about:blank" title="作品預覽畫面"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Logic Script -->
+    <script>
+        // State Management
+        const state = {
+            currentCategory: 'all',
+            searchQuery: '',
+            theme: localStorage.getItem('theme') || 'light'
+        };
+
+        // DOM Elements
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const themeIcon = document.getElementById('themeIcon');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const searchInput = document.getElementById('searchInput');
+        const searchClearBtn = document.getElementById('searchClearBtn');
+        const portfolioGrid = document.getElementById('portfolioGrid');
+        const projectCards = document.querySelectorAll('.project-card');
+        const emptyState = document.getElementById('emptyState');
+        const viewGridBtn = document.getElementById('viewGridBtn');
+        const viewListBtn = document.getElementById('viewListBtn');
+        const previewModal = document.getElementById('previewModal');
+        const previewIframe = document.getElementById('previewIframe');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBadge = document.getElementById('modalBadge');
+        const modalExternalLink = document.getElementById('modalExternalLink');
+
+        // Initialize Theme
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            if (theme === 'dark') {
+                themeIcon.className = 'fa-solid fa-sun';
+                themeToggleBtn.title = '切換為淺色主題';
+            } else {
+                themeIcon.className = 'fa-regular fa-moon';
+                themeToggleBtn.title = '切換為深色主題';
+            }
+            localStorage.setItem('theme', theme);
+        }
+
+        applyTheme(state.theme);
+
+        themeToggleBtn.addEventListener('click', () => {
+            state.theme = state.theme === 'light' ? 'dark' : 'light';
+            applyTheme(state.theme);
+        });
+
+        // Filter and Search Engine
+        function filterProjects() {
+            let visibleCount = 0;
+            const query = state.searchQuery.toLowerCase().trim();
+
+            projectCards.forEach(card => {
+                const category = card.dataset.category;
+                const filename = (card.dataset.filename || '').toLowerCase();
+                const keywords = (card.dataset.keywords || '').toLowerCase();
+                const title = card.querySelector('.card-title').textContent.toLowerCase();
+                const desc = card.querySelector('.card-desc').textContent.toLowerCase();
+
+                const matchesCategory = (state.currentCategory === 'all') || (category === state.currentCategory);
+                const matchesSearch = !query || 
+                    filename.includes(query) || 
+                    title.includes(query) || 
+                    desc.includes(query) || 
+                    keywords.includes(query);
+
+                if (matchesCategory && matchesSearch) {
+                    card.style.display = 'flex';
+                    card.classList.add('animate-fade-in');
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                    card.classList.remove('animate-fade-in');
+                }
+            });
+
+            if (visibleCount === 0) {
+                emptyState.classList.add('visible');
+            } else {
+                emptyState.classList.remove('visible');
+            }
+        }
+
+        // Category Filter Buttons
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => {
+                    b.classList.remove('active');
+                    b.setAttribute('aria-selected', 'false');
+                });
+                btn.classList.add('active');
+                btn.setAttribute('aria-selected', 'true');
+                state.currentCategory = btn.dataset.category;
+                filterProjects();
+            });
+        });
+
+        // Search Input Handling
+        searchInput.addEventListener('input', (e) => {
+            state.searchQuery = e.target.value;
+            if (state.searchQuery) {
+                searchClearBtn.classList.add('visible');
+            } else {
+                searchClearBtn.classList.remove('visible');
+            }
+            filterProjects();
+        });
+
+        searchClearBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            state.searchQuery = '';
+            searchClearBtn.classList.remove('visible');
+            searchInput.focus();
+            filterProjects();
+        });
+
+        // Keyboard Shortcut: '/' to focus search, 'Esc' to clear/close
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '/' && document.activeElement !== searchInput && !previewModal.classList.contains('active')) {
+                e.preventDefault();
+                searchInput.focus();
+            } else if (e.key === 'Escape') {
+                if (previewModal.classList.contains('active')) {
+                    closePreview();
+                } else if (document.activeElement === searchInput) {
+                    searchInput.blur();
+                }
+            }
+        });
+
+        // View Mode Toggle (Grid vs List)
+        viewGridBtn.addEventListener('click', () => {
+            viewGridBtn.classList.add('active');
+            viewListBtn.classList.remove('active');
+            portfolioGrid.classList.remove('list-view');
+        });
+
+        viewListBtn.addEventListener('click', () => {
+            viewListBtn.classList.add('active');
+            viewGridBtn.classList.remove('active');
+            portfolioGrid.classList.add('list-view');
+        });
+
+        // Modal Preview Functions
+        window.openPreview = function(url, title) {
+            modalBadge.textContent = url;
+            modalTitle.textContent = title;
+            modalExternalLink.href = url;
+            previewIframe.src = url;
+            previewModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.closePreview = function() {
+            previewModal.classList.remove('active');
+            previewIframe.src = 'about:blank';
+            document.body.style.overflow = '';
+        };
+
+        // Close modal when clicking outside
+        previewModal.addEventListener('click', (e) => {
+            if (e.target === previewModal) {
+                closePreview();
+            }
+        });
+    </script>
+</body>
+</html>

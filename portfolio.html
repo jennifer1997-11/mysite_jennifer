@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senior Marketing Executive | Portfolio</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#F8F7F4',
+                            card: '#FFFFFF',
+                            dark: '#111111',
+                            muted: '#555555',
+                            border: '#E2E0D8',
+                            terracotta: '#E07A5F',
+                            terracottaHover: '#D0694E',
+                            teal: '#5B92A2',
+                            tealHover: '#4B8191',
+                            sage: '#A3B19B',
+                            sageHover: '#92A08A',
+                            softGray: '#F0EFEA'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F8F7F4;
+            color: #111111;
+        }
+        .action-circle {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+        }
+        .action-circle:hover {
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.15);
+        }
+        .clean-card {
+            background: #FFFFFF;
+            border: 1px solid #E2E0D8;
+            transition: all 0.3s ease;
+        }
+        .clean-card:hover {
+            border-color: #111111;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F8F7F4;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D1CFCE;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #A8A6A5;
+        }
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+        @keyframes eqBar {
+            0%, 100% { height: 4px; }
+            50% { height: 14px; }
+        }
+        .equalizer-active span:nth-child(1) { animation: eqBar 0.8s ease-in-out infinite; }
+        .equalizer-active span:nth-child(2) { animation: eqBar 1.2s ease-in-out infinite 0.2s; }
+        .equalizer-active span:nth-child(3) { animation: eqBar 0.9s ease-in-out infinite 0.4s; }
+    </style>
+</head>
+<body class="font-sans antialiased text-brand-dark selection:bg-brand-dark selection:text-white overflow-x-hidden">
+
+    <!-- Background Audio Element -->
+    <audio id="bgAudio" loop preload="auto">
+        <source src="https://img.ai365.fans/artworks/55304178-0864-40fa-9948-2ff91a24f9d6/q48vlc65lu.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Navigation Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-brand-bg/90 backdrop-blur-md border-b border-brand-border/60 transition-all duration-300" id="navbar">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo / Title -->
+                <a href="#hero" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-full bg-brand-dark text-white flex items-center justify-center font-bold text-lg group-hover:bg-brand-terracotta transition-colors flex-shrink-0">
+                        M
+                    </div>
+                    <div>
+                        <span class="font-bold text-sm sm:text-base tracking-tight text-brand-dark block uppercase">Marketing Portfolio</span>
+                        <span class="text-[10px] sm:text-xs text-brand-muted tracking-wider uppercase block -mt-1 font-medium">Luxury & Department Store</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav Navigation (Switch to lg:flex for optimal tablet layout) -->
+                <nav class="hidden lg:flex items-center gap-6 xl:gap-8 text-sm font-semibold">
+                    <a href="#about" class="text-brand-dark/80 hover:text-brand-dark transition-colors whitespace-nowrap" data-en="A Bit About Me" data-zh="關於我">A Bit About Me</a>
+                    <a href="#experience" class="text-brand-dark/80 hover:text-brand-dark transition-colors whitespace-nowrap" data-en="Resume" data-zh="履歷經歷">Resume</a>
+                    <a href="#expertise" class="text-brand-dark/80 hover:text-brand-dark transition-colors whitespace-nowrap" data-en="Competencies" data-zh="核心專業">Competencies</a>
+                    <a href="#projects" class="text-brand-dark/80 hover:text-brand-dark transition-colors whitespace-nowrap" data-en="Projects" data-zh="精選專案">Projects</a>
+
+                    <!-- LinkedIn Profile Link (Desktop Header) -->
+                    <a href="https://www.linkedin.com/in/jennifer-chen-3b1b951ba" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile" class="text-brand-dark/80 hover:text-[#0A66C2] transition-colors text-lg flex items-center" title="LinkedIn Profile">
+                        <i class="fa-brands fa-linkedin"></i>
+                    </a>
+
+                    <a href="#contact" class="px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider text-white bg-brand-dark hover:bg-brand-terracotta transition-colors whitespace-nowrap" data-en="Contact Me" data-zh="聯絡我">
+                        Contact Me
+                    </a>
+
+                    <!-- Background Music Toggle Button (Header Desktop) -->
+                    <button id="musicToggleBtn" onclick="toggleMusic()" aria-label="Toggle Background Music" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-softGray border border-brand-border text-xs font-semibold text-brand-dark hover:bg-brand-border transition-all group whitespace-nowrap">
+                        <i class="fa-solid fa-music text-brand-muted group-hover:text-brand-terracotta transition-colors" id="musicIcon"></i>
+                        <span id="musicText" class="hidden xl:inline text-xs" data-en="Music Off" data-zh="背景音樂：關">背景音樂：關</span>
+                    </button>
+
+                    <!-- Language Switcher Toggle -->
+                    <div class="flex items-center bg-brand-softGray p-1 rounded-full border border-brand-border text-xs font-bold">
+                        <button id="btn-lang-en" onclick="setLanguage('en')" class="px-3 py-1 rounded-full transition-all bg-brand-dark text-white shadow-sm">EN</button>
+                        <button id="btn-lang-zh" onclick="setLanguage('zh')" class="px-3 py-1 rounded-full transition-all text-brand-muted hover:text-brand-dark">繁中</button>
+                    </div>
+                </nav>
+
+                <!-- Mobile Menu Controls (Shows on < lg screens) -->
+                <div class="flex items-center gap-2 sm:gap-3 lg:hidden">
+                    <!-- Mobile LinkedIn Link -->
+                    <a href="https://www.linkedin.com/in/jennifer-chen-3b1b951ba" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile" class="w-8 h-8 rounded-full bg-brand-softGray border border-brand-border flex items-center justify-center text-brand-dark hover:text-[#0A66C2] text-sm">
+                        <i class="fa-brands fa-linkedin"></i>
+                    </a>
+
+                    <!-- Mobile Music Toggle Button -->
+                    <button id="mobMusicToggleBtn" onclick="toggleMusic()" aria-label="Toggle Background Music" class="w-8 h-8 rounded-full bg-brand-softGray border border-brand-border flex items-center justify-center text-brand-dark text-xs">
+                        <i class="fa-solid fa-music text-brand-muted" id="mobMusicIcon"></i>
+                    </button>
+
+                    <!-- Mobile Language Switcher -->
+                    <div class="flex items-center bg-brand-softGray p-0.5 rounded-full border border-brand-border text-xs font-bold">
+                        <button id="mob-btn-lang-en" onclick="setLanguage('en')" class="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full transition-all bg-brand-dark text-white">EN</button>
+                        <button id="mob-btn-lang-zh" onclick="setLanguage('zh')" class="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full transition-all text-brand-muted">繁中</button>
+                    </div>
+                    <button id="mobileMenuBtn" aria-label="Toggle Menu" class="text-brand-dark p-2 focus:outline-none rounded-lg hover:bg-brand-softGray transition-colors">
+                        <i class="fa-solid fa-bars text-xl" id="menuIcon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Drawer -->
+        <div id="mobileMenu" class="hidden lg:hidden bg-brand-bg/95 backdrop-blur-md border-b border-brand-border px-6 pt-2 pb-6 space-y-3 max-h-[80vh] overflow-y-auto shadow-2xl">
+            <a href="#about" class="mobile-nav-link block py-2.5 text-base font-semibold text-brand-dark border-b border-brand-border/40" data-en="A Bit About Me" data-zh="關於我">A Bit About Me</a>
+            <a href="#experience" class="mobile-nav-link block py-2.5 text-base font-semibold text-brand-dark border-b border-brand-border/40" data-en="Resume" data-zh="履歷經歷">Resume</a>
+            <a href="#expertise" class="mobile-nav-link block py-2.5 text-base font-semibold text-brand-dark border-b border-brand-border/40" data-en="Competencies" data-zh="核心專業">Competencies</a>
+            <a href="#projects" class="mobile-nav-link block py-2.5 text-base font-semibold text-brand-dark border-b border-brand-border/40" data-en="Projects" data-zh="精選專案">Projects</a>
+            <a href="https://www.linkedin.com/in/jennifer-chen-3b1b951ba" target="_blank" rel="noopener noreferrer" class="mobile-nav-link flex items-center gap-2 py-2.5 text-base font-semibold text-[#0A66C2] border-b border-brand-border/40">
+                <i class="fa-brands fa-linkedin text-xl"></i> LinkedIn Profile
+            </a>
+            <a href="#contact" class="mobile-nav-link inline-block w-full text-center py-3 rounded-full text-sm font-bold uppercase tracking-wider text-white bg-brand-dark mt-3 shadow-md" data-en="Contact Me" data-zh="聯絡我">
+                Contact Me
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="min-h-screen pt-28 sm:pt-32 pb-16 flex items-center justify-center px-4 sm:px-6 lg:px-12">
+        <div class="max-w-6xl mx-auto w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-16 items-center">
+                
+                <!-- Left Column: Circular Portrait Image -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative w-56 h-56 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden shadow-xl border-4 border-white bg-brand-softGray flex-shrink-0">
+                        <img 
+                            src="https://duk.tw/JKeRr3.jpg" 
+                            alt="Portrait Photo" 
+                            class="w-full h-full object-cover object-top"
+                            onerror="this.onerror=null; this.src='https://placehold.co/400x400/111111/FFFFFF?text=Portrait';"
+                        />
+                    </div>
+                </div>
+
+                <!-- Right Column: Hero Content & Minimalist Nav Circles -->
+                <div class="lg:col-span-7 text-center lg:text-left space-y-6">
+                    <div>
+                        <h1 class="font-display text-5xl sm:text-7xl md:text-8xl font-bold tracking-tight text-brand-dark leading-none">
+                            Hello
+                        </h1>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h2 class="text-xl sm:text-2xl font-bold text-brand-dark tracking-tight" data-en="A Bit About Me" data-zh="關於我">
+                            A Bit About Me
+                        </h2>
+                        <p class="text-sm sm:text-base md:text-lg text-brand-muted leading-relaxed font-normal max-w-2xl mx-auto lg:mx-0" 
+                           data-en="A marketing professional with five years of experience in luxury retail and department store channels. I specialize in digital marketing, high-end customer events, and strategic brand partnerships, dedicated to creating exceptional market impact for brands."
+                           data-zh="擁有 5 年精品零售與指標百貨通路經驗的行銷企劃。專長於數位行銷策略、頂級 VIP 尊榮體驗活動及品牌異業跨界合作，致力於為品牌創造卓越的市場聲量與商業價值。">
+                            A marketing professional with five years of experience in luxury retail and department store channels. I specialize in digital marketing, high-end customer events, and strategic brand partnerships, dedicated to creating exceptional market impact for brands.
+                        </p>
+                    </div>
+
+                    <!-- Signature Action Circles -->
+                    <div class="pt-4 sm:pt-6 flex flex-wrap items-center justify-center lg:justify-start gap-4 sm:gap-6">
+                        <!-- Terracotta Circle: Resume -->
+                        <a href="#experience" class="action-circle w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full bg-brand-terracotta text-white font-bold text-sm sm:text-base md:text-lg flex items-center justify-center shadow-md" data-en="Resume" data-zh="履歷經歷">
+                            Resume
+                        </a>
+
+                        <!-- Soft Teal Circle: Projects -->
+                        <a href="#projects" class="action-circle w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full bg-brand-teal text-white font-bold text-sm sm:text-base md:text-lg flex items-center justify-center shadow-md" data-en="Projects" data-zh="精選專案">
+                            Projects
+                        </a>
+
+                        <!-- Muted Sage Circle: Contact -->
+                        <a href="#contact" class="action-circle w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full bg-brand-sage text-brand-dark font-bold text-sm sm:text-base md:text-lg flex items-center justify-center shadow-md" data-en="Contact" data-zh="聯絡我">
+                            Contact
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Brief Overview Section -->
+    <section id="about" class="py-20 bg-white border-y border-brand-border px-6 lg:px-12">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="p-8 rounded-2xl bg-brand-bg border border-brand-border">
+                    <div class="w-12 h-12 rounded-full bg-brand-terracotta/10 text-brand-terracotta flex items-center justify-center font-bold text-xl mb-4">
+                        <i class="fa-solid fa-gem"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-2 text-brand-dark" data-en="Luxury Retail Expertise" data-zh="頂級精品與百貨資歷">Luxury Retail Expertise</h3>
+                    <p class="text-sm text-brand-muted leading-relaxed" 
+                       data-en="5 years in luxury high jewelry (Hearts On Fire) & tier-1 department stores (Far Eastern SOGO), creating premium brand presence and driving sales."
+                       data-zh="5 年深耕精品頂級珠寶 Hearts On Fire 與指標百貨 Far Eastern SOGO 通路，專精高端消費者溝通與質感品牌聲量營造。">
+                        5年深耕精品頂級珠寶 Hearts On Fire 與指標百貨 Far Eastern SOGO 通路，專精高端消費者溝通與質感品牌聲量營造。
+                    </p>
+                </div>
+
+                <div class="p-8 rounded-2xl bg-brand-bg border border-brand-border">
+                    <div class="w-12 h-12 rounded-full bg-brand-teal/10 text-brand-teal flex items-center justify-center font-bold text-xl mb-4">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-2 text-brand-dark" data-en="Precision CRM & Growth" data-zh="精準 CRM 與會員成長">Precision CRM & Growth</h3>
+                    <p class="text-sm text-brand-muted leading-relaxed"
+                       data-en="Deploying targeted CRM strategies (SMS, LINE, social) to build clear customer profiles and elevate retention among high-value VVIP clients."
+                       data-zh="精準分眾 CRM 佈局（簡訊、LINE、社群溝通），建構頂級 VVIP 專屬輪廓，有效提高高客單價顧客留存與回購效益。">
+                        精準分眾 CRM 佈局（簡訊、LINE、社群溝通），建構頂級 VVIP 專屬輪廓，有效提高高客單價顧客留存與回購效益。
+                    </p>
+                </div>
+
+                <div class="p-8 rounded-2xl bg-brand-bg border border-brand-border">
+                    <div class="w-12 h-12 rounded-full bg-brand-sage/20 text-brand-dark flex items-center justify-center font-bold text-xl mb-4">
+                        <i class="fa-solid fa-handshake"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-2 text-brand-dark" data-en="Resource Synergy" data-zh="通路資源整合極大化">Resource Synergy</h3>
+                    <p class="text-sm text-brand-muted leading-relaxed"
+                       data-en="Strong cross-departmental and department store channel integration, managing major campaigns, visual merchandising, and co-branding."
+                       data-zh="強大的跨部門與百貨通路資源整合能力，統籌大型檔期促銷、專櫃視覺陳列與跨界異業聯名合作。">
+                        強大的跨部門與百貨通路資源整合能力，統籌大型檔期促銷、專櫃視覺陳列與跨界異業聯名合作。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Work Experience / Resume Section -->
+    <section id="experience" class="py-20 sm:py-24 px-4 sm:px-6 lg:px-12 bg-brand-bg">
+        <div class="max-w-6xl mx-auto">
+            <!-- Section Header -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 border-b border-brand-border pb-6">
+                <div>
+                    <span class="text-xs uppercase tracking-widest font-bold text-brand-terracotta block mb-2" data-en="Career Journey" data-zh="職涯歷程">Career Journey</span>
+                    <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-dark" data-en="Resume & Experience" data-zh="工作履歷與經驗">Resume & Experience</h2>
+                </div>
+                <p class="text-sm text-brand-muted mt-2 md:mt-0 max-w-md font-medium" 
+                   data-en="Demonstrated history of driving brand growth and VIP engagement in multinational luxury retail and top-tier department stores."
+                   data-zh="深耕外商頂級精品與指標百貨，具備帶動品牌成長與 VVIP 顧客黏著度的實戰實績。">
+                    Demonstrated history of driving brand growth and VIP engagement in multinational luxury retail and top-tier department stores.
+                </p>
+            </div>
+
+            <!-- Resume Timeline List -->
+            <div class="space-y-8 sm:space-y-12">
+
+                <!-- Job 1: Hearts On Fire -->
+                <div class="clean-card rounded-3xl p-6 sm:p-8 lg:p-10 relative">
+                    <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4 lg:gap-6 mb-6 sm:mb-8 pb-6 border-b border-brand-border">
+                        <div>
+                            <div class="inline-block px-3 py-1 rounded-full bg-brand-terracotta/10 text-brand-terracotta font-semibold text-xs mb-3" data-en="2022.08 – 2025.04 · 2 yrs 9 mos" data-zh="2022年8月 – 2025年4月 · 2 年 9 個月">
+                                2022.08 – 2025.04 · 2 yrs 9 mos
+                            </div>
+                            <h3 class="text-2xl sm:text-3xl font-bold text-brand-dark" data-en="Senior Marketing Executive" data-zh="資深行銷企劃 (Senior Marketing Executive)">Senior Marketing Executive</h3>
+                            <p class="text-base sm:text-lg font-semibold text-brand-muted mt-1" data-en="Hearts On Fire · Full-time" data-zh="Hearts On Fire · 全職">Hearts On Fire · Full-time</p>
+                        </div>
+                        <div class="text-left lg:text-right text-xs text-brand-muted font-medium flex lg:flex-col items-center lg:items-end gap-2">
+                            <span class="px-3 py-1 rounded-lg bg-brand-softGray"><i class="fa-solid fa-location-dot mr-1"></i> <span data-en="Taipei, Taiwan" data-zh="台灣 臺北市 松山區">Taiwan, Taipei</span></span>
+                        </div>
+                    </div>
+
+                    <!-- Responsibilities Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Item 1 -->
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2 text-brand-dark font-bold text-base">
+                                <span class="w-2.5 h-2.5 rounded-full bg-brand-terracotta"></span>
+                                <h4 data-en="Events & Partnerships" data-zh="品牌活動與貴賓體驗">Events & Partnerships</h4>
+                            </div>
+                            <p class="text-sm text-brand-muted leading-relaxed font-normal pl-4 border-l-2 border-brand-border">
+                                <span data-en="Produced brand experiences and VIP events (high jewelry showcases, wine tastings, workshops) to deepen client engagement and drive sales."
+                                      data-zh="企劃並執行高奢珠寶展、尊榮品酒會與 VIP 手作體驗工坊，有效深化高階客戶黏著度並帶動業績轉換。">
+                                    Produced brand experiences and VIP events (high jewelry showcases, wine tastings, workshops) to deepen client engagement and drive sales.
+                                </span>
+                            </p>
+                        </div>
+
+                        <!-- Item 2 -->
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2 text-brand-dark font-bold text-base">
+                                <span class="w-2.5 h-2.5 rounded-full bg-brand-teal"></span>
+                                <h4 data-en="CRM Management" data-zh="CRM 顧客關係管理與會員經營">CRM Management</h4>
+                            </div>
+                            <p class="text-sm text-brand-muted leading-relaxed font-normal pl-4 border-l-2 border-brand-border">
+                                <span data-en="Ran segmented CRM campaigns (SMS, social) to grow membership and boost personalized engagement. Used customer data to build client profiles and strengthen retention among top-tier clients."
+                                      data-zh="規劃數據分眾溝通策略（簡訊、LINE與社群），精準描繪顧客輪廓，強化金字塔頂端 VVIP 客戶留存率與客單價。">
+                                    Ran segmented CRM campaigns (SMS, social) to grow membership and boost personalized engagement. Used customer data to build client profiles and strengthen retention among top-tier clients.
+                                </span>
+                            </p>
+                        </div>
+
+                        <!-- Item 3 -->
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2 text-brand-dark font-bold text-base">
+                                <span class="w-2.5 h-2.5 rounded-full bg-brand-sage"></span>
+                                <h4 data-en="Digital Marketing" data-zh="數位行銷與社群內容經營">Digital Marketing</h4>
+                            </div>
+                            <p class="text-sm text-brand-muted leading-relaxed font-normal pl-4 border-l-2 border-brand-border">
+                                <span data-en="Owned Facebook & LINE content strategy — copywriting, campaign execution, and performance tracking — to lift engagement and conversion."
+                                      data-zh="主導 Facebook 與 LINE 社群內容策略，涵蓋質感文案撰寫、活動主題發想與成效數據追蹤，提升互動率與轉換率。">
+                                    Owned Facebook & LINE content strategy — copywriting, campaign execution, and performance tracking — to lift engagement and conversion.
+                                </span>
+                            </p>
+                        </div>
+
+                        <!-- Item 4 -->
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2 text-brand-dark font-bold text-base">
+                                <span class="w-2.5 h-2.5 rounded-full bg-brand-dark"></span>
+                                <h4 data-en="Retail Marketing" data-zh="百貨通路與專櫃行銷">Retail Marketing</h4>
+                            </div>
+                            <p class="text-sm text-brand-muted leading-relaxed font-normal pl-4 border-l-2 border-brand-border">
+                                <span data-en="Acted as key liaison with department store partners, aligning promotional resources and in-store visuals to boost brand visibility and sales momentum."
+                                      data-zh="擔任百貨通路核心對接窗口，爭取檔期促銷資源並統籌專櫃視覺陳列，極大化品牌曝光與專櫃銷售動能。">
+                                    Acted as key liaison with department store partners, aligning promotional resources and in-store visuals to boost brand visibility and sales momentum.
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job 2: Far Eastern SOGO -->
+                <div class="clean-card rounded-3xl p-8 sm:p-10 relative">
+                    <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-6 mb-8 pb-6 border-b border-brand-border">
+                        <div>
+                            <div class="inline-block px-3 py-1 rounded-full bg-brand-teal/10 text-brand-teal font-semibold text-xs mb-3" data-en="2020.09 – 2022.04 · 1 yr 8 mos" data-zh="2020年9月 – 2022年4月 · 1 年 8 個月">
+                                2020.09 – 2022.04 · 1 yr 8 mos
+                            </div>
+                            <h3 class="text-2xl sm:text-3xl font-bold text-brand-dark" data-en="Marketing Specialist" data-zh="行銷企劃專員 (Marketing Specialist)">Marketing Specialist</h3>
+                            <p class="text-lg font-semibold text-brand-muted mt-1" data-en="Far Eastern SOGO · Full-time" data-zh="太平洋崇光百貨 (Far Eastern SOGO) · 全職">Far Eastern SOGO · Full-time</p>
+                        </div>
+                        <div class="text-left lg:text-right text-xs text-brand-muted font-medium flex lg:flex-col items-center lg:items-end gap-2">
+                            <span class="px-3 py-1 rounded-lg bg-brand-softGray"><i class="fa-solid fa-location-dot mr-1"></i> <span data-en="Hsinchu, Taiwan" data-zh="台灣 新竹地區">Taiwan, Hsinchu</span></span>
+                        </div>
+                    </div>
+
+                    <!-- Responsibilities Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <!-- Item 1 -->
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2 text-brand-dark font-bold text-base">
+                                <span class="w-2.5 h-2.5 rounded-full bg-brand-terracotta"></span>
+                                <h4 data-en="Campaign & Proposal" data-zh="大型檔期與企劃統籌">Campaign & Proposal</h4>
+                            </div>
+                            <p class="text-sm text-brand-muted leading-relaxed font-normal pl-4 border-l-2 border-brand-border">
+                                <span data-en="Drafted campaign proposals and event concepts for department store partners. Led integrated marketing projects spanning promotions, cross-industry partnerships, and traffic-driving events."
+                                      data-zh="主導百貨大型檔期企劃案撰寫，統籌整合促銷、異業合作與集客活動專案。">
+                                    Drafted campaign proposals and event concepts for department store partners. Led integrated marketing projects spanning promotions, cross-industry partnerships, and traffic-driving events.
+                                </span>
+                            </p>
+                        </div>
+
+                        <!-- Item 2 -->
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2 text-brand-dark font-bold text-base">
+                                <span class="w-2.5 h-2.5 rounded-full bg-brand-teal"></span>
+                                <h4 data-en="Event Management & PR" data-zh="現場活動執行與媒體公關">Event Management & PR</h4>
+                            </div>
+                            <p class="text-sm text-brand-muted leading-relaxed font-normal pl-4 border-l-2 border-brand-border">
+                                <span data-en="Planned and hosted on-site events, serving as emcee and on-ground coordinator. Acted as media/PR liaison and drafted press releases for key campaigns (Japan Exhibition, Mother's Day, Anniversary Sale)."
+                                      data-zh="規劃並親自主持現場活動，統籌媒體公關發稿與新聞稿撰寫（週年慶、母親節、日本展等重要檔期）。">
+                                    Planned and hosted on-site events, serving as emcee and on-ground coordinator. Acted as media/PR liaison and drafted press releases for key campaigns (Japan Exhibition, Mother's Day, Anniversary Sale).
+                                </span>
+                            </p>
+                        </div>
+
+                        <!-- Item 3 -->
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2 text-brand-dark font-bold text-base">
+                                <span class="w-2.5 h-2.5 rounded-full bg-brand-sage"></span>
+                                <h4 data-en="Cross-Industry Partnerships" data-zh="異業跨界合作洽談">Cross-Industry Partnerships</h4>
+                            </div>
+                            <p class="text-sm text-brand-muted leading-relaxed font-normal pl-4 border-l-2 border-brand-border">
+                                <span data-en="Partnered with brands across industries to boost mutual exposure and drive event attendance."
+                                      data-zh="主動洽談多元品牌異業合作，共享行銷資源以拓展客群與人流。">
+                                    Partnered with brands across industries to boost mutual exposure and drive event attendance.
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Competencies Section -->
+    <section id="expertise" class="py-24 bg-white border-y border-brand-border px-6 lg:px-12">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-xs uppercase tracking-widest font-bold text-brand-teal block mb-2" data-en="Core Strengths" data-zh="核心優勢">Core Strengths</span>
+                <h2 class="font-display text-4xl sm:text-5xl font-bold text-brand-dark" data-en="Areas of Competency" data-zh="核心專業領域">Areas of Competency</h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="p-8 rounded-2xl bg-brand-bg border border-brand-border hover:border-brand-dark transition-all">
+                    <span class="text-3xl font-bold text-brand-terracotta mb-4 block">01</span>
+                    <h3 class="font-bold text-lg text-brand-dark mb-2" data-en="Experiential Marketing" data-zh="體驗式行銷">Experiential Marketing</h3>
+                    <p class="text-xs text-brand-muted leading-relaxed" data-en="High Jewelry Showcase, Wine Tasting Salon, VIP Workshops, On-site Emcee & Coordination." data-zh="高級珠寶鑑賞會、品酒沙龍、VIP 體驗工作坊、活動現場主持與統籌。">
+                        High Jewelry Showcase, Wine Tasting Salon, VIP Workshops, On-site Emcee & Coordination.
+                    </p>
+                </div>
+
+                <div class="p-8 rounded-2xl bg-brand-bg border border-brand-border hover:border-brand-dark transition-all">
+                    <span class="text-3xl font-bold text-brand-teal mb-4 block">02</span>
+                    <h3 class="font-bold text-lg text-brand-dark mb-2" data-en="CRM & Clienteling" data-zh="CRM 與貴賓經營">CRM & Clienteling</h3>
+                    <p class="text-xs text-brand-muted leading-relaxed" data-en="Segmented Messaging (SMS/LINE), Customer Data Analysis, High-value Client Retention Strategy." data-zh="精準分眾溝通 (簡訊/LINE)、顧客數據輪廓分析、高客單價客戶留存策略。">
+                        Segmented Messaging (SMS/LINE), Customer Data Analysis, High-value Client Retention Strategy.
+                    </p>
+                </div>
+
+                <div class="p-8 rounded-2xl bg-brand-bg border border-brand-border hover:border-brand-dark transition-all">
+                    <span class="text-3xl font-bold text-brand-sage mb-4 block">03</span>
+                    <h3 class="font-bold text-lg text-brand-dark mb-2" data-en="Digital Content Strategy" data-zh="數位內容與社群策略">Digital Content Strategy</h3>
+                    <p class="text-xs text-brand-muted leading-relaxed" data-en="Facebook & LINE Content Execution, Brand Copywriting, Performance & Conversion Tracking." data-zh="Facebook & LINE 內容規劃、品牌質感文案撰寫、數據成效與轉換率追蹤。">
+                        Facebook & LINE Content Execution, Brand Copywriting, Performance & Conversion Tracking.
+                    </p>
+                </div>
+
+                <div class="p-8 rounded-2xl bg-brand-bg border border-brand-border hover:border-brand-dark transition-all">
+                    <span class="text-3xl font-bold text-brand-dark mb-4 block">04</span>
+                    <h3 class="font-bold text-lg text-brand-dark mb-2" data-en="Retail & Media PR" data-zh="百貨通路與媒體公關">Retail & Media PR</h3>
+                    <p class="text-xs text-brand-muted leading-relaxed" data-en="Department Store Alignment, Press Release Drafting, Integrated Campaign & Cross-Industry Alliances." data-zh="百貨對接與促銷資源整合、媒體新聞稿撰寫、整合行銷與異業聯名。">
+                        Department Store Alignment, Press Release Drafting, Integrated Campaign & Cross-Industry Alliances.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Highlighted Projects Section -->
+    <section id="projects" class="py-24 px-6 lg:px-12 bg-brand-bg">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 border-b border-brand-border pb-6">
+                <div>
+                    <span class="text-xs uppercase tracking-widest font-bold text-brand-teal block mb-2" data-en="Key Accomplishments" data-zh="核心專案成果">Key Accomplishments</span>
+                    <h2 class="font-display text-4xl sm:text-5xl font-bold text-brand-dark" data-en="Featured Projects" data-zh="精選行銷專案">Featured Projects</h2>
+                </div>
+                <p class="text-sm text-brand-muted mt-2 md:mt-0 font-medium" data-en="Selected marketing initiatives demonstrating measurable brand and business growth." data-zh="精選代表性行銷專案，展現具體的品牌聲量與商業成長成果。">
+                    Selected marketing initiatives demonstrating measurable brand and business growth.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="clean-card rounded-3xl p-8 flex flex-col justify-between">
+                    <div>
+                        <div class="text-xs font-bold uppercase tracking-wider text-brand-terracotta mb-2">Hearts On Fire</div>
+                        <h3 class="text-xl font-bold text-brand-dark mb-3" data-en="High Jewelry VIP Salon" data-zh="頂級珠寶 VIP 尊榮沙龍">High Jewelry VIP Salon</h3>
+                        <p class="text-xs text-brand-muted leading-relaxed mb-6 font-normal"
+                           data-en="Coordinated private high-jewelry appreciation salons paired with fine wine tasting for elite clients, driving brand attachment and multi-million revenue conversions."
+                           data-zh="結合高級珠寶鑑賞與精品品酒會，專為金字塔頂端 VVIP 客戶打造私人鑑賞沙龍，成功強化品牌忠誠度並創造亮眼銷售轉換。">
+                            Coordinated private high-jewelry appreciation salons paired with fine wine tasting for elite clients, driving brand attachment and multi-million revenue conversions.
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-brand-border text-xs text-brand-dark font-semibold flex items-center">
+                        <i class="fa-solid fa-check text-brand-terracotta mr-1.5"></i> <span data-en="High-conversion VIP Engagement" data-zh="高轉換率 VIP 顧客黏著度">High-conversion VIP Engagement</span>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="clean-card rounded-3xl p-8 flex flex-col justify-between">
+                    <div>
+                        <div class="text-xs font-bold uppercase tracking-wider text-brand-teal mb-2">Hearts On Fire</div>
+                        <h3 class="text-xl font-bold text-brand-dark mb-3" data-en="CRM & LINE Segmentation" data-zh="CRM 分眾與 LINE 精準行銷">CRM & LINE Segmentation</h3>
+                        <p class="text-xs text-brand-muted leading-relaxed mb-6 font-normal"
+                           data-en="Restructured member data profiles into targeted audience tiers, deploying custom LINE/SMS push strategies that boosted appointment booking and retention rates."
+                           data-zh="重新建構會員資料分級與專屬輪廓，透過動態簡訊與 LINE 官方帳號精準推播，大幅提升會員回櫃預約率與顧客留存效益。">
+                            Restructured member data profiles into targeted audience tiers, deploying custom LINE/SMS push strategies that boosted appointment booking and retention rates.
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-brand-border text-xs text-brand-dark font-semibold flex items-center">
+                        <i class="fa-solid fa-check text-brand-teal mr-1.5"></i> <span data-en="Accelerated Store Appointments" data-zh="大幅帶動專櫃預約回櫃率">Accelerated Store Appointments</span>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="clean-card rounded-3xl p-8 flex flex-col justify-between">
+                    <div>
+                        <div class="text-xs font-bold uppercase tracking-wider text-brand-dark mb-2">Far Eastern SOGO</div>
+                        <h3 class="text-xl font-bold text-brand-dark mb-3" data-en="Anniversary Campaign & PR" data-zh="百貨週年慶整合行銷與公關">Anniversary Campaign & PR</h3>
+                        <p class="text-xs text-brand-muted leading-relaxed mb-6 font-normal"
+                           data-en="Managed integrated promotional campaigns, press release distribution, and hosted key events for peak store occasions (Anniversary Sale, Japan Exhibition)."
+                           data-zh="統籌全館大型檔期（週年慶、日本展、母親節）之整合行銷促銷方案、媒體新聞稿發稿與現場活動主持，極大化人流與媒體曝光。">
+                            Managed integrated promotional campaigns, press release distribution, and hosted key events for peak store occasions (Anniversary Sale, Japan Exhibition).
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-brand-border text-xs text-brand-dark font-semibold flex items-center">
+                        <i class="fa-solid fa-check text-brand-dark mr-1.5"></i> <span data-en="Maximized PR & Foot Traffic" data-zh="極大化媒體聲量與集客力">Maximized PR & Foot Traffic</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-white border-t border-brand-border px-6 lg:px-12">
+        <div class="max-w-4xl mx-auto text-center">
+            <span class="text-xs uppercase tracking-widest font-bold text-brand-terracotta block mb-2" data-en="Let's Connect" data-zh="合作洽談">Let's Connect</span>
+            <h2 class="font-display text-4xl sm:text-5xl font-bold text-brand-dark mb-4" data-en="Get In Touch" data-zh="與我聯繫">Get In Touch</h2>
+            <p class="text-base text-brand-muted max-w-xl mx-auto mb-10 font-normal"
+               data-en="Interested in discussing potential career opportunities, brand consulting, or event partnerships? Feel free to reach out using the form below."
+               data-zh="若您對高階行銷職缺、品牌顧問諮詢或活動異業合作有興趣，歡迎填寫下方表單與我聯繫。">
+                Interested in discussing potential career opportunities, brand consulting, or event partnerships? Feel free to reach out using the form below.
+            </p>
+
+            <!-- Contact Form -->
+            <form id="contactForm" class="max-w-lg mx-auto text-left space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-brand-dark uppercase tracking-wider mb-1" data-en="Your Name" data-zh="您的姓名">Your Name</label>
+                        <input type="text" id="inputName" required placeholder="Alexander Wang" data-placeholder-en="Alexander Wang" data-placeholder-zh="王小明" class="w-full px-4 py-3 rounded-xl bg-brand-bg border border-brand-border text-brand-dark text-sm focus:outline-none focus:border-brand-dark transition-colors">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-brand-dark uppercase tracking-wider mb-1" data-en="Email Address" data-zh="電子郵件">Email Address</label>
+                        <input type="email" id="inputEmail" required placeholder="alexander@brand.com" data-placeholder-en="alexander@brand.com" data-placeholder-zh="service@brand.com" class="w-full px-4 py-3 rounded-xl bg-brand-bg border border-brand-border text-brand-dark text-sm focus:outline-none focus:border-brand-dark transition-colors">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-brand-dark uppercase tracking-wider mb-1" data-en="Company / Organization" data-zh="服務單位 / 公司名稱">Company / Organization</label>
+                    <input type="text" id="inputCompany" placeholder="Luxury Group / Department Store" data-placeholder-en="Luxury Group / Department Store" data-placeholder-zh="高奢品牌集團 / 指標百貨" class="w-full px-4 py-3 rounded-xl bg-brand-bg border border-brand-border text-brand-dark text-sm focus:outline-none focus:border-brand-dark transition-colors">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-brand-dark uppercase tracking-wider mb-1" data-en="Message" data-zh="訊息內容">Message</label>
+                    <textarea rows="4" id="inputMessage" required placeholder="Write your message or role inquiry here..." data-placeholder-en="Write your message or role inquiry here..." data-placeholder-zh="請填寫您的合作意向或職缺訊息..." class="w-full px-4 py-3 rounded-xl bg-brand-bg border border-brand-border text-brand-dark text-sm focus:outline-none focus:border-brand-dark transition-colors"></textarea>
+                </div>
+                <button type="submit" class="w-full py-4 rounded-full text-xs font-bold uppercase tracking-wider text-white bg-brand-dark hover:bg-brand-terracotta transition-colors shadow-md" data-en="Send Message" data-zh="送出訊息">
+                    Send Message
+                </button>
+            </form>
+
+            <div id="toastMessage" class="hidden mt-6 p-4 rounded-2xl bg-brand-sage/20 border border-brand-sage text-brand-dark text-sm font-semibold">
+                <i class="fa-solid fa-circle-check text-brand-dark mr-2"></i> <span data-en="Thank you! Your message has been sent successfully." data-zh="感謝您的留言！訊息已成功送出，我將盡快與您聯繫。">Thank you! Your message has been sent successfully.</span>
+            </div>
+
+            <!-- LinkedIn Profile Action Banner -->
+            <div class="mt-10 pt-8 border-t border-brand-border/60 flex justify-center">
+                <a href="https://www.linkedin.com/in/jennifer-chen-3b1b951ba" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-[#0A66C2] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#084e96] transition-all shadow-md">
+                    <i class="fa-brands fa-linkedin text-lg"></i>
+                    <span data-en="Connect on LinkedIn" data-zh="在 LinkedIn 上與 Jennifer 建立聯繫">Connect on LinkedIn</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Audio Control Widget (Bottom Right) -->
+    <div class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40">
+        <button id="floatMusicBtn" onclick="toggleMusic()" class="flex items-center gap-2.5 sm:gap-3 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full bg-brand-dark/90 backdrop-blur-md text-white text-xs font-medium shadow-xl border border-white/20 hover:scale-105 active:scale-95 transition-all group">
+            <div class="flex items-end gap-0.5 h-3.5 w-3.5 justify-center" id="audioEqualizer">
+                <span class="w-0.5 h-1.5 bg-brand-terracotta rounded-full transition-all"></span>
+                <span class="w-0.5 h-3 bg-brand-terracotta rounded-full transition-all"></span>
+                <span class="w-0.5 h-2 bg-brand-terracotta rounded-full transition-all"></span>
+            </div>
+            <i class="fa-solid fa-volume-xmark text-brand-border group-hover:text-brand-terracotta transition-colors" id="floatMusicIcon"></i>
+            <span id="floatMusicText" class="font-semibold tracking-wide text-[11px] sm:text-xs" data-en="Music: OFF" data-zh="背景音樂：關">背景音樂：關</span>
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-8 bg-brand-bg border-t border-brand-border text-xs text-brand-muted">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="font-semibold text-brand-dark" data-en="Senior Marketing Executive Portfolio" data-zh="資深行銷企劃 個人作品集履歷">
+                Senior Marketing Executive Portfolio
+            </div>
+            <div>
+                &copy; <span id="currentYear"></span> All Rights Reserved. Clean MNC Editorial Style.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Interactions & Language Switcher -->
+    <script>
+        // Dynamic Current Year
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Background Audio Player Controls
+        const bgAudio = document.getElementById('bgAudio');
+        let isPlaying = false;
+
+        // Bind Audio Events to ensure UI accurately reflects audio state
+        if (bgAudio) {
+            bgAudio.addEventListener('play', () => {
+                isPlaying = true;
+                updateMusicUI();
+            });
+            bgAudio.addEventListener('pause', () => {
+                isPlaying = false;
+                updateMusicUI();
+            });
+            bgAudio.addEventListener('ended', () => {
+                isPlaying = false;
+                updateMusicUI();
+            });
+        }
+
+        function toggleMusic() {
+            if (!bgAudio) return;
+
+            if (!bgAudio.paused && !bgAudio.ended) {
+                bgAudio.pause();
+            } else {
+                bgAudio.play().catch(err => {
+                    console.log("Audio play prevented by browser interaction policy:", err);
+                    isPlaying = false;
+                    updateMusicUI();
+                });
+            }
+        }
+
+        function updateMusicUI() {
+            const musicIcon = document.getElementById('musicIcon');
+            const mobMusicIcon = document.getElementById('mobMusicIcon');
+            const floatMusicIcon = document.getElementById('floatMusicIcon');
+            const musicText = document.getElementById('musicText');
+            const floatMusicText = document.getElementById('floatMusicText');
+            const equalizer = document.getElementById('audioEqualizer');
+
+            if (isPlaying) {
+                if (musicIcon) musicIcon.className = 'fa-solid fa-compact-disc text-brand-terracotta animate-spin';
+                if (mobMusicIcon) mobMusicIcon.className = 'fa-solid fa-compact-disc text-brand-terracotta animate-spin';
+                if (floatMusicIcon) floatMusicIcon.className = 'fa-solid fa-volume-high text-brand-terracotta';
+                if (equalizer) equalizer.classList.add('equalizer-active');
+                
+                if (musicText) {
+                    musicText.setAttribute('data-en', 'Music On');
+                    musicText.setAttribute('data-zh', '背景音樂：開');
+                    musicText.textContent = currentLang === 'en' ? 'Music On' : '背景音樂：開';
+                }
+                if (floatMusicText) {
+                    floatMusicText.setAttribute('data-en', 'Music: ON');
+                    floatMusicText.setAttribute('data-zh', '背景音樂：開');
+                    floatMusicText.textContent = currentLang === 'en' ? 'Music: ON' : '背景音樂：開';
+                }
+            } else {
+                if (musicIcon) musicIcon.className = 'fa-solid fa-music text-brand-muted';
+                if (mobMusicIcon) mobMusicIcon.className = 'fa-solid fa-music text-brand-muted';
+                if (floatMusicIcon) floatMusicIcon.className = 'fa-solid fa-volume-xmark text-brand-border';
+                if (equalizer) equalizer.classList.remove('equalizer-active');
+
+                if (musicText) {
+                    musicText.setAttribute('data-en', 'Music Off');
+                    musicText.setAttribute('data-zh', '背景音樂：關');
+                    musicText.textContent = currentLang === 'en' ? 'Music Off' : '背景音樂：關';
+                }
+                if (floatMusicText) {
+                    floatMusicText.setAttribute('data-en', 'Music: OFF');
+                    floatMusicText.setAttribute('data-zh', '背景音樂：關');
+                    floatMusicText.textContent = currentLang === 'en' ? 'Music: OFF' : '背景音樂：關';
+                }
+            }
+        }
+
+        // Language Switcher Logic
+        let currentLang = 'zh'; // Default to Taiwanese Traditional Chinese
+
+        function setLanguage(lang) {
+            currentLang = lang;
+
+            // Toggle active styles on Desktop buttons
+            const btnEn = document.getElementById('btn-lang-en');
+            const btnZh = document.getElementById('btn-lang-zh');
+            const mobBtnEn = document.getElementById('mob-btn-lang-en');
+            const mobBtnZh = document.getElementById('mob-btn-lang-zh');
+
+            if (lang === 'en') {
+                btnEn.className = 'px-3 py-1 rounded-full transition-all bg-brand-dark text-white shadow-sm';
+                btnZh.className = 'px-3 py-1 rounded-full transition-all text-brand-muted hover:text-brand-dark';
+                mobBtnEn.className = 'px-2.5 py-1 rounded-full transition-all bg-brand-dark text-white';
+                mobBtnZh.className = 'px-2.5 py-1 rounded-full transition-all text-brand-muted';
+            } else {
+                btnZh.className = 'px-3 py-1 rounded-full transition-all bg-brand-dark text-white shadow-sm';
+                btnEn.className = 'px-3 py-1 rounded-full transition-all text-brand-muted hover:text-brand-dark';
+                mobBtnZh.className = 'px-2.5 py-1 rounded-full transition-all bg-brand-dark text-white';
+                mobBtnEn.className = 'px-2.5 py-1 rounded-full transition-all text-brand-muted';
+            }
+
+            // Update text content for element with data-en & data-zh attributes
+            const langElements = document.querySelectorAll('[data-en][data-zh]');
+            langElements.forEach(el => {
+                const text = el.getAttribute(`data-${lang}`);
+                if (text) {
+                    el.textContent = text;
+                }
+            });
+
+            // Update form placeholders
+            const inputs = document.querySelectorAll('[data-placeholder-en][data-placeholder-zh]');
+            inputs.forEach(input => {
+                const placeholder = input.getAttribute(`data-placeholder-${lang}`);
+                if (placeholder) {
+                    input.setAttribute('placeholder', placeholder);
+                }
+            });
+
+            // Refresh Audio UI text for current language
+            updateMusicUI();
+        }
+
+        // Initialize language on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            setLanguage('zh');
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuIcon = document.getElementById('menuIcon');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            if (mobileMenu.classList.contains('hidden')) {
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            } else {
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-xmark');
+            }
+        });
+
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            });
+        });
+
+        // Contact Form Submission Simulation
+        const contactForm = document.getElementById('contactForm');
+        const toastMessage = document.getElementById('toastMessage');
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            toastMessage.classList.remove('hidden');
+            contactForm.reset();
+            setTimeout(() => {
+                toastMessage.classList.add('hidden');
+            }, 6000);
+        });
+    </script>
+</body>
+</html>

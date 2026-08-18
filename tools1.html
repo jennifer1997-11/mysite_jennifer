@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>餐廳訂貨申請表單系統</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- SheetJS (xlsx) for Excel Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- Alpine.js for reactive UI state -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f8fafc;
+        }
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body { background-color: white; }
+            .shadow-lg, .shadow-md, .shadow-sm { box-shadow: none !important; }
+            .border { border-color: #cbd5e1 !important; }
+        }
+        /* Custom Scrollbar for items table */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col" x-data="orderFormApp()">
+
+    <!-- Top Header Bar -->
+    <header class="bg-slate-900 text-white sticky top-0 z-30 shadow-md no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-lg bg-amber-500 flex items-center justify-center text-slate-900 font-bold text-xl shadow-inner">
+                    <i class="fa-solid font-black fa-utensils"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight">餐廳採購與訂貨系統</h1>
+                    <p class="text-xs text-slate-400">Order Request & Inventory Management</p>
+                </div>
+            </div>
+            
+            <!-- Global Action Header Buttons -->
+            <div class="flex items-center space-x-2 sm:space-x-3">
+                <button @click="openTemplateModal = true" class="px-3 py-2 text-xs sm:text-sm font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-folder-open text-amber-400"></i>
+                    <span class="hidden sm:inline">常用範本</span>
+                </button>
+                <button @click="saveAsTemplate()" class="px-3 py-2 text-xs sm:text-sm font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-bookmark text-emerald-400"></i>
+                    <span class="hidden sm:inline">存為範本</span>
+                </button>
+                <button @click="resetFormWithConfirm()" class="px-3 py-2 text-xs sm:text-sm font-medium bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 rounded-lg border border-rose-800/50 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span class="hidden sm:inline">清空</span>
+                </button>
+                <button @click="exportToExcel()" class="px-4 py-2 text-xs sm:text-sm font-semibold bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg shadow-sm transition flex items-center gap-2">
+                    <i class="fa-solid fa-file-excel text-base"></i>
+                    <span>匯出 Excel</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- Form Container Sheet -->
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+            
+            <!-- Document Header Title -->
+            <div class="bg-gradient-to-r from-amber-500 to-amber-600 px-6 py-6 text-white flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <span class="inline-block px-2.5 py-0.5 rounded text-xs font-semibold bg-amber-700 text-amber-100 uppercase tracking-wide mb-1">
+                        Internal Purchase Order
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">餐廳食材與耗材訂貨申請單</h2>
+                </div>
+                <div class="flex items-center space-x-2 bg-amber-600/60 backdrop-blur px-4 py-2 rounded-xl border border-amber-400/30 text-sm">
+                    <i class="fa-solid fa-hashtag text-amber-200"></i>
+                    <span class="text-amber-100 font-medium">單號：</span>
+                    <span class="font-mono font-bold text-white" x-text="orderInfo.orderNo"></span>
+                </div>
+            </div>
+
+            <!-- Basic Information Form Section -->
+            <div class="p-6 bg-slate-50/50 border-b border-slate-200">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-info text-amber-500"></i> 基本申請資訊
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                    <!-- Restaurant / Branch Name -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">餐廳門市 / 店別 <span class="text-rose-500">*</span></label>
+                        <input type="text" x-model="orderInfo.restaurantName" placeholder="例如：台北旗艦店" class="w-full text-sm rounded-lg border-slate-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 bg-white px-3 py-2 border">
+                    </div>
+
+                    <!-- Department -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">申請部門 <span class="text-rose-500">*</span></label>
+                        <select x-model="orderInfo.department" class="w-full text-sm rounded-lg border-slate-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 bg-white px-3 py-2 border">
+                            <option value="中廚內場">中廚內場 (Kitchen Core)</option>
+                            <option value="西廚熱廚">西廚熱廚 (Hot Line)</option>
+                            <option value="冷廚沙拉">冷廚沙拉 (Garde Manger)</option>
+                            <option value="點心烘焙">點心烘焙 (Pastry/Bakery)</option>
+                            <option value="外場吧檯">外場吧檯 (Bar/Beverage)</option>
+                            <option value="外場服務">外場服務 (Front of House)</option>
+                            <option value="房務清潔">房務清潔/耗材 (Stewarding)</option>
+                        </select>
+                    </div>
+
+                    <!-- Applicant Name -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">申請人名稱 <span class="text-rose-500">*</span></label>
+                        <input type="text" x-model="orderInfo.applicant" placeholder="請輸入姓名" class="w-full text-sm rounded-lg border-slate-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 bg-white px-3 py-2 border">
+                    </div>
+
+                    <!-- Apply Date -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">申請日期</label>
+                        <input type="date" x-model="orderInfo.applyDate" class="w-full text-sm rounded-lg border-slate-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 bg-white px-3 py-2 border">
+                    </div>
+
+                    <!-- Target Delivery Date -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">期望到貨日期 <span class="text-rose-500">*</span></label>
+                        <input type="date" x-model="orderInfo.deliveryDate" class="w-full text-sm rounded-lg border-slate-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 bg-white px-3 py-2 border font-medium text-amber-700">
+                    </div>
+
+                    <!-- Priority Level -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">緊急程度</label>
+                        <select x-model="orderInfo.priority" class="w-full text-sm rounded-lg border-slate-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 bg-white px-3 py-2 border font-medium"
+                                :class="{'text-emerald-600': orderInfo.priority==='一般', 'text-amber-600': orderInfo.priority==='急件', 'text-rose-600 font-bold': orderInfo.priority==='特急(當天)'}">
+                            <option value="一般">一般 (常规補貨)</option>
+                            <option value="急件">急件 (24小時內)</option>
+                            <option value="特急(當天)">特急 (今日缺料)</option>
+                        </select>
+                    </div>
+
+                    <!-- Main Target Supplier / Vendor -->
+                    <div class="sm:col-span-2">
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">指定供應商 / 備註廠商</label>
+                        <input type="text" x-model="orderInfo.supplier" placeholder="若有指定特定廠商請填寫，或留空各項個別註記" class="w-full text-sm rounded-lg border-slate-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 bg-white px-3 py-2 border">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Add Preset Category Bar -->
+            <div class="px-6 py-4 bg-slate-100/70 border-b border-slate-200 no-print">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-500">快速點選加入常見品項：</span>
+                    </div>
+                    <!-- Category Tabs -->
+                    <div class="flex items-center gap-1.5 overflow-x-auto custom-scrollbar pb-1 sm:pb-0">
+                        <template x-for="cat in categories" :key="cat">
+                            <button @click="activeCategory = cat" 
+                                    class="px-3 py-1 rounded-full text-xs font-medium transition whitespace-nowrap"
+                                    :class="activeCategory === cat ? 'bg-amber-600 text-white shadow-sm' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-200'">
+                                <span x-text="cat"></span>
+                            </button>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Quick Pick Buttons Grid -->
+                <div class="mt-3 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
+                    <template x-for="preset in filteredPresets" :key="preset.name">
+                        <button @click="addPresetItem(preset)" 
+                                class="p-2 text-left bg-white hover:bg-amber-50 border border-slate-200 hover:border-amber-300 rounded-lg transition shadow-xs group flex flex-col justify-between">
+                            <div class="font-medium text-xs text-slate-800 group-hover:text-amber-700 truncate" x-text="preset.name"></div>
+                            <div class="text-[10px] text-slate-400 mt-1 flex justify-between items-center">
+                                <span x-text="preset.spec + '/' + preset.unit"></span>
+                                <span class="text-amber-600 font-semibold" x-text="'$' + preset.price"></span>
+                            </div>
+                        </button>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Order Items Table Section -->
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-amber-500"></i> 訂購項目清單
+                        <span class="text-xs font-normal text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full" x-text="'共 ' + items.length + ' 項品項'"></span>
+                    </h3>
+                    <div class="flex gap-2 no-print">
+                        <button @click="addItem()" class="px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white text-xs font-medium rounded-lg shadow-xs transition flex items-center gap-1">
+                            <i class="fa-solid fa-plus"></i> 新增空白列
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Table Wrapper -->
+                <div class="overflow-x-auto border border-slate-200 rounded-xl shadow-xs custom-scrollbar">
+                    <table class="w-full text-left border-collapse min-w-[800px]">
+                        <thead>
+                            <tr class="bg-slate-100/80 text-slate-600 text-xs font-semibold uppercase tracking-wider border-b border-slate-200">
+                                <th class="py-3 px-3 w-12 text-center">#</th>
+                                <th class="py-3 px-3 w-32">分類</th>
+                                <th class="py-3 px-3 w-48">品名 <span class="text-rose-500">*</span></th>
+                                <th class="py-3 px-3 w-28">規格 / 單位</th>
+                                <th class="py-3 px-3 w-24 text-right">數量 <span class="text-rose-500">*</span></th>
+                                <th class="py-3 px-3 w-28 text-right">預估單價 ($)</th>
+                                <th class="py-3 px-3 w-28 text-right">預估小計 ($)</th>
+                                <th class="py-3 px-3 w-36">建議廠商 / 備註</th>
+                                <th class="py-3 px-2 w-12 text-center no-print">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 text-sm bg-white">
+                            <template x-for="(item, index) in items" :key="item.id">
+                                <tr class="hover:bg-amber-50/30 transition group">
+                                    <!-- Index -->
+                                    <td class="py-2 px-3 text-center text-xs font-mono text-slate-400 font-medium" x-text="index + 1"></td>
+                                    
+                                    <!-- Category -->
+                                    <td class="py-2 px-3">
+                                        <select x-model="item.category" class="w-full text-xs rounded-md border-slate-300 focus:border-amber-500 focus:ring-amber-500 py-1.5 px-2 bg-slate-50/50">
+                                            <option value="蔬菜水果">蔬菜水果</option>
+                                            <option value="生鮮肉品">生鮮肉品</option>
+                                            <option value="水產海鮮">水產海鮮</option>
+                                            <option value="乾貨調味">乾貨調味料</option>
+                                            <option value="乳品飲料">乳品飲料</option>
+                                            <option value="冷凍冷凍">冷凍食品</option>
+                                            <option value="包材耗材">包材耗材</option>
+                                            <option value="清潔用品">清潔用品</option>
+                                            <option value="其他雜項">其他雜項</option>
+                                        </select>
+                                    </td>
+
+                                    <!-- Item Name -->
+                                    <td class="py-2 px-3">
+                                        <input type="text" x-model="item.name" placeholder="如：高麗菜 / 美國牛小排" class="w-full text-xs font-medium rounded-md border-slate-300 focus:border-amber-500 focus:ring-amber-500 py-1.5 px-2 border">
+                                    </td>
+
+                                    <!-- Spec & Unit -->
+                                    <td class="py-2 px-3 flex gap-1">
+                                        <input type="text" x-model="item.spec" placeholder="規格(如500g)" class="w-1/2 text-xs rounded-md border-slate-300 focus:border-amber-500 py-1.5 px-1.5 border">
+                                        <input type="text" x-model="item.unit" placeholder="單位(箱/kg)" class="w-1/2 text-xs rounded-md border-slate-300 focus:border-amber-500 py-1.5 px-1.5 border">
+                                    </td>
+
+                                    <!-- Quantity -->
+                                    <td class="py-2 px-3">
+                                        <input type="number" step="0.1" min="0" x-model.number="item.quantity" class="w-full text-xs font-bold text-right rounded-md border-slate-300 focus:border-amber-500 py-1.5 px-2 border text-slate-800">
+                                    </td>
+
+                                    <!-- Unit Price -->
+                                    <td class="py-2 px-3">
+                                        <input type="number" step="1" min="0" x-model.number="item.price" class="w-full text-xs font-mono text-right rounded-md border-slate-300 focus:border-amber-500 py-1.5 px-2 border text-slate-600">
+                                    </td>
+
+                                    <!-- Subtotal (Calculated) -->
+                                    <td class="py-2 px-3 text-right font-mono font-bold text-slate-800" x-text="formatCurrency(calculateSubtotal(item))"></td>
+
+                                    <!-- Remarks / Vendor -->
+                                    <td class="py-2 px-3">
+                                        <input type="text" x-model="item.remark" placeholder="指定品牌/用途" class="w-full text-xs rounded-md border-slate-300 focus:border-amber-500 py-1.5 px-2 border">
+                                    </td>
+
+                                    <!-- Action -->
+                                    <td class="py-2 px-2 text-center no-print">
+                                        <button @click="removeItem(index)" class="text-slate-300 hover:text-rose-500 transition p-1" title="刪除品項">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </template>
+
+                            <!-- Empty State -->
+                            <tr x-show="items.length === 0">
+                                <td colspan="9" class="py-12 text-center text-slate-400">
+                                    <i class="fa-solid fa-basket-shopping text-3xl mb-2 text-slate-300"></i>
+                                    <p class="text-sm">目前無訂購項目，請點擊「新增空白列」或上方「快速加載品項」。</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Summary Calculations & Bottom Notes -->
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- General Remarks Input -->
+                    <div class="md:col-span-2 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <label class="block text-xs font-bold uppercase text-slate-500 mb-2">
+                            <i class="fa-solid fa-comment-dots text-amber-500"></i> 訂單整體注意事項 / 送貨指示
+                        </label>
+                        <textarea x-model="orderInfo.notes" rows="3" placeholder="例如：請於上午10:00前送達後門冷凍庫；冷藏肉品須附檢驗證明..." class="w-full text-xs rounded-lg border-slate-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 p-2.5 bg-white border"></textarea>
+                    </div>
+
+                    <!-- Totals Box -->
+                    <div class="bg-amber-50/60 border border-amber-200 rounded-xl p-5 flex flex-col justify-between">
+                        <div>
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-amber-800 mb-3 border-b border-amber-200/60 pb-2">
+                                訂購統計摘要
+                            </h4>
+                            <div class="space-y-2 text-xs">
+                                <div class="flex justify-between text-slate-600">
+                                    <span>品項總筆數：</span>
+                                    <span class="font-bold text-slate-800" x-text="items.length + ' 筆'"></span>
+                                </div>
+                                <div class="flex justify-between text-slate-600">
+                                    <span>物料總數量：</span>
+                                    <span class="font-bold text-slate-800" x-text="calculateTotalQuantity() + ' 件/單位'"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t border-amber-200 mt-3">
+                            <div class="flex justify-between items-baseline">
+                                <span class="text-sm font-bold text-amber-900">預估總金額：</span>
+                                <span class="text-2xl font-black font-mono text-amber-600" x-text="formatCurrency(calculateGrandTotal())"></span>
+                            </div>
+                            <p class="text-[10px] text-amber-700/80 mt-1 text-right">* 實際金額以供應商出貨簽單為準</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Signatures Area (Visible on print or PDF export) -->
+                <div class="mt-8 pt-6 border-t border-slate-200 grid grid-cols-3 gap-6 text-center text-xs text-slate-500">
+                    <div class="border-b border-slate-300 pb-8">
+                        <span class="block font-semibold text-slate-700 mb-6">申請人簽章</span>
+                    </div>
+                    <div class="border-b border-slate-300 pb-8">
+                        <span class="block font-semibold text-slate-700 mb-6">部門主管審核</span>
+                    </div>
+                    <div class="border-b border-slate-300 pb-8">
+                        <span class="block font-semibold text-slate-700 mb-6">行政採購/總務簽收</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Template Management Modal -->
+    <div x-show="openTemplateModal" class="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4" x-cloak>
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-100" @click.away="openTemplateModal = false">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <i class="fa-solid fa-boxes-packing text-amber-500"></i> 載入常用採購範本
+                </h3>
+                <button @click="openTemplateModal = false" class="text-slate-400 hover:text-slate-600">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            
+            <p class="text-xs text-slate-500 mb-4">選擇預設的常規單據，快速帶入常用食材清單：</p>
+
+            <div class="space-y-3 max-h-80 overflow-y-auto custom-scrollbar pr-1">
+                <template x-for="(tmpl, key) in builtInTemplates" :key="key">
+                    <div class="p-3 border border-slate-200 rounded-xl hover:border-amber-400 hover:bg-amber-50/40 transition cursor-pointer flex justify-between items-center"
+                         @click="loadTemplate(key)">
+                        <div>
+                            <div class="font-bold text-sm text-slate-800" x-text="tmpl.name"></div>
+                            <div class="text-xs text-slate-500 mt-0.5" x-text="tmpl.desc"></div>
+                        </div>
+                        <span class="text-xs font-semibold px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full" x-text="tmpl.items.length + ' 個項目'"></span>
+                    </div>
+                </template>
+
+                <!-- User Saved Templates Section -->
+                <template x-if="savedUserTemplates.length > 0">
+                    <div class="pt-3 border-t border-slate-200 mt-2">
+                        <div class="text-xs font-bold text-slate-400 uppercase mb-2">您儲存的自訂範本</div>
+                        <div class="space-y-2">
+                            <template x-for="(utmpl, idx) in savedUserTemplates" :key="idx">
+                                <div class="p-3 border border-slate-200 rounded-xl hover:border-emerald-400 hover:bg-emerald-50/40 transition flex justify-between items-center">
+                                    <div @click="loadUserTemplate(idx)" class="cursor-pointer flex-grow">
+                                        <div class="font-bold text-sm text-slate-800" x-text="utmpl.name"></div>
+                                        <div class="text-[10px] text-slate-400" x-text="'儲存日期：' + utmpl.date"></div>
+                                    </div>
+                                    <button @click.stop="deleteUserTemplate(idx)" class="text-slate-300 hover:text-rose-500 p-1">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <div class="mt-6 flex justify-end">
+                <button @click="openTemplateModal = false" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg">
+                    關閉
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Popup -->
+    <div x-show="toast.show" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0 translate-y-2"
+         x-transition:enter-end="opacity-100 translate-y-0"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100 translate-y-0"
+         x-transition:leave-end="opacity-0 translate-y-2"
+         class="fixed bottom-5 right-5 z-50 px-4 py-3 rounded-xl shadow-xl text-white text-sm font-medium flex items-center gap-3 no-print"
+         :class="toast.type === 'success' ? 'bg-emerald-600' : toast.type === 'warning' ? 'bg-amber-600' : 'bg-slate-800'"
+         x-cloak>
+        <i class="fa-solid" :class="toast.type === 'success' ? 'fa-circle-check' : 'fa-triangle-exclamation'"></i>
+        <span x-text="toast.message"></span>
+    </div>
+
+    <script>
+        function orderFormApp() {
+            return {
+                openTemplateModal: false,
+                activeCategory: '全部',
+                categories: ['全部', '蔬菜水果', '生鮮肉品', '水產海鮮', '乾貨調味', '乳品飲料', '包材耗材', '清潔用品'],
+                
+                // Toast notification state
+                toast: {
+                    show: false,
+                    message: '',
+                    type: 'success'
+                },
+
+                // Order Header State
+                orderInfo: {
+                    orderNo: 'PO-' + new Date().toISOString().slice(2,10).replace(/-/g,'') + '-' + Math.floor(1000 + Math.random() * 9000),
+                    restaurantName: '享味餐飲 旗艦店',
+                    department: '中廚內場',
+                    applicant: '王大廚',
+                    applyDate: new Date().toISOString().split('T')[0],
+                    deliveryDate: new Date(Date.now() + 86400000).toISOString().split('T')[0], // Tomorrow
+                    priority: '一般',
+                    supplier: '',
+                    notes: ''
+                },
+
+                // Preset Items Database
+                presets: [
+                    { category: '蔬菜水果', name: '高麗菜 (本島)', spec: '籃/約15kg', unit: '籃', price: 450 },
+                    { category: '蔬菜水果', name: '青江菜', spec: '包/1kg', unit: '包', price: 65 },
+                    { category: '蔬菜水果', name: '大牛蕃茄', spec: '箱/10kg', unit: '箱', price: 780 },
+                    { category: '蔬菜水果', name: '洋蔥 (進口)', spec: '袋/15kg', unit: '袋', price: 420 },
+                    { category: '生鮮肉品', name: '去骨雞腿肉', spec: '2kg/包', unit: '包', price: 340 },
+                    { category: '生鮮肉品', name: '台灣豬五花肉條', spec: '1kg/包', unit: 'kg', price: 280 },
+                    { category: '生鮮肉品', name: '美國CHOICE牛小排', spec: '原塊/約3kg', unit: 'kg', price: 850 },
+                    { category: '水產海鮮', name: '急凍白蝦 (30/40)', spec: '盒/1.2kg', unit: '盒', price: 380 },
+                    { category: '水產海鮮', name: '智利鮭魚菲力', spec: '真空包/1kg', unit: '包', price: 520 },
+                    { category: '乾貨調味', name: '純正沙拉油', spec: '18L/桶', unit: '桶', price: 820 },
+                    { category: '乾貨調味', name: '特級生抽醬油', spec: '1.6L/瓶', unit: '瓶', price: 135 },
+                    { category: '乾貨調味', name: '台鹽細鹽', spec: '1kg/包', unit: '包', price: 25 },
+                    { category: '乳品飲料', name: '營業用全脂鮮乳', spec: '930ml/瓶', unit: '瓶', price: 78 },
+                    { category: '乳品飲料', name: '無鹽奶油', spec: '454g/塊', unit: '塊', price: 165 },
+                    { category: '包材耗材', name: '外帶紙餐盒 (大)', spec: '600入/箱', unit: '箱', price: 950 },
+                    { category: '清潔用品', name: '食品級洗碗精', spec: me = '1加侖/桶', unit: '桶', price: 260 }
+                ],
+
+                // Active Items in Form Table
+                items: [
+                    { id: 1, category: '蔬菜水果', name: '高麗菜 (本島)', spec: '籃/約15kg', unit: '籃', quantity: 2, price: 450, remark: '需新鮮無黃葉' },
+                    { id: 2, category: '生鮮肉品', name: '去骨雞腿肉', spec: '2kg/包', unit: '包', quantity: 5, price: 340, remark: '午餐備料用' },
+                    { id: 3, category: '乾貨調味', name: '純正沙拉油', spec: '18L/桶', unit: '桶', quantity: 1, price: 820, remark: '廚房備用' }
+                ],
+
+                // Saved Templates Database
+                savedUserTemplates: JSON.parse(localStorage.getItem('rest_order_user_templates') || '[]'),
+
+                // Built-in Order Templates
+                builtInTemplates: {
+                    daily_veggie: {
+                        name: '每日蔬菜水果常規採購',
+                        desc: '包含葉菜類、根莖類與基礎調味蔬菜',
+                        items: [
+                            { category: '蔬菜水果', name: '高麗菜 (本島)', spec: '籃/約15kg', unit: '籃', quantity: 2, price: 450, remark: '' },
+                            { category: '蔬菜水果', name: '青江菜', spec: '包/1kg', unit: '包', quantity: 5, price: 65, remark: '' },
+                            { category: '蔬菜水果', name: '大牛蕃茄', spec: '箱/10kg', unit: '箱', quantity: 1, price: 780, remark: '' },
+                            { category: '蔬菜水果', name: '洋蔥 (進口)', spec: '袋/15kg', unit: '袋', quantity: 1, price: 420, remark: '' }
+                        ]
+                    },
+                    meat_seafood: {
+                        name: '週二肉品海鮮大宗補貨',
+                        desc: '包含主菜雞肉、豬肉與海鮮食材',
+                        items: [
+                            { category: '生鮮肉品', name: '去骨雞腿肉', spec: '2kg/包', unit: '包', quantity: 10, price: 340, remark: '' },
+                            { category: '生鮮肉品', name: '台灣豬五花肉條', spec: '1kg/包', unit: 'kg', quantity: 8, price: 280, remark: '' },
+                            { category: '水產海鮮', name: '急凍白蝦 (30/40)', spec: '盒/1.2kg', unit: '盒', quantity: 4, price: 380, remark: '' }
+                        ]
+                    },
+                    bar_beverage: {
+                        name: '外場吧檯乳品飲料單',
+                        desc: '鮮奶、奶油及飲品原料',
+                        items: [
+                            { category: '乳品飲料', name: '營業用全脂鮮乳', spec: '930ml/瓶', unit: '瓶', quantity: 12, price: 78, remark: '每日送達' },
+                            { category: '乳品飲料', name: '無鹽奶油', spec: '454g/塊', unit: '塊', quantity: 4, price: 165, remark: '' }
+                        ]
+                    }
+                },
+
+                // Filtered Presets helper
+                get filteredPresets() {
+                    if (this.activeCategory === '全部') {
+                        return this.presets;
+                    }
+                    return this.presets.filter(p => p.category === this.activeCategory);
+                },
+
+                // Add blank item row
+                addItem() {
+                    this.items.push({
+                        id: Date.now() + Math.random(),
+                        category: '蔬菜水果',
+                        name: '',
+                        spec: '',
+                        unit: '包',
+                        quantity: 1,
+                        price: 0,
+                        remark: ''
+                    });
+                },
+
+                // Quick add preset item
+                addPresetItem(preset) {
+                    this.items.push({
+                        id: Date.now() + Math.random(),
+                        category: preset.category,
+                        name: preset.name,
+                        spec: preset.spec,
+                        unit: preset.unit,
+                        quantity: 1,
+                        price: preset.price,
+                        remark: ''
+                    });
+                    this.showToast(`已加入品項：${preset.name}`);
+                },
+
+                // Remove item row
+                removeItem(index) {
+                    this.items.splice(index, 1);
+                },
+
+                // Calculations
+                calculateSubtotal(item) {
+                    const q = parseFloat(item.quantity) || 0;
+                    const p = parseFloat(item.price) || 0;
+                    return q * p;
+                },
+
+                calculateTotalQuantity() {
+                    return this.items.reduce((sum, item) => sum + (parseFloat(item.quantity) || 0), 0);
+                },
+
+                calculateGrandTotal() {
+                    return this.items.reduce((sum, item) => sum + this.calculateSubtotal(item), 0);
+                },
+
+                formatCurrency(val) {
+                    return '$ ' + Math.round(val).toLocaleString('zh-TW');
+                },
+
+                // Show notification toast
+                showToast(msg, type = 'success') {
+                    this.toast.message = msg;
+                    this.toast.type = type;
+                    this.toast.show = true;
+                    setTimeout(() => {
+                        this.toast.show = false;
+                    }, 3000);
+                },
+
+                // Form Actions
+                resetFormWithConfirm() {
+                    if (this.items.length > 0) {
+                        if (confirm('確定要清空目前填寫的所有訂購品項與內容嗎？')) {
+                            this.items = [];
+                            this.showToast('已清空表單', 'warning');
+                        }
+                    }
+                },
+
+                // Load Built-in Template
+                loadTemplate(key) {
+                    const tmpl = this.builtInTemplates[key];
+                    if (tmpl) {
+                        this.items = tmpl.items.map(item => ({
+                            ...item,
+                            id: Date.now() + Math.random()
+                        }));
+                        this.openTemplateModal = false;
+                        this.showToast(`已載入範本：${tmpl.name}`);
+                    }
+                },
+
+                // Save Current Form as User Template
+                saveAsTemplate() {
+                    if (this.items.length === 0) {
+                        this.showToast('表單無項目，無法儲存範本', 'warning');
+                        return;
+                    }
+                    const templateName = prompt('請輸入此自訂採購範本的名稱：', '我的每週採購單');
+                    if (templateName) {
+                        const newTmpl = {
+                            name: templateName,
+                            date: new Date().toLocaleDateString('zh-TW'),
+                            items: JSON.parse(JSON.stringify(this.items))
+                        };
+                        this.savedUserTemplates.push(newTmpl);
+                        localStorage.setItem('rest_order_user_templates', JSON.stringify(this.savedUserTemplates));
+                        this.showToast('已成功存為常用範本！');
+                    }
+                },
+
+                loadUserTemplate(index) {
+                    const tmpl = this.savedUserTemplates[index];
+                    if (tmpl) {
+                        this.items = tmpl.items.map(item => ({
+                            ...item,
+                            id: Date.now() + Math.random()
+                        }));
+                        this.openTemplateModal = false;
+                        this.showToast(`已載入自訂範本：${tmpl.name}`);
+                    }
+                },
+
+                deleteUserTemplate(index) {
+                    this.savedUserTemplates.splice(index, 1);
+                    localStorage.setItem('rest_order_user_templates', JSON.stringify(this.savedUserTemplates));
+                    this.showToast('已刪除範本', 'warning');
+                },
+
+                // Excel Export Engine
+                exportToExcel() {
+                    if (this.items.length === 0) {
+                        this.showToast('表單中沒有任何項目，請先新增品項再匯出！', 'warning');
+                        return;
+                    }
+
+                    if (!this.orderInfo.restaurantName || !this.orderInfo.applicant) {
+                        this.showToast('請填寫門市名稱與申請人！', 'warning');
+                        return;
+                    }
+
+                    try {
+                        // Create SheetJS Worksheet
+                        const wb = XLSX.utils.book_new();
+
+                        // Header Block Data
+                        const sheetData = [
+                            ["餐廳食材與耗材訂貨申請單"],
+                            [""],
+                            ["採購單號：", this.orderInfo.orderNo, "", "申請日期：", this.orderInfo.applyDate],
+                            ["門市名稱：", this.orderInfo.restaurantName, "", "期望到貨日：", this.orderInfo.deliveryDate],
+                            ["申請部門：", this.orderInfo.department, "", "緊急程度：", this.orderInfo.priority],
+                            ["申 請 人：", this.orderInfo.applicant, "", "指定廠商：", this.orderInfo.supplier || "無特定"],
+                            [""],
+                            ["項次", "分類", "品名", "規格", "單位", "數量", "預估單價 ($)", "預估小計 ($)", "備註 / 建議廠商"]
+                        ];
+
+                        // Item Rows Data
+                        this.items.forEach((item, idx) => {
+                            const subtotal = this.calculateSubtotal(item);
+                            sheetData.push([
+                                idx + 1,
+                                item.category || "",
+                                item.name || "",
+                                item.spec || "",
+                                item.unit || "",
+                                parseFloat(item.quantity) || 0,
+                                parseFloat(item.price) || 0,
+                                subtotal,
+                                item.remark || ""
+                            ]);
+                        });
+
+                        // Summary Rows
+                        const grandTotal = this.calculateGrandTotal();
+                        const totalQty = this.calculateTotalQuantity();
+
+                        sheetData.push([
+                            "合計", "", "", "", "", totalQty, "", grandTotal, ""
+                        ]);
+
+                        sheetData.push([""]);
+                        sheetData.push(["訂單整體注意事項 / 送貨指示：", this.orderInfo.notes || "無"]);
+                        sheetData.push([""]);
+                        sheetData.push([""]);
+                        sheetData.push(["申請人簽章：", "", "部門主管審核：", "", "採購審核簽收："]);
+
+                        // Convert Array to Sheet
+                        const ws = XLSX.utils.aoa_to_sheet(sheetData);
+
+                        // Set Column Widths for readability
+                        ws['!cols'] = [
+                            { wch: 6 },   // 項次
+                            { wch: 14 },  // 分類
+                            { wch: 24 },  // 品名
+                            { wch: 14 },  // 規格
+                            { wch: 8 },   // 單位
+                            { wch: 10 },  // 數量
+                            { wch: 14 },  // 單價
+                            { wch: 14 },  // 小計
+                            { wch: 25 }   // 備註
+                        ];
+
+                        // Merge cells for Header Title
+                        ws['!merges'] = [
+                            { s: { r: 0, c: 0 }, e: { r: 0, c: 8 } } // Title merge
+                        ];
+
+                        // Append worksheet to workbook
+                        XLSX.utils.book_append_sheet(wb, ws, "訂貨申請單");
+
+                        // Generate file name
+                        const fileName = `訂貨單_${this.orderInfo.restaurantName}_${this.orderInfo.deliveryDate}_${this.orderInfo.orderNo}.xlsx`;
+
+                        // Save Excel File
+                        XLSX.writeFile(wb, fileName);
+
+                        this.showToast('已成功匯出 Excel 檔案！');
+                    } catch (err) {
+                        console.error('Excel Export Error:', err);
+                        this.showToast('匯出失敗，請檢查輸入格式。', 'warning');
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

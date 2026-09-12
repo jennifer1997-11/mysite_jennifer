@@ -63,6 +63,156 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
         }
+        /* Experience typography hierarchy */
+        #experience .experience-title {
+            color: #111111;
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.25;
+        }
+        #experience .experience-company {
+            color: #555555;
+            font-size: 1rem;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+        #experience .experience-category-title,
+        #experience .experience-responsibilities h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+        #experience .experience-body,
+        #experience .experience-responsibilities > div > p {
+            color: #555555;
+            font-size: 0.875rem;
+            font-weight: 400;
+            line-height: 1.75;
+        }
+        #experience .experience-project-heading {
+            font-size: 1.125rem;
+            font-weight: 700;
+            line-height: 1.5;
+        }
+        #experience .experience-project-title {
+            font-size: 1rem;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+        #experience .experience-achievement-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            line-height: 1rem;
+        }
+        #experience .experience-achievement-text {
+            font-size: 0.875rem;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+        #experience .experience-meta {
+            font-size: 0.75rem;
+            font-weight: 600;
+            line-height: 1rem;
+        }
+        @media (min-width: 640px) {
+            #experience .experience-title {
+                font-size: 1.875rem;
+                line-height: 1.2;
+            }
+            #experience .experience-company {
+                font-size: 1.125rem;
+            }
+            #experience .experience-body,
+            #experience .experience-responsibilities > div > p {
+                font-size: 0.9375rem;
+            }
+        }
+        /* Shared portfolio section headers */
+        .portfolio-section-header {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #E2E0D8;
+        }
+        .portfolio-section-eyebrow {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            line-height: 1rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .portfolio-section-title {
+            color: #111111;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.875rem;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+        .portfolio-section-description {
+            max-width: 28rem;
+            color: #555555;
+            font-size: 0.875rem;
+            font-weight: 500;
+            line-height: 1.7;
+        }
+        .lower-section-body,
+        #expertise .grid > div > p,
+        #projects .clean-card > div:first-child > p {
+            color: #555555;
+            font-size: 0.875rem;
+            font-weight: 400;
+            line-height: 1.75;
+        }
+        #tools .tool-category-title,
+        #tools .grid > div > h3 {
+            color: #111111;
+            font-size: 1.125rem;
+            font-weight: 700;
+            line-height: 1.5;
+        }
+        #tools .tool-list span {
+            font-size: 0.875rem;
+            font-weight: 500;
+            line-height: 1.25rem;
+            padding: 0.5rem 1rem;
+        }
+        #projects .project-highlight,
+        #projects .clean-card > div:last-child {
+            color: #111111;
+            font-size: 0.875rem;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+        @media (min-width: 640px) {
+            .portfolio-section-title {
+                font-size: 2.25rem;
+            }
+            .portfolio-section-description,
+            .lower-section-body,
+            #expertise .grid > div > p,
+            #projects .clean-card > div:first-child > p,
+            #tools .tool-list span {
+                font-size: 0.9375rem;
+            }
+        }
+        @media (min-width: 768px) {
+            .portfolio-section-header {
+                flex-direction: row;
+                align-items: flex-end;
+                justify-content: space-between;
+                gap: 2rem;
+                margin-bottom: 4rem;
+            }
+        }
+        @media (min-width: 1024px) {
+            .portfolio-section-title {
+                font-size: 3rem;
+            }
+        }
         /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
@@ -293,12 +443,12 @@
     <section id="experience" class="py-20 sm:py-24 px-4 sm:px-6 lg:px-12 bg-brand-bg">
         <div class="max-w-6xl mx-auto">
             <!-- Section Header -->
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 border-b border-brand-border pb-6">
+            <div class="portfolio-section-header">
                 <div>
-                    <span class="text-xs uppercase tracking-widest font-bold text-brand-terracotta block mb-2" data-en="Career Journey" data-zh="職涯歷程">Career Journey</span>
-                    <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-dark" data-en="Resume & Experience" data-zh="工作履歷與經驗">Resume & Experience</h2>
+                    <span class="portfolio-section-eyebrow text-brand-terracotta" data-en="Career Journey" data-zh="職涯歷程">Career Journey</span>
+                    <h2 class="portfolio-section-title" data-en="Resume & Experience" data-zh="工作履歷與經驗">Resume & Experience</h2>
                 </div>
-                <p class="text-sm text-brand-muted mt-2 md:mt-0 max-w-md font-medium" 
+                <p class="portfolio-section-description"
                    data-en="Demonstrated history of driving brand growth and VIP engagement in multinational luxury retail and top-tier department stores."
                    data-zh="深耕外商頂級精品與指標百貨，具備帶動品牌成長與 VVIP 顧客黏著度的實戰實績。">
                     Demonstrated history of driving brand growth and VIP engagement in multinational luxury retail and top-tier department stores.
@@ -307,48 +457,104 @@
 
             <!-- Resume Timeline List -->
             <div class="space-y-8 sm:space-y-12">
+                <!-- TibaMe -->
+                <article class="clean-card rounded-3xl p-6 sm:p-8 lg:p-10 relative">
+                <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4 lg:gap-6 mb-6 sm:mb-8 pb-6 border-b border-brand-border">
+                    <div>
+                        <div class="experience-meta inline-block px-3 py-1 rounded-full bg-brand-terracotta/10 text-brand-terracotta mb-3" data-en="2026.07 – 2026.10" data-zh="2026.07 – 2026.10">
+                            2026.07 – 2026.10
+                        </div>
+                        <h3 class="experience-title" data-en="AI Project Management Training" data-zh="AI 專案管理職前進修">AI Project Management Training</h3>
+                        <p class="experience-company mt-1" data-en="TibaMe" data-zh="TibaMe 緯育">TibaMe</p>
+                    </div>
+                    <div class="experience-meta text-left lg:text-right text-brand-muted flex lg:flex-col items-center lg:items-end gap-2">
+                        <span class="px-3 py-1 rounded-lg bg-brand-softGray"><i class="fa-solid fa-location-dot mr-1"></i> <span data-en="Taiwan" data-zh="台灣">Taiwan</span></span>
+                    </div>
+                </div>
 
-                <!-- Job 1: Hearts On Fire -->
+                <div class="border-l-2 border-brand-terracotta pl-5 sm:pl-6 mb-7">
+                    <h4 class="experience-category-title mb-3" data-en="AI Project Management &amp; Cross-functional Practice" data-zh="AI 專案管理與跨域實作">AI Project Management &amp; Cross-functional Practice</h4>
+                    <p class="experience-body" data-en="Developing project management and AI collaboration capabilities across requirement analysis, user research, project planning, data applications, and digital product development, while integrating generative AI and AI tools into research, planning, MVP development, and iterative validation." data-zh="系統性學習專案管理與 AI 協作方法，涵蓋需求分析、使用者研究、專案規劃、數據應用與數位產品實作，並將生成式 AI 與 AI 工具導入研究、企劃、MVP 開發及迭代驗證流程。">Developing project management and AI collaboration capabilities across requirement analysis, user research, project planning, data applications, and digital product development, while integrating generative AI and AI tools into research, planning, MVP development, and iterative validation.</p>
+                </div>
+
+                <h4 class="experience-project-heading font-display mb-4" data-en="Project Practice" data-zh="Project Practice｜專題實作">Project Practice</h4>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div class="rounded-2xl border border-brand-border bg-white/70 p-4 sm:p-5">
+                        <h5 class="experience-project-title mb-2" data-en="Individual Project | Nurtured Bloom" data-zh="個人專題｜孕育之美 Nurtured Bloom">Individual Project | Nurtured Bloom</h5>
+                        <p class="experience-body" data-en="Translated fragmented pregnancy information and user needs into product requirements, UX flows, feature planning, and a structured knowledge base, using AI-assisted workflows to develop a functional pregnancy support MVP." data-zh="從孕期資訊分散與使用者需求出發，進行需求分析、產品功能規劃、UX 流程與知識庫架構設計，運用 AI 協作完成可操作的孕期數位助理 MVP。">Translated fragmented pregnancy information and user needs into product requirements, UX flows, feature planning, and a structured knowledge base, using AI-assisted workflows to develop a functional pregnancy support MVP.</p>
+                    </div>
+                    <div class="rounded-2xl border border-brand-border bg-white/70 p-4 sm:p-5">
+                        <h5 class="experience-project-title mb-2" data-en="Team Project | AI Customer Intelligence &amp; Opportunity Management" data-zh="團體專題｜AI 客戶情報與商機管理">Team Project | AI Customer Intelligence &amp; Opportunity Management</h5>
+                        <p class="experience-body" data-en="Working on a B2B solution addressing pain points across event lead capture, customer intelligence, and sales opportunity tracking, contributing to user interviews, personas, customer journeys, competitive research, product planning, and MVP design. (In Progress)" data-zh="針對 B2B 業務在展會名單、客戶情報與商機追蹤上的痛點，參與使用者訪談、Persona、Customer Journey、競品研究、產品規劃與 MVP 設計。（進行中）">Working on a B2B solution addressing pain points across event lead capture, customer intelligence, and sales opportunity tracking, contributing to user interviews, personas, customer journeys, competitive research, product planning, and MVP design. (In Progress)</p>
+                    </div>
+                </div>
+                </article>
+
+                <!-- Australia Working Holiday -->
+                <article class="clean-card rounded-3xl p-6 sm:p-8 relative">
+                    <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4 lg:gap-6 mb-6 sm:mb-8 pb-6 border-b border-brand-border">
+                        <div>
+                            <div class="experience-meta inline-block px-3 py-1 rounded-full bg-brand-terracotta/10 text-brand-terracotta mb-3" data-en="2025.08 – 2026.06" data-zh="2025.08 – 2026.06">
+                                2025.08 – 2026.06
+                            </div>
+                            <h3 class="experience-title" data-en="Gap Year in Australia" data-zh="Gap Year 澳洲打工度假">Gap Year in Australia</h3>
+                        </div>
+                        <div class="experience-meta text-left lg:text-right text-brand-muted flex lg:flex-col items-center lg:items-end gap-2">
+                            <span class="px-3 py-1 rounded-lg bg-brand-softGray"><i class="fa-solid fa-location-dot mr-1"></i> <span data-en="Australia" data-zh="澳洲">Australia</span></span>
+                        </div>
+                    </div>
+                    <p class="experience-category-title text-brand-sage mb-4" data-en="International Experience" data-zh="國際經歷">International Experience</p>
+                    <div class="experience-body space-y-3 border-l-2 border-brand-sage pl-5 sm:pl-6">
+                        <p data-en="Took a planned working holiday in Australia, developing cross-cultural communication, teamwork, and adaptability in a fast-paced service environment." data-zh="規劃澳洲打工度假，在高節奏服務環境中培養跨文化溝通、團隊合作與快速應變能力。">Took a planned working holiday in Australia, developing cross-cultural communication, teamwork, and adaptability in a fast-paced service environment.</p>
+                        <p data-en="Expanded my international perspective through overseas work and life experience before returning to Taiwan to further develop capabilities in AI and project management." data-zh="並透過海外生活與工作經驗拓展國際視野，返台後進一步投入 AI 與專案管理職能進修，展開下一階段職涯發展。">Expanded my international perspective through overseas work and life experience before returning to Taiwan to further develop capabilities in AI and project management.</p>
+                    </div>
+                </article>
+
+                <!-- HEARTS ON FIRE Taiwan -->
                 <div class="clean-card rounded-3xl p-6 sm:p-8 lg:p-10 relative">
                     <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4 lg:gap-6 mb-6 sm:mb-8 pb-6 border-b border-brand-border">
                         <div>
-                            <div class="inline-block px-3 py-1 rounded-full bg-brand-terracotta/10 text-brand-terracotta font-semibold text-xs mb-3" data-en="2022.08 – 2025.04 · 2 yrs 9 mos" data-zh="2022年8月 – 2025年4月 · 2 年 9 個月">
-                                2022.08 – 2025.04 · 2 yrs 9 mos
+                            <div class="experience-meta inline-block px-3 py-1 rounded-full bg-brand-terracotta/10 text-brand-terracotta mb-3" data-en="2022.08 – 2025.04" data-zh="2022.08 – 2025.04">
+                                2022.08 – 2025.04
                             </div>
-                            <h3 class="text-2xl sm:text-3xl font-bold text-brand-dark" data-en="Senior Marketing Executive" data-zh="資深行銷企劃 (Senior Marketing Executive)">Senior Marketing Executive</h3>
-                            <p class="text-base sm:text-lg font-semibold text-brand-muted mt-1" data-en="Hearts On Fire · Full-time" data-zh="Hearts On Fire · 全職">Hearts On Fire · Full-time</p>
+                            <h3 class="experience-title" data-en="Senior Marketing Executive" data-zh="資深行銷企劃">Senior Marketing Executive</h3>
+                            <p class="experience-company mt-1" data-en="HEARTS ON FIRE Taiwan" data-zh="HEARTS ON FIRE Taiwan">HEARTS ON FIRE Taiwan</p>
                         </div>
-                        <div class="text-left lg:text-right text-xs text-brand-muted font-medium flex lg:flex-col items-center lg:items-end gap-2">
-                            <span class="px-3 py-1 rounded-lg bg-brand-softGray"><i class="fa-solid fa-location-dot mr-1"></i> <span data-en="Taipei, Taiwan" data-zh="台灣 臺北市 松山區">Taiwan, Taipei</span></span>
+                        <div class="experience-meta text-left lg:text-right text-brand-muted flex lg:flex-col items-center lg:items-end gap-2">
+                            <span class="px-3 py-1 rounded-lg bg-brand-softGray"><i class="fa-solid fa-location-dot mr-1"></i> <span data-en="Taipei" data-zh="台北">Taipei</span></span>
                         </div>
                     </div>
 
                     <!-- Responsibilities Grid -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="experience-responsibilities grid grid-cols-1 md:grid-cols-2 gap-8">
                         <!-- Item 1 -->
                         <div class="space-y-2">
                             <div class="flex items-center gap-2 text-brand-dark font-bold text-base">
                                 <span class="w-2.5 h-2.5 rounded-full bg-brand-terracotta"></span>
-                                <h4 data-en="Events & Partnerships" data-zh="品牌活動與貴賓體驗">Events & Partnerships</h4>
+                                <h4 data-en="Brand Events &amp; Partnerships" data-zh="品牌活動與異業合作">Brand Events &amp; Partnerships</h4>
                             </div>
                             <p class="text-sm text-brand-muted leading-relaxed font-normal pl-4 border-l-2 border-brand-border">
-                                <span data-en="Produced brand experiences and VIP events (high jewelry showcases, wine tastings, workshops) to deepen client engagement and drive sales."
-                                      data-zh="企劃並執行高奢珠寶展、尊榮品酒會與 VIP 手作體驗工坊，有效深化高階客戶黏著度並帶動業績轉換。">
-                                    Produced brand experiences and VIP events (high jewelry showcases, wine tastings, workshops) to deepen client engagement and drive sales.
+                                <span data-en="Planned and executed high-jewelry showcases, VIP experiences, and brand initiatives, covering event flow, cross-functional coordination, on-site hosting, and execution to deliver premium customer experiences aligned with brand positioning."
+                                      data-zh="規劃並執行高級珠寶鑑賞會、VIP 體驗活動與品牌專案，負責活動流程規劃、跨部門協調、現場主持與執行，打造符合精品定位的顧客體驗。">
+                                    Planned and executed high-jewelry showcases, VIP experiences, and brand initiatives, covering event flow, cross-functional coordination, on-site hosting, and execution to deliver premium customer experiences aligned with brand positioning.
                                 </span>
                             </p>
+                            <div class="ml-4 rounded-xl bg-brand-terracotta/10 px-4 py-3 text-sm">
+                                <span class="experience-achievement-label block tracking-widest text-brand-terracotta mb-1" data-en="KEY ACHIEVEMENT" data-zh="關鍵成果">KEY ACHIEVEMENT</span>
+                                <p class="experience-achievement-text" data-en="Partnered with American Express on a high-jewelry VIP event that achieved 144% of its sales target." data-zh="與 American Express 美國運通合作高級珠寶 VIP 鑑賞會，達成 144% 銷售目標。">Partnered with American Express on a high-jewelry VIP event that achieved 144% of its sales target.</p>
+                            </div>
                         </div>
 
                         <!-- Item 2 -->
                         <div class="space-y-2">
                             <div class="flex items-center gap-2 text-brand-dark font-bold text-base">
                                 <span class="w-2.5 h-2.5 rounded-full bg-brand-teal"></span>
-                                <h4 data-en="CRM Management" data-zh="CRM 顧客關係管理與會員經營">CRM Management</h4>
+                                <h4 data-en="CRM &amp; Customer Analytics" data-zh="CRM 與顧客分析">CRM &amp; Customer Analytics</h4>
                             </div>
                             <p class="text-sm text-brand-muted leading-relaxed font-normal pl-4 border-l-2 border-brand-border">
-                                <span data-en="Ran segmented CRM campaigns (SMS, social) to grow membership and boost personalized engagement. Used customer data to build client profiles and strengthen retention among top-tier clients."
-                                      data-zh="規劃數據分眾溝通策略（簡訊、LINE與社群），精準描繪顧客輪廓，強化金字塔頂端 VVIP 客戶留存率與客單價。">
-                                    Ran segmented CRM campaigns (SMS, social) to grow membership and boost personalized engagement. Used customer data to build client profiles and strengthen retention among top-tier clients.
+                                <span data-en="Analyzed customer data exported from the brand's internal customer system using Excel PivotTables, functions, and data visualization to support customer profiling, segmentation, targeted communication, and marketing decisions."
+                                      data-zh="彙整品牌客戶系統資料，運用 Excel 樞紐分析、函數與圖表進行顧客輪廓與分眾分析，支援會員經營、精準溝通與行銷決策。">
+                                    Analyzed customer data exported from the brand's internal customer system using Excel PivotTables, functions, and data visualization to support customer profiling, segmentation, targeted communication, and marketing decisions.
                                 </span>
                             </p>
                         </div>
@@ -357,59 +563,79 @@
                         <div class="space-y-2">
                             <div class="flex items-center gap-2 text-brand-dark font-bold text-base">
                                 <span class="w-2.5 h-2.5 rounded-full bg-brand-sage"></span>
-                                <h4 data-en="Digital Marketing" data-zh="數位行銷與社群內容經營">Digital Marketing</h4>
+                                <h4 data-en="Member Engagement &amp; GWP" data-zh="會員溝通與 GWP">Member Engagement &amp; GWP</h4>
                             </div>
                             <p class="text-sm text-brand-muted leading-relaxed font-normal pl-4 border-l-2 border-brand-border">
-                                <span data-en="Owned Facebook & LINE content strategy — copywriting, campaign execution, and performance tracking — to lift engagement and conversion."
-                                      data-zh="主導 Facebook 與 LINE 社群內容策略，涵蓋質感文案撰寫、活動主題發想與成效數據追蹤，提升互動率與轉換率。">
-                                    Owned Facebook & LINE content strategy — copywriting, campaign execution, and performance tracking — to lift engagement and conversion.
+                                <span data-en="Executed segmented communications through LINE OA and SMS, while contributing to annual and quarterly GWP planning to connect member engagement, brand activities, and revisit opportunities."
+                                      data-zh="執行 LINE OA／SMS 分眾溝通，並參與年度及季度 GWP 規劃，串聯會員互動、品牌活動與回櫃機會。">
+                                    Executed segmented communications through LINE OA and SMS, while contributing to annual and quarterly GWP planning to connect member engagement, brand activities, and revisit opportunities.
                                 </span>
                             </p>
+                            <div class="ml-4 rounded-xl bg-brand-sage/20 px-4 py-3 text-sm">
+                                <span class="experience-achievement-label block tracking-widest text-brand-dark mb-1" data-en="KEY ACHIEVEMENT" data-zh="關鍵成果">KEY ACHIEVEMENT</span>
+                                <p class="experience-achievement-text" data-en="Integrated online and offline campaigns, MGM referral initiatives, and retail incentive programs, contributing to the growth of the LINE Official Account to 110K+ members." data-zh="整合品牌線上與線下活動、MGM 會員推薦機制及店鋪激勵活動，推動 LINE 官方帳號累積超過 11 萬名會員。">Integrated online and offline campaigns, MGM referral initiatives, and retail incentive programs, contributing to the growth of the LINE Official Account to 110K+ members.</p>
+                            </div>
                         </div>
 
                         <!-- Item 4 -->
                         <div class="space-y-2">
                             <div class="flex items-center gap-2 text-brand-dark font-bold text-base">
                                 <span class="w-2.5 h-2.5 rounded-full bg-brand-dark"></span>
-                                <h4 data-en="Retail Marketing" data-zh="百貨通路與專櫃行銷">Retail Marketing</h4>
+                                <h4 data-en="Digital Marketing &amp; Social Content" data-zh="數位行銷與社群內容經營">Digital Marketing &amp; Social Content</h4>
                             </div>
                             <p class="text-sm text-brand-muted leading-relaxed font-normal pl-4 border-l-2 border-brand-border">
-                                <span data-en="Acted as key liaison with department store partners, aligning promotional resources and in-store visuals to boost brand visibility and sales momentum."
-                                      data-zh="擔任百貨通路核心對接窗口，爭取檔期促銷資源並統籌專櫃視覺陳列，極大化品牌曝光與專櫃銷售動能。">
-                                    Acted as key liaison with department store partners, aligning promotional resources and in-store visuals to boost brand visibility and sales momentum.
+                                <span data-en="Planned digital content and brand communications across Facebook and LINE, tracking content performance and conversion results to continuously optimize customer engagement."
+                                      data-zh="規劃 Facebook、LINE 數位內容與品牌文案，追蹤內容成效與轉換表現，持續優化顧客溝通與數位互動。">
+                                    Planned digital content and brand communications across Facebook and LINE, tracking content performance and conversion results to continuously optimize customer engagement.
                                 </span>
                             </p>
+                        </div>
+
+                        <!-- Item 5 -->
+                        <div class="space-y-2 md:col-span-2">
+                            <div class="flex items-center gap-2 text-brand-dark font-bold text-base">
+                                <span class="w-2.5 h-2.5 rounded-full bg-brand-terracotta"></span>
+                                <h4 data-en="Department Store &amp; Retail Marketing" data-zh="百貨通路與專櫃行銷">Department Store &amp; Retail Marketing</h4>
+                            </div>
+                            <p class="text-sm text-brand-muted leading-relaxed font-normal pl-4 border-l-2 border-brand-border">
+                                <span data-en="Integrated department-store resources, POS materials, seasonal promotions, media relations, and partnership opportunities, coordinating brand and channel requirements to execute retail marketing initiatives."
+                                      data-zh="整合百貨通路資源、POS 視覺、檔期促銷、媒體公關與異業合作，並協調品牌與百貨端需求，推進行銷專案與專櫃活動落地。">Integrated department-store resources, POS materials, seasonal promotions, media relations, and partnership opportunities, coordinating brand and channel requirements to execute retail marketing initiatives.</span>
+                            </p>
+                            <div class="ml-4 rounded-xl bg-brand-teal/10 px-4 py-3 text-sm">
+                                <span class="experience-achievement-label block tracking-widest text-brand-teal mb-1" data-en="KEY ACHIEVEMENT" data-zh="關鍵成果">KEY ACHIEVEMENT</span>
+                                <p class="experience-achievement-text" data-en="Negotiated resource exchanges and partnership terms with department-store channels, reducing marketing costs by 42.5% while maintaining brand exposure and execution needs." data-zh="透過百貨通路資源交換與合作條件談判，在維持品牌曝光與行銷執行需求下，降低 42.5% 行銷成本。">Negotiated resource exchanges and partnership terms with department-store channels, reducing marketing costs by 42.5% while maintaining brand exposure and execution needs.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Job 2: Far Eastern SOGO -->
+                <!-- Far Eastern SOGO Department Stores -->
                 <div class="clean-card rounded-3xl p-8 sm:p-10 relative">
-                    <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-6 mb-8 pb-6 border-b border-brand-border">
+                    <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4 lg:gap-6 mb-6 sm:mb-8 pb-6 border-b border-brand-border">
                         <div>
-                            <div class="inline-block px-3 py-1 rounded-full bg-brand-teal/10 text-brand-teal font-semibold text-xs mb-3" data-en="2020.09 – 2022.04 · 1 yr 8 mos" data-zh="2020年9月 – 2022年4月 · 1 年 8 個月">
-                                2020.09 – 2022.04 · 1 yr 8 mos
+                            <div class="experience-meta inline-block px-3 py-1 rounded-full bg-brand-terracotta/10 text-brand-terracotta mb-3" data-en="2020.09 – 2022.04" data-zh="2020.09 – 2022.04">
+                                2020.09 – 2022.04
                             </div>
-                            <h3 class="text-2xl sm:text-3xl font-bold text-brand-dark" data-en="Marketing Specialist" data-zh="行銷企劃專員 (Marketing Specialist)">Marketing Specialist</h3>
-                            <p class="text-lg font-semibold text-brand-muted mt-1" data-en="Far Eastern SOGO · Full-time" data-zh="太平洋崇光百貨 (Far Eastern SOGO) · 全職">Far Eastern SOGO · Full-time</p>
+                            <h3 class="experience-title" data-en="Marketing Specialist" data-zh="行銷企劃專員">Marketing Specialist</h3>
+                            <p class="experience-company mt-1" data-en="Far Eastern SOGO Department Stores" data-zh="遠東 SOGO 百貨">Far Eastern SOGO Department Stores</p>
                         </div>
-                        <div class="text-left lg:text-right text-xs text-brand-muted font-medium flex lg:flex-col items-center lg:items-end gap-2">
-                            <span class="px-3 py-1 rounded-lg bg-brand-softGray"><i class="fa-solid fa-location-dot mr-1"></i> <span data-en="Hsinchu, Taiwan" data-zh="台灣 新竹地區">Taiwan, Hsinchu</span></span>
+                        <div class="experience-meta text-left lg:text-right text-brand-muted flex lg:flex-col items-center lg:items-end gap-2">
+                            <span class="px-3 py-1 rounded-lg bg-brand-softGray"><i class="fa-solid fa-location-dot mr-1"></i> <span data-en="Hsinchu" data-zh="新竹">Hsinchu</span></span>
                         </div>
                     </div>
 
                     <!-- Responsibilities Grid -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="experience-responsibilities grid grid-cols-1 md:grid-cols-3 gap-8">
                         <!-- Item 1 -->
                         <div class="space-y-2">
                             <div class="flex items-center gap-2 text-brand-dark font-bold text-base">
                                 <span class="w-2.5 h-2.5 rounded-full bg-brand-terracotta"></span>
-                                <h4 data-en="Campaign & Proposal" data-zh="大型檔期與企劃統籌">Campaign & Proposal</h4>
+                                <h4 data-en="Integrated Campaign Planning" data-zh="整合行銷與檔期企劃">Integrated Campaign Planning</h4>
                             </div>
                             <p class="text-sm text-brand-muted leading-relaxed font-normal pl-4 border-l-2 border-brand-border">
-                                <span data-en="Drafted campaign proposals and event concepts for department store partners. Led integrated marketing projects spanning promotions, cross-industry partnerships, and traffic-driving events."
-                                      data-zh="主導百貨大型檔期企劃案撰寫，統籌整合促銷、異業合作與集客活動專案。">
-                                    Drafted campaign proposals and event concepts for department store partners. Led integrated marketing projects spanning promotions, cross-industry partnerships, and traffic-driving events.
+                                <span data-en="Contributed to annual and key seasonal department-store campaigns, covering concept development, proposals, promotional planning, and on-site execution, building a strong foundation in large-scale retail marketing."
+                                      data-zh="參與百貨年度與重點檔期整合行銷企劃，從主題發想、企劃提案、宣傳規劃到現場執行，累積大型零售通路行銷實務經驗。">
+                                    Contributed to annual and key seasonal department-store campaigns, covering concept development, proposals, promotional planning, and on-site execution, building a strong foundation in large-scale retail marketing.
                                 </span>
                             </p>
                         </div>
@@ -418,12 +644,12 @@
                         <div class="space-y-2">
                             <div class="flex items-center gap-2 text-brand-dark font-bold text-base">
                                 <span class="w-2.5 h-2.5 rounded-full bg-brand-teal"></span>
-                                <h4 data-en="Event Management & PR" data-zh="現場活動執行與媒體公關">Event Management & PR</h4>
+                                <h4 data-en="Event Management &amp; Media Relations" data-zh="活動企劃與媒體公關">Event Management &amp; Media Relations</h4>
                             </div>
                             <p class="text-sm text-brand-muted leading-relaxed font-normal pl-4 border-l-2 border-brand-border">
-                                <span data-en="Planned and hosted on-site events, serving as emcee and on-ground coordinator. Acted as media/PR liaison and drafted press releases for key campaigns (Japan Exhibition, Mother's Day, Anniversary Sale)."
-                                      data-zh="規劃並親自主持現場活動，統籌媒體公關發稿與新聞稿撰寫（週年慶、母親節、日本展等重要檔期）。">
-                                    Planned and hosted on-site events, serving as emcee and on-ground coordinator. Acted as media/PR liaison and drafted press releases for key campaigns (Japan Exhibition, Mother's Day, Anniversary Sale).
+                                <span data-en="Planned in-store events and brand collaborations, coordinating internal and external stakeholders while supporting media relations, promotional content, and on-site execution."
+                                      data-zh="規劃館內活動與品牌合作專案，協調內外部單位與執行資源，並參與媒體公關、宣傳內容與活動現場執行。">
+                                    Planned in-store events and brand collaborations, coordinating internal and external stakeholders while supporting media relations, promotional content, and on-site execution.
                                 </span>
                             </p>
                         </div>
@@ -432,12 +658,12 @@
                         <div class="space-y-2">
                             <div class="flex items-center gap-2 text-brand-dark font-bold text-base">
                                 <span class="w-2.5 h-2.5 rounded-full bg-brand-sage"></span>
-                                <h4 data-en="Cross-Industry Partnerships" data-zh="異業跨界合作洽談">Cross-Industry Partnerships</h4>
+                                <h4 data-en="Cross-Industry Partnerships &amp; Resource Integration" data-zh="異業合作與資源整合">Cross-Industry Partnerships &amp; Resource Integration</h4>
                             </div>
                             <p class="text-sm text-brand-muted leading-relaxed font-normal pl-4 border-l-2 border-brand-border">
-                                <span data-en="Partnered with brands across industries to boost mutual exposure and drive event attendance."
-                                      data-zh="主動洽談多元品牌異業合作，共享行銷資源以拓展客群與人流。">
-                                    Partnered with brands across industries to boost mutual exposure and drive event attendance.
+                                <span data-en="Coordinated cross-brand and external partnerships by integrating department-store, brand, promotional, and event resources to support seasonal campaigns and collaborative initiatives."
+                                      data-zh="洽談跨品牌與外部合作資源，整合百貨通路、品牌、宣傳與活動資源，推動檔期活動及合作專案落地。">
+                                    Coordinated cross-brand and external partnerships by integrating department-store, brand, promotional, and event resources to support seasonal campaigns and collaborative initiatives.
                                 </span>
                             </p>
                         </div>
@@ -451,9 +677,16 @@
     <!-- Core Expertise Section -->
     <section id="expertise" class="py-24 bg-white border-y border-brand-border px-6 lg:px-12">
         <div class="max-w-6xl mx-auto">
-            <div class="text-center max-w-2xl mx-auto mb-16">
-                <span class="text-xs uppercase tracking-widest font-bold text-brand-teal block mb-2" data-en="Core Strengths" data-zh="核心優勢">Core Strengths</span>
-                <h2 class="font-display text-4xl sm:text-5xl font-bold text-brand-dark" data-en="Core Expertise" data-zh="核心專業領域">Core Expertise</h2>
+            <div class="portfolio-section-header">
+                <div>
+                    <span class="portfolio-section-eyebrow text-brand-teal" data-en="CORE CAPABILITIES" data-zh="核心能力">CORE CAPABILITIES</span>
+                    <h2 class="portfolio-section-title" data-en="Core Expertise" data-zh="核心專業領域">Core Expertise</h2>
+                </div>
+                <p class="portfolio-section-description"
+                   data-en="Combining marketing execution, customer engagement, and AI-assisted project capabilities across cross-functional work."
+                   data-zh="整合行銷實務、顧客經營與 AI 專案能力，展現跨域職能與實作經驗。">
+                    Combining marketing execution, customer engagement, and AI-assisted project capabilities across cross-functional work.
+                </p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -530,7 +763,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div class="h-full px-6 py-5 rounded-2xl bg-white border border-brand-border">
                     <h3 class="font-bold text-base text-brand-dark mb-3" data-en="Marketing &amp; Data" data-zh="行銷與數據">Marketing &amp; Data</h3>
-                    <div class="flex flex-wrap gap-2">
+                    <div class="tool-list flex flex-wrap gap-2">
                         <span class="px-3 py-1.5 rounded-full bg-brand-terracotta/10 text-brand-dark text-xs font-medium">Excel</span>
                         <span class="px-3 py-1.5 rounded-full bg-brand-terracotta/10 text-brand-dark text-xs font-medium">Google Sheets</span>
                         <span class="px-3 py-1.5 rounded-full bg-brand-terracotta/10 text-brand-dark text-xs font-medium">LINE OA</span>
@@ -541,7 +774,7 @@
 
                 <div class="h-full px-6 py-5 rounded-2xl bg-white border border-brand-border">
                     <h3 class="font-bold text-base text-brand-dark mb-3" data-en="Design &amp; Project" data-zh="設計與專案">Design &amp; Project</h3>
-                    <div class="flex flex-wrap gap-2">
+                    <div class="tool-list flex flex-wrap gap-2">
                         <span class="px-3 py-1.5 rounded-full bg-brand-teal/10 text-brand-dark text-xs font-medium">Canva</span>
                         <span class="px-3 py-1.5 rounded-full bg-brand-teal/10 text-brand-dark text-xs font-medium">Figma</span>
                         <span class="px-3 py-1.5 rounded-full bg-brand-teal/10 text-brand-dark text-xs font-medium">Notion</span>
@@ -552,7 +785,7 @@
 
                 <div class="h-full px-6 py-5 rounded-2xl bg-white border border-brand-border">
                     <h3 class="font-bold text-base text-brand-dark mb-3" data-en="AI &amp; Productivity" data-zh="AI 與生產力工具">AI &amp; Productivity</h3>
-                    <div class="flex flex-wrap gap-2">
+                    <div class="tool-list flex flex-wrap gap-2">
                         <span class="px-3 py-1.5 rounded-full bg-brand-sage/20 text-brand-dark text-xs font-medium">ChatGPT</span>
                         <span class="px-3 py-1.5 rounded-full bg-brand-sage/20 text-brand-dark text-xs font-medium">Codex</span>
                         <span class="px-3 py-1.5 rounded-full bg-brand-sage/20 text-brand-dark text-xs font-medium">Gemini</span>
@@ -567,13 +800,13 @@
     <!-- Highlighted Projects Section -->
     <section id="projects" class="py-24 px-6 lg:px-12 bg-brand-bg">
         <div class="max-w-6xl mx-auto">
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 border-b border-brand-border pb-6">
+            <div class="portfolio-section-header">
                 <div>
-                    <span class="text-xs uppercase tracking-widest font-bold text-brand-teal block mb-2" data-en="Key Accomplishments" data-zh="核心專案成果">Key Accomplishments</span>
-                    <h2 class="font-display text-4xl sm:text-5xl font-bold text-brand-dark" data-en="Featured Projects" data-zh="精選行銷專案">Featured Projects</h2>
+                    <span class="portfolio-section-eyebrow text-brand-teal" data-en="SELECTED PROJECT IMPACT" data-zh="核心專案成果">SELECTED PROJECT IMPACT</span>
+                    <h2 class="portfolio-section-title" data-en="Selected Marketing Projects" data-zh="精選行銷專案">Selected Marketing Projects</h2>
                 </div>
-                <p class="text-sm text-brand-muted mt-2 md:mt-0 font-medium" data-en="Selected marketing initiatives demonstrating measurable brand and business growth." data-zh="精選代表性行銷專案，展現具體的品牌聲量與商業成長成果。">
-                    Selected marketing initiatives demonstrating measurable brand and business growth.
+                <p class="portfolio-section-description" data-en="Selected marketing projects highlighting brand impact and business growth outcomes." data-zh="精選代表性行銷專案，展現具體的品牌聲量與商業成長成果。">
+                    Selected marketing projects highlighting brand impact and business growth outcomes.
                 </p>
             </div>
 

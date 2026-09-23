@@ -187,6 +187,9 @@
             font-weight: 600;
             line-height: 1.5;
         }
+        #projects summary::-webkit-details-marker {
+            display: none;
+        }
         @media (min-width: 640px) {
             .portfolio-section-title {
                 font-size: 2.25rem;
@@ -760,61 +763,89 @@
             <div class="portfolio-section-header">
                 <div>
                     <span class="portfolio-section-eyebrow text-brand-teal" data-en="SELECTED PROJECT IMPACT" data-zh="核心專案成果">SELECTED PROJECT IMPACT</span>
-                    <h2 class="portfolio-section-title" data-en="Selected Marketing Projects" data-zh="精選行銷專案">Selected Marketing Projects</h2>
+                    <h2 class="portfolio-section-title" data-en="Selected Projects" data-zh="精選專案">Selected Projects</h2>
                 </div>
-                <p class="portfolio-section-description" data-en="Selected marketing projects highlighting brand impact and business growth outcomes." data-zh="精選代表性行銷專案，展現具體的品牌聲量與商業成長成果。">
-                    Selected marketing projects highlighting brand impact and business growth outcomes.
+                <p class="portfolio-section-description" data-en="Selected work across brand experiences, customer insights, and AI-assisted product development." data-zh="精選品牌活動、顧客洞察與 AI 協作產品開發的代表性專案。">
+                    Selected work across brand experiences, customer insights, and AI-assisted product development.
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Project 1 -->
-                <div class="clean-card rounded-3xl p-8 flex flex-col justify-between">
-                    <div>
-                        <div class="text-xs font-bold uppercase tracking-wider text-brand-terracotta mb-2">Hearts On Fire</div>
-                        <h3 class="text-xl font-bold text-brand-dark mb-3" data-en="High Jewelry VIP Salon" data-zh="頂級珠寶 VIP 尊榮沙龍">High Jewelry VIP Salon</h3>
-                        <p class="text-xs text-brand-muted leading-relaxed mb-6 font-normal"
-                           data-en="Coordinated private high-jewelry appreciation salons paired with fine wine tasting for elite clients, driving brand attachment and multi-million revenue conversions."
-                           data-zh="結合高級珠寶鑑賞與精品品酒會，專為金字塔頂端 VVIP 客戶打造私人鑑賞沙龍，成功強化品牌忠誠度並創造亮眼銷售轉換。">
-                            Coordinated private high-jewelry appreciation salons paired with fine wine tasting for elite clients, driving brand attachment and multi-million revenue conversions.
-                        </p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-start">
+                <!-- Project 1: Co-marketing VIP event -->
+                <details class="clean-card rounded-3xl p-6 sm:p-8 group">
+                    <summary class="cursor-pointer list-none rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-teal focus-visible:outline-offset-4">
+                        <span class="text-xs font-bold uppercase tracking-wider text-brand-terracotta block mb-3" data-en="Co-marketing &amp; Premium Customer Experience" data-zh="異業合作與高端客戶體驗">Co-marketing &amp; Premium Customer Experience</span>
+                        <h3 class="text-xl font-bold text-brand-dark mb-3" data-en="Premium Credit Card Brand × Jewelry VIP Salon" data-zh="高端信用卡品牌 × 珠寶 VIP 鑑賞會">Premium Credit Card Brand × Jewelry VIP Salon</h3>
+                        <p class="lower-section-body mb-4"><span data-en="Partnered with a premium credit card brand to invite high-value customers to a new jewelry collection showcase, achieving " data-zh="攜手高端信用卡品牌合作，邀約高價值客戶參與品牌珠寶新品鑑賞會達成 ">Partnered with a premium credit card brand to invite high-value customers to a new jewelry collection showcase, achieving </span><strong class="font-bold text-brand-dark" data-en="144% of the sales target" data-zh="144% 銷售目標">144% of the sales target</strong><span data-en=", demonstrating the dual value of co-marketing in building brand visibility and delivering business results." data-zh="，展現異業合作對品牌聲量與商業成效的雙重價值。">, demonstrating the dual value of co-marketing in building brand visibility and delivering business results.</span></p>
+                        <span class="flex items-center justify-between gap-4 pt-4 border-t border-brand-border text-sm font-semibold text-brand-dark">
+                            <span data-en="View case study" data-zh="查看專案內容">View case study</span>
+                            <i class="fa-solid fa-chevron-down text-brand-terracotta transition-transform group-open:rotate-180" aria-hidden="true"></i>
+                        </span>
+                    </summary>
+                    <div class="pt-6 space-y-5">
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Background &amp; Objective" data-zh="背景與目標">Background &amp; Objective</h4><p class="lower-section-body" data-en="To support a new product launch, we partnered with a premium credit card brand to host a jewelry appreciation and wine-tasting event. The curated experience aimed to engage high-net-worth customers, raise awareness of the new collection, and create sales opportunities." data-zh="配合品牌新品上市，攜手高端信用卡品牌舉辦珠寶鑑賞暨品酒會，透過精緻體驗接觸高資產客群，同時提升新品能見度並創造銷售機會。">To support a new product launch, we partnered with a premium credit card brand to host a jewelry appreciation and wine-tasting event. The curated experience aimed to engage high-net-worth customers, raise awareness of the new collection, and create sales opportunities.</p></div>
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="My Role" data-zh="我的角色">My Role</h4><p class="lower-section-body" data-en="Event coordination and execution" data-zh="活動統籌與執行">Event coordination and execution</p></div>
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Key Execution" data-zh="關鍵執行">Key Execution</h4><p class="lower-section-body" data-en="Managed the partner relationship, planned the event flow and experience, invited the wine-tasting instructor, designed and sent the eDM, and coordinated teams during on-site execution." data-zh="負責異業合作窗口對接、活動流程與體驗規劃、品酒講師邀約、eDM設計與發送，以及現場執行與跨單位協調。">Managed the partner relationship, planned the event flow and experience, invited the wine-tasting instructor, designed and sent the eDM, and coordinated teams during on-site execution.</p></div>
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Outcome &amp; Reflection" data-zh="成果與反思">Outcome &amp; Reflection</h4><p class="lower-section-body" data-en="The event reached 144% of its sales target, developed prospective high-end customers, and strengthened communication around the new collection through jewelry appreciation and wine tasting. It gave me end-to-end experience in premium co-marketing, VIP experience design, and sales-oriented event planning." data-zh="活動銷售業績達成率 144%，成功開發潛在高端客戶，並透過珠寶鑑賞與品酒體驗強化新品溝通。此專案讓我累積了高端異業合作、VIP體驗設計及銷售導向活動規劃的完整經驗。">The event reached 144% of its sales target, developed prospective high-end customers, and strengthened communication around the new collection through jewelry appreciation and wine tasting. It gave me end-to-end experience in premium co-marketing, VIP experience design, and sales-oriented event planning.</p></div>
                     </div>
-                    <div class="pt-4 border-t border-brand-border text-xs text-brand-dark font-semibold flex items-center">
-                        <i class="fa-solid fa-check text-brand-terracotta mr-1.5"></i> <span data-en="High-conversion VIP Engagement" data-zh="高轉換率 VIP 顧客黏著度">High-conversion VIP Engagement</span>
-                    </div>
-                </div>
+                </details>
 
-                <!-- Project 2 -->
-                <div class="clean-card rounded-3xl p-8 flex flex-col justify-between">
-                    <div>
-                        <div class="text-xs font-bold uppercase tracking-wider text-brand-teal mb-2">Hearts On Fire</div>
-                        <h3 class="text-xl font-bold text-brand-dark mb-3" data-en="CRM & LINE Segmentation" data-zh="CRM 分眾與 LINE 精準行銷">CRM & LINE Segmentation</h3>
-                        <p class="text-xs text-brand-muted leading-relaxed mb-6 font-normal"
-                           data-en="Restructured member data profiles into targeted audience tiers, deploying custom LINE/SMS push strategies that boosted appointment booking and retention rates."
-                           data-zh="重新建構會員資料分級與專屬輪廓，透過動態簡訊與 LINE 官方帳號精準推播，大幅提升會員回櫃預約率與顧客留存效益。">
-                            Restructured member data profiles into targeted audience tiers, deploying custom LINE/SMS push strategies that boosted appointment booking and retention rates.
-                        </p>
+                <!-- Project 2: Annual high-jewelry exhibition -->
+                <details class="clean-card rounded-3xl p-6 sm:p-8 group">
+                    <summary class="cursor-pointer list-none rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-teal focus-visible:outline-offset-4">
+                        <span class="text-xs font-bold uppercase tracking-wider text-brand-teal block mb-3" data-en="Major Brand Event &amp; VIP Experience" data-zh="大型品牌活動與 VIP 體驗策劃">Major Brand Event &amp; VIP Experience</span>
+                        <h3 class="text-xl font-bold text-brand-dark mb-3" data-en="Annual High-Jewelry Exhibition" data-zh="年度高級珠寶展">Annual High-Jewelry Exhibition</h3>
+                        <p class="lower-section-body mb-4" data-en="Coordinating a large-scale exhibition that brings the brand's craftsmanship and VIP experience to life." data-zh="策畫與執行品牌高級珠寶展，細緻傳遞珠寶工藝與品牌價值美學，打造符合精品定位的尊榮鑑賞體驗。">Coordinating a large-scale exhibition that brings the brand's craftsmanship and VIP experience to life.</p>
+                        <span class="flex items-center justify-between gap-4 pt-4 border-t border-brand-border text-sm font-semibold text-brand-dark">
+                            <span data-en="View case study" data-zh="查看專案內容">View case study</span>
+                            <i class="fa-solid fa-chevron-down text-brand-teal transition-transform group-open:rotate-180" aria-hidden="true"></i>
+                        </span>
+                    </summary>
+                    <div class="pt-6 space-y-5">
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Background &amp; Objective" data-zh="背景與目標">Background &amp; Objective</h4><p class="lower-section-body" data-en="The brand holds two major high-jewelry exhibitions each year. Jewelry appreciation, model presentations, and interactive experiences showcase its craftsmanship and collections while deepening VIP relationships and supporting key sales periods." data-zh="品牌每年舉辦兩次大型高級珠寶展，透過珠寶鑑賞、模特兒走秀與互動體驗，呈現品牌工藝與產品特色，並深化VIP客戶關係、支持重要銷售檔期。">The brand holds two major high-jewelry exhibitions each year. Jewelry appreciation, model presentations, and interactive experiences showcase its craftsmanship and collections while deepening VIP relationships and supporting key sales periods.</p></div>
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="My Role" data-zh="我的角色">My Role</h4><p class="lower-section-body" data-en="Supported the Assistant Marketing Manager in project coordination and on-site execution" data-zh="協助行銷副理進行專案統籌與落地執行">Supported the Assistant Marketing Manager in project coordination and on-site execution</p></div>
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Key Execution" data-zh="關鍵執行">Key Execution</h4><p class="lower-section-body" data-en="Contributed to the event concept, venue evaluation, model casting, runway and on-site flow planning. I also handled eDM design and distribution, interactive experiences and gifts, partnership and VIP invitations, supplier coordination, and on-site execution." data-zh="參與活動主題發想、場地評估、Model Casting、走秀及現場流程規劃；同時負責eDM設計與發送、互動體驗與贈禮規劃、異業合作及VIP邀約，並協調供應商與現場執行。">Contributed to the event concept, venue evaluation, model casting, runway and on-site flow planning. I also handled eDM design and distribution, interactive experiences and gifts, partnership and VIP invitations, supplier coordination, and on-site execution.</p></div>
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Outcome &amp; Reflection" data-zh="成果與反思">Outcome &amp; Reflection</h4><p class="lower-section-body" data-en="Integrated work across internal teams, external suppliers, and partner brands to deliver the event on schedule while maintaining a premium brand experience. This large-scale event strengthened my skills in timeline management, stakeholder coordination, and on-site problem solving, and reinforced that a high-end event communicates brand value through the entire experience—not only the products on display." data-zh="完成跨部門、外部廠商與合作品牌的整合執行，確保活動如期落地並維持高端品牌質感。透過大型活動的實務經驗，我進一步建立專案時程控管、利害關係人協調及現場應變能力，也理解高端活動不只是展示商品，更需要以完整體驗傳遞品牌價值。">Integrated work across internal teams, external suppliers, and partner brands to deliver the event on schedule while maintaining a premium brand experience. This large-scale event strengthened my skills in timeline management, stakeholder coordination, and on-site problem solving, and reinforced that a high-end event communicates brand value through the entire experience—not only the products on display.</p></div>
                     </div>
-                    <div class="pt-4 border-t border-brand-border text-xs text-brand-dark font-semibold flex items-center">
-                        <i class="fa-solid fa-check text-brand-teal mr-1.5"></i> <span data-en="Accelerated Store Appointments" data-zh="大幅帶動專櫃預約回櫃率">Accelerated Store Appointments</span>
-                    </div>
-                </div>
+                </details>
 
-                <!-- Project 3 -->
-                <div class="clean-card rounded-3xl p-8 flex flex-col justify-between">
-                    <div>
-                        <div class="text-xs font-bold uppercase tracking-wider text-brand-dark mb-2">Far Eastern SOGO</div>
-                        <h3 class="text-xl font-bold text-brand-dark mb-3" data-en="Anniversary Campaign & PR" data-zh="百貨週年慶整合行銷與公關">Anniversary Campaign & PR</h3>
-                        <p class="text-xs text-brand-muted leading-relaxed mb-6 font-normal"
-                           data-en="Managed integrated promotional campaigns, press release distribution, and hosted key events for peak store occasions (Anniversary Sale, Japan Exhibition)."
-                           data-zh="統籌全館大型檔期（週年慶、日本展、母親節）之整合行銷促銷方案、媒體新聞稿發稿與現場活動主持，極大化人流與媒體曝光。">
-                            Managed integrated promotional campaigns, press release distribution, and hosted key events for peak store occasions (Anniversary Sale, Japan Exhibition).
-                        </p>
+                <!-- Project 3: Tableau CRM dashboard -->
+                <details class="clean-card rounded-3xl p-6 sm:p-8 group">
+                    <summary class="cursor-pointer list-none rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-teal focus-visible:outline-offset-4">
+                        <span class="text-xs font-bold uppercase tracking-wider text-brand-sage block mb-3" data-en="Customer Analysis &amp; Data Visualization" data-zh="顧客資料分析與數據視覺化">Customer Analysis &amp; Data Visualization</span>
+                        <h3 class="text-xl font-bold text-brand-dark mb-3">Tableau CRM Dashboard</h3>
+                        <p class="lower-section-body mb-4" data-en="Turning raw CRM data into clearer views of customer profiles and spending trends." data-zh="將 CRM 原始資料轉化為顧客輪廓與消費趨勢的視覺化洞察。">Turning raw CRM data into clearer views of customer profiles and spending trends.</p>
+                        <span class="flex items-center justify-between gap-4 pt-4 border-t border-brand-border text-sm font-semibold text-brand-dark">
+                            <span data-en="View case study" data-zh="查看專案內容">View case study</span>
+                            <i class="fa-solid fa-chevron-down text-brand-sage transition-transform group-open:rotate-180" aria-hidden="true"></i>
+                        </span>
+                    </summary>
+                    <div class="pt-6 space-y-5">
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Background &amp; Objective" data-zh="背景與目標">Background &amp; Objective</h4><p class="lower-section-body" data-en="I reorganized scattered, hard-to-read raw CRM data into an interactive Tableau dashboard so customer structure, purchasing behavior, and key metrics could be understood more intuitively." data-zh="將分散且不易閱讀的CRM原始資料重新整理，運用Tableau建立互動式Dashboard，讓顧客結構、消費行為與關鍵指標能以更直觀的方式呈現。">I reorganized scattered, hard-to-read raw CRM data into an interactive Tableau dashboard so customer structure, purchasing behavior, and key metrics could be understood more intuitively.</p></div>
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="My Role" data-zh="我的角色">My Role</h4><p class="lower-section-body" data-en="Data preparation and analysis, metric planning, and visualization" data-zh="資料整理與分析、指標規劃、數據視覺化">Data preparation and analysis, metric planning, and visualization</p></div>
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Key Execution" data-zh="關鍵執行">Key Execution</h4><p class="lower-section-body" data-en="Cleaned and categorized raw data, clarified analysis needs and key metrics, and designed charts, filters, and the dashboard information hierarchy around user scenarios." data-zh="進行原始資料清理與欄位分類，梳理分析需求與關鍵指標，並依據使用情境設計視覺化圖表、篩選條件及Dashboard資訊層級。">Cleaned and categorized raw data, clarified analysis needs and key metrics, and designed charts, filters, and the dashboard information hierarchy around user scenarios.</p></div>
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Outcome &amp; Reflection" data-zh="成果與反思">Outcome &amp; Reflection</h4><p class="lower-section-body" data-en="Completed a dashboard for quickly understanding customer profiles and spending trends, turning raw data into information that is easier to interpret and use in decisions. The project strengthened my data preparation, metric definition, and data storytelling skills from a marketing user's perspective." data-zh="完成可快速掌握顧客輪廓與消費趨勢的視覺化Dashboard，將原始資料轉化為較容易理解與應用的決策資訊。此專案也讓我從行銷使用者角度出發，進一步培養資料整理、指標定義及數據敘事能力。">Completed a dashboard for quickly understanding customer profiles and spending trends, turning raw data into information that is easier to interpret and use in decisions. The project strengthened my data preparation, metric definition, and data storytelling skills from a marketing user's perspective.</p></div>
                     </div>
-                    <div class="pt-4 border-t border-brand-border text-xs text-brand-dark font-semibold flex items-center">
-                        <i class="fa-solid fa-check text-brand-dark mr-1.5"></i> <span data-en="Maximized PR & Foot Traffic" data-zh="極大化媒體聲量與集客力">Maximized PR & Foot Traffic</span>
+                </details>
+
+                <!-- Project 4: Nurtured Bloom -->
+                <details class="clean-card rounded-3xl p-6 sm:p-8 group">
+                    <summary class="cursor-pointer list-none rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-teal focus-visible:outline-offset-4">
+                        <span class="text-xs font-bold uppercase tracking-wider text-brand-terracotta block mb-3" data-en="AI Collaboration, UX Design &amp; MVP Development" data-zh="AI協作、UX設計與MVP開發">AI Collaboration, UX Design &amp; MVP Development</span>
+                        <h3 class="text-xl font-bold text-brand-dark mb-3" data-en="Nurtured Bloom" data-zh="Nurtured Bloom｜孕育之美">Nurtured Bloom</h3>
+                        <p class="lower-section-body mb-4" data-en="A working pregnancy support MVP with 172 reviewed knowledge records and an 82.8% initial AI test pass rate." data-zh="緯育 TibaMe 個人專題，旨在開發一款孕媽咪 AI 智慧守護平台，透過 AI 協作與專業知識庫建置，完成具備實際操作與應用價值的 MVP。">A working pregnancy support MVP with 172 reviewed knowledge records and an 82.8% initial AI test pass rate.</p>
+                        <span class="flex items-center justify-between gap-4 pt-4 border-t border-brand-border text-sm font-semibold text-brand-dark">
+                            <span data-en="View case study" data-zh="查看專案內容">View case study</span>
+                            <i class="fa-solid fa-chevron-down text-brand-terracotta transition-transform group-open:rotate-180" aria-hidden="true"></i>
+                        </span>
+                    </summary>
+                    <div class="pt-6 space-y-5">
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Background &amp; Objective" data-zh="背景與目標">Background &amp; Objective</h4><p class="lower-section-body" data-en="Pregnancy information is fragmented and costly to search, making it difficult for expectant mothers to quickly assess its reliability. I planned a pregnancy support platform combining pregnancy management, baby development records, and AI Q&amp;A." data-zh="針對孕期資訊分散、搜尋成本高，以及準媽媽難以快速判斷資訊可信度等問題，規劃一款整合孕期管理、寶寶成長紀錄與AI問答功能的孕期助理平台。">Pregnancy information is fragmented and costly to search, making it difficult for expectant mothers to quickly assess its reliability. I planned a pregnancy support platform combining pregnancy management, baby development records, and AI Q&amp;A.</p></div>
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="My Role" data-zh="我的角色">My Role</h4><p class="lower-section-body" data-en="Product planning and project management, UI/UX design, AI collaboration, and MVP development" data-zh="產品企劃與專案管理、UI／UX設計、AI協作與MVP開發">Product planning and project management, UI/UX design, AI collaboration, and MVP development</p></div>
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Key Execution" data-zh="關鍵執行">Key Execution</h4><p class="lower-section-body" data-en="Starting from user pain points and feature needs, I developed the information architecture, user flows, interface design, and responsive MVP. I integrated a pregnancy overview, prenatal visit map, consultation notes, pregnancy journal, baby development, and AI pregnancy assistant, and established a medical knowledge base and Q&amp;A testing process." data-zh="從使用者痛點與功能需求出發，完成資訊架構、使用流程、介面設計及RWD開發；整合孕期總覽、產檢地圖、問診備忘錄、孕期日記、寶寶成長與AI孕期助理等功能，並建立醫療知識庫與問答測試流程。">Starting from user pain points and feature needs, I developed the information architecture, user flows, interface design, and responsive MVP. I integrated a pregnancy overview, prenatal visit map, consultation notes, pregnancy journal, baby development, and AI pregnancy assistant, and established a medical knowledge base and Q&amp;A testing process.</p></div>
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Outcome &amp; Reflection" data-zh="成果與反思">Outcome &amp; Reflection</h4><p class="lower-section-body" data-en="Completed a working MVP v1.0 with 172 reviewed pregnancy knowledge records. The AI assistant was tested with 87 questions and reached an initial overall pass rate of 82.8%. This project let me practice the full cycle from requirements and product design to system development and iterative testing, while building hands-on experience in using AI tools to advance digital product development." data-zh="完成可實際操作的 MVP v1.0，建立172筆審核後的孕期知識內容，並以87道題目進行AI助理測試，初期整體通過率達 82.8%。此專案讓我完整實踐從需求定義、產品設計、系統開發到測試迭代的流程，也累積了運用AI工具推進數位產品開發的實務經驗。">Completed a working MVP v1.0 with 172 reviewed pregnancy knowledge records. The AI assistant was tested with 87 questions and reached an initial overall pass rate of 82.8%. This project let me practice the full cycle from requirements and product design to system development and iterative testing, while building hands-on experience in using AI tools to advance digital product development.</p></div>
                     </div>
-                </div>
+                </details>
             </div>
         </div>
     </section>

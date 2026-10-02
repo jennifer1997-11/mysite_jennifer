@@ -233,21 +233,9 @@
         * {
             -webkit-tap-highlight-color: transparent;
         }
-        @keyframes eqBar {
-            0%, 100% { height: 4px; }
-            50% { height: 14px; }
-        }
-        .equalizer-active span:nth-child(1) { animation: eqBar 0.8s ease-in-out infinite; }
-        .equalizer-active span:nth-child(2) { animation: eqBar 1.2s ease-in-out infinite 0.2s; }
-        .equalizer-active span:nth-child(3) { animation: eqBar 0.9s ease-in-out infinite 0.4s; }
     </style>
 </head>
 <body class="font-sans antialiased text-brand-dark selection:bg-brand-dark selection:text-white overflow-x-hidden">
-
-    <!-- Background Audio Element -->
-    <audio id="bgAudio" loop preload="auto">
-        <source src="https://img.ai365.fans/artworks/55304178-0864-40fa-9948-2ff91a24f9d6/q48vlc65lu.mp3" type="audio/mpeg">
-    </audio>
 
     <!-- Navigation Header -->
     <header class="fixed top-0 left-0 right-0 z-50 bg-brand-bg/90 backdrop-blur-md border-b border-brand-border/60 transition-all duration-300" id="navbar">
@@ -260,16 +248,17 @@
                     </div>
                     <div>
                         <span class="font-bold text-sm sm:text-base tracking-tight text-brand-dark block uppercase">Portfolio</span>
-                        <span class="text-[10px] sm:text-xs text-brand-muted tracking-wider uppercase block -mt-1 font-medium" data-en="BRAND &amp; RETAIL MARKETING · Co-MARKETING · PROJECT MANAGEMENT" data-zh="品牌與通路行銷 · 異業合作 · 專案管理">BRAND &amp; RETAIL MARKETING · Co-MARKETING · PROJECT MANAGEMENT</span>
+                        <span class="text-[9px] sm:text-[10px] leading-[1.25] text-brand-muted tracking-wider uppercase block -mt-0.5 font-medium max-w-[190px] sm:max-w-[260px] lg:max-w-none" data-en="BRAND &amp; RETAIL MARKETING · CO-MARKETING · PROJECT MANAGEMENT" data-zh="品牌與通路行銷 · 異業合作 · 專案管理">BRAND &amp; RETAIL MARKETING · CO-MARKETING · PROJECT MANAGEMENT</span>
                     </div>
                 </a>
 
                 <!-- Desktop Nav Navigation (Switch to lg:flex for optimal tablet layout) -->
                 <nav class="hidden lg:flex items-center gap-6 xl:gap-8 text-sm font-semibold">
                     <a href="#about" class="text-brand-dark/80 hover:text-brand-dark transition-colors whitespace-nowrap" data-en="A Bit About Me" data-zh="關於我">A Bit About Me</a>
+                    <a href="#achievements" class="text-brand-dark/80 hover:text-brand-dark transition-colors whitespace-nowrap" data-en="Achievements" data-zh="代表成果">Achievements</a>
                     <a href="#experience" class="text-brand-dark/80 hover:text-brand-dark transition-colors whitespace-nowrap" data-en="Resume" data-zh="履歷經歷">Resume</a>
-                    <a href="#expertise" class="text-brand-dark/80 hover:text-brand-dark transition-colors whitespace-nowrap" data-en="Competencies" data-zh="核心專業">Competencies</a>
                     <a href="#projects" class="text-brand-dark/80 hover:text-brand-dark transition-colors whitespace-nowrap" data-en="Projects" data-zh="精選專案">Projects</a>
+                    <a href="#expertise" class="text-brand-dark/80 hover:text-brand-dark transition-colors whitespace-nowrap" data-en="Competencies" data-zh="核心專業">Competencies</a>
 
                     <!-- LinkedIn Profile Link (Desktop Header) -->
                     <a href="https://www.linkedin.com/in/jennifer-chen-3b1b951ba" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile" class="text-brand-dark/80 hover:text-[#0A66C2] transition-colors text-lg flex items-center" title="LinkedIn Profile">
@@ -279,12 +268,6 @@
                     <a href="#contact" class="px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider text-white bg-brand-dark hover:bg-brand-terracotta transition-colors whitespace-nowrap" data-en="Contact Me" data-zh="聯絡我">
                         Contact Me
                     </a>
-
-                    <!-- Background Music Toggle Button (Header Desktop) -->
-                    <button id="musicToggleBtn" onclick="toggleMusic()" aria-label="Toggle Background Music" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-softGray border border-brand-border text-xs font-semibold text-brand-dark hover:bg-brand-border transition-all group whitespace-nowrap">
-                        <i class="fa-solid fa-music text-brand-muted group-hover:text-brand-terracotta transition-colors" id="musicIcon"></i>
-                        <span id="musicText" class="hidden xl:inline text-xs" data-en="Music Off" data-zh="背景音樂：關">背景音樂：關</span>
-                    </button>
 
                     <!-- Language Switcher Toggle -->
                     <div class="flex items-center bg-brand-softGray p-1 rounded-full border border-brand-border text-xs font-bold">
@@ -299,11 +282,6 @@
                     <a href="https://www.linkedin.com/in/jennifer-chen-3b1b951ba" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile" class="w-8 h-8 rounded-full bg-brand-softGray border border-brand-border flex items-center justify-center text-brand-dark hover:text-[#0A66C2] text-sm">
                         <i class="fa-brands fa-linkedin"></i>
                     </a>
-
-                    <!-- Mobile Music Toggle Button -->
-                    <button id="mobMusicToggleBtn" onclick="toggleMusic()" aria-label="Toggle Background Music" class="w-8 h-8 rounded-full bg-brand-softGray border border-brand-border flex items-center justify-center text-brand-dark text-xs">
-                        <i class="fa-solid fa-music text-brand-muted" id="mobMusicIcon"></i>
-                    </button>
 
                     <!-- Mobile Language Switcher -->
                     <div class="flex items-center bg-brand-softGray p-0.5 rounded-full border border-brand-border text-xs font-bold">
@@ -320,9 +298,10 @@
         <!-- Mobile Navigation Drawer -->
         <div id="mobileMenu" class="hidden lg:hidden bg-brand-bg/95 backdrop-blur-md border-b border-brand-border px-6 pt-2 pb-6 space-y-3 max-h-[80vh] overflow-y-auto shadow-2xl">
             <a href="#about" class="mobile-nav-link block py-2.5 text-base font-semibold text-brand-dark border-b border-brand-border/40" data-en="A Bit About Me" data-zh="關於我">A Bit About Me</a>
+            <a href="#achievements" class="mobile-nav-link block py-2.5 text-base font-semibold text-brand-dark border-b border-brand-border/40" data-en="Achievements" data-zh="代表成果">Achievements</a>
             <a href="#experience" class="mobile-nav-link block py-2.5 text-base font-semibold text-brand-dark border-b border-brand-border/40" data-en="Resume" data-zh="履歷經歷">Resume</a>
-            <a href="#expertise" class="mobile-nav-link block py-2.5 text-base font-semibold text-brand-dark border-b border-brand-border/40" data-en="Competencies" data-zh="核心專業">Competencies</a>
             <a href="#projects" class="mobile-nav-link block py-2.5 text-base font-semibold text-brand-dark border-b border-brand-border/40" data-en="Projects" data-zh="精選專案">Projects</a>
+            <a href="#expertise" class="mobile-nav-link block py-2.5 text-base font-semibold text-brand-dark border-b border-brand-border/40" data-en="Competencies" data-zh="核心專業">Competencies</a>
             <a href="https://www.linkedin.com/in/jennifer-chen-3b1b951ba" target="_blank" rel="noopener noreferrer" class="mobile-nav-link flex items-center gap-2 py-2.5 text-base font-semibold text-[#0A66C2] border-b border-brand-border/40">
                 <i class="fa-brands fa-linkedin text-xl"></i> LinkedIn Profile
             </a>
@@ -358,7 +337,7 @@
                     </div>
 
                     <div class="space-y-3">
-                        <span class="text-xs uppercase tracking-widest font-bold text-brand-terracotta block" data-en="MARKETING × CRM × AI PM" data-zh="行銷 × CRM × AI 專案管理">MARKETING × CRM × AI PM</span>
+                        <span class="text-xs uppercase tracking-widest font-bold text-brand-terracotta block" data-en="MARKETING × CO-MARKETING × PROJECT MANAGEMENT" data-zh="行銷 × 異業合作 × 專案管理">MARKETING × CO-MARKETING × PROJECT MANAGEMENT</span>
                         <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-brand-dark tracking-tight leading-tight" data-en="Expertise in Brand &amp; Retail Marketing, Enhanced by Project Management and AI." data-zh="深耕品牌與通路行銷，結合專案管理與 AI 賦能">
                             Expertise in Brand &amp; Retail Marketing, Enhanced by Project Management and AI.
                         </h2>
@@ -399,6 +378,44 @@
         </div>
     </section>
 
+    <!-- Key Achievements Section -->
+    <section id="achievements" class="py-16 sm:py-20 px-4 sm:px-6 lg:px-12 bg-white border-y border-brand-border scroll-mt-20">
+        <div class="max-w-6xl mx-auto">
+            <div class="portfolio-section-header">
+                <div>
+                    <span class="portfolio-section-eyebrow text-brand-terracotta" data-en="MEASURABLE IMPACT" data-zh="量化成果">MEASURABLE IMPACT</span>
+                    <h2 class="portfolio-section-title" data-en="Key Achievements" data-zh="代表成果">Key Achievements</h2>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
+                <a href="#project-vip-event" class="clean-card rounded-2xl p-6 sm:p-7 group block focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-terracotta focus-visible:outline-offset-4">
+                    <span class="font-display text-3xl sm:text-4xl font-bold leading-[1.15] pt-1 text-brand-terracotta block mb-4" data-en="144%" data-zh="144%">144%</span>
+                    <p class="text-sm text-brand-muted leading-relaxed font-medium" data-en="Sales target attainment through a co-marketing event" data-zh="異業合作之活動銷售達成率">Sales target attainment through a co-marketing event</p>
+                    <span class="inline-flex items-center gap-2 mt-5 text-xs font-bold uppercase tracking-wider text-brand-dark group-hover:text-brand-terracotta transition-colors">
+                        <span data-en="View project" data-zh="查看專案">View project</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                    </span>
+                </a>
+
+                <a href="#achievement-line-members" class="clean-card rounded-2xl p-6 sm:p-7 group block focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-sage focus-visible:outline-offset-4">
+                    <span class="font-display text-3xl sm:text-4xl font-bold leading-[1.15] pt-1 text-[#52634A] block mb-4" data-en="110K+" data-zh="11萬+">110K+</span>
+                    <p class="text-sm text-brand-muted leading-relaxed font-medium" data-en="Members reached through brand LINE Official Account growth initiatives" data-zh="推動品牌LINE官方帳號累積會員">Members reached through brand LINE Official Account growth initiatives</p>
+                    <span class="inline-flex items-center gap-2 mt-5 text-xs font-bold uppercase tracking-wider text-brand-dark group-hover:text-[#52634A] transition-colors">
+                        <span data-en="View experience" data-zh="查看經歷">View experience</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                    </span>
+                </a>
+
+                <a href="#achievement-cost-reduction" class="clean-card rounded-2xl p-6 sm:p-7 group block focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-teal focus-visible:outline-offset-4">
+                    <span class="font-display text-3xl sm:text-4xl font-bold leading-[1.15] pt-1 text-brand-teal block mb-4" data-en="42.5%" data-zh="42.5%">42.5%</span>
+                    <p class="text-sm text-brand-muted leading-relaxed font-medium" data-en="Marketing cost reduction through department-store negotiations" data-zh="通路談判降低行銷成本">Marketing cost reduction through department-store negotiations</p>
+                    <span class="inline-flex items-center gap-2 mt-5 text-xs font-bold uppercase tracking-wider text-brand-dark group-hover:text-brand-teal transition-colors">
+                        <span data-en="View experience" data-zh="查看經歷">View experience</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Work Experience / Resume Section -->
     <section id="experience" class="py-20 sm:py-24 px-4 sm:px-6 lg:px-12 bg-brand-bg">
         <div class="max-w-6xl mx-auto">
@@ -417,61 +434,6 @@
 
             <!-- Resume Timeline List -->
             <div class="space-y-8 sm:space-y-12">
-                <!-- TibaMe -->
-                <article class="clean-card rounded-3xl p-6 sm:p-8 lg:p-10 relative">
-                <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4 lg:gap-6 mb-6 sm:mb-8 pb-6 border-b border-brand-border">
-                    <div>
-                        <div class="experience-meta inline-block px-3 py-1 rounded-full bg-brand-terracotta/10 text-brand-terracotta mb-3" data-en="2026.07 – 2026.10" data-zh="2026.07 – 2026.10">
-                            2026.07 – 2026.10
-                        </div>
-                        <h3 class="experience-title" data-en="AI Project Management Training" data-zh="AI專案管理進修課程">AI Project Management Training</h3>
-                        <p class="experience-company mt-1" data-en="TibaMe" data-zh="TibaMe 緯育">TibaMe</p>
-                    </div>
-                    <div class="experience-meta text-left lg:text-right text-brand-muted flex lg:flex-col items-center lg:items-end gap-2">
-                        <span class="px-3 py-1 rounded-lg bg-brand-softGray"><i class="fa-solid fa-location-dot mr-1"></i> <span data-en="Taiwan" data-zh="台灣">Taiwan</span></span>
-                    </div>
-                </div>
-
-                <div class="border-l-2 border-brand-terracotta pl-5 sm:pl-6 mb-7">
-                    <h4 class="experience-category-title mb-3" data-en="AI Project Management &amp; Cross-functional Practice" data-zh="AI 專案管理與跨域實作">AI Project Management &amp; Cross-functional Practice</h4>
-                    <p class="experience-body" data-en="Developing project management and AI collaboration capabilities across requirement analysis, user research, project planning, data applications, and digital product development, while integrating generative AI and AI tools into research, planning, MVP development, and iterative validation." data-zh="系統性學習專案管理與 AI 協作方法，涵蓋需求分析、使用者研究、專案規劃、數據應用與數位產品實作，並將生成式 AI 與 AI 工具導入研究、企劃、MVP 開發及迭代驗證流程。">Developing project management and AI collaboration capabilities across requirement analysis, user research, project planning, data applications, and digital product development, while integrating generative AI and AI tools into research, planning, MVP development, and iterative validation.</p>
-                </div>
-
-                <h4 class="experience-project-heading font-display mb-4" data-en="Project Practice" data-zh="Project Practice｜專題實作">Project Practice</h4>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                    <div class="rounded-2xl border border-brand-border bg-white/70 p-4 sm:p-5">
-                        <h5 class="experience-project-title mb-2" data-en="Individual Project | Nurtured Bloom" data-zh="個人專題｜孕育之美 Nurtured Bloom">Individual Project | Nurtured Bloom</h5>
-                        <p class="experience-body" data-en="Translated fragmented pregnancy information and user needs into product requirements, UX flows, feature planning, and a structured knowledge base, using AI-assisted workflows to develop a functional pregnancy support MVP." data-zh="從孕期資訊分散與使用者需求出發，進行需求分析、產品功能規劃、UX 流程與知識庫架構設計，運用 AI 協作完成可操作的孕期數位助理 MVP。">Translated fragmented pregnancy information and user needs into product requirements, UX flows, feature planning, and a structured knowledge base, using AI-assisted workflows to develop a functional pregnancy support MVP.</p>
-                    </div>
-                    <div class="rounded-2xl border border-brand-border bg-white/70 p-4 sm:p-5">
-                        <h5 class="experience-project-title mb-2" data-en="Team Project | AI-Enabled Digital Transformation in the Mold Industry" data-zh="團體專題｜模具業 AI 數位轉型">Team Project | AI-Enabled Digital Transformation in the Mold Industry</h5>
-                        <p class="experience-body" data-en="A team project exploring AI applications in drawing de-identification, engineering information translation, and workflow improvement for drawing preparation and pre-quotation processes in the mold industry. (In Progress)" data-zh="以模具廠報價圖面處理與估價前置流程為主題，探索 AI 在圖面去識別化、工程資訊翻譯及工作流程改善上的應用。（進行中）">A team project exploring AI applications in drawing de-identification, engineering information translation, and workflow improvement for drawing preparation and pre-quotation processes in the mold industry. (In Progress)</p>
-                    </div>
-                </div>
-                </article>
-
-                <!-- Australia Working Holiday -->
-                <article class="clean-card rounded-3xl p-6 sm:p-8 lg:p-10 relative">
-                    <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4 lg:gap-6 mb-6 sm:mb-8 pb-6 border-b border-brand-border">
-                        <div>
-                            <div class="experience-meta inline-block px-3 py-1 rounded-full bg-brand-terracotta/10 text-brand-terracotta mb-3" data-en="2025.08 – 2026.06" data-zh="2025.08 – 2026.06">
-                                2025.08 – 2026.06
-                            </div>
-                            <h3 class="experience-title" data-en="Gap Year in Australia" data-zh="Gap Year 澳洲打工度假">Gap Year in Australia</h3>
-                        </div>
-                        <div class="experience-meta text-left lg:text-right text-brand-muted flex lg:flex-col items-center lg:items-end gap-2">
-                            <span class="px-3 py-1 rounded-lg bg-brand-softGray"><i class="fa-solid fa-location-dot mr-1"></i> <span data-en="Australia" data-zh="澳洲">Australia</span></span>
-                        </div>
-                    </div>
-                    <div class="border-l-2 border-brand-terracotta pl-5 sm:pl-6">
-                        <h4 class="experience-category-title mb-3" data-en="International Experience" data-zh="國際經歷">International Experience</h4>
-                        <div class="experience-body space-y-3">
-                            <p data-en="Took a planned working holiday in Australia, developing cross-cultural communication, teamwork, and adaptability in a fast-paced service environment." data-zh="規劃澳洲打工度假，在高節奏服務環境中培養跨文化溝通、團隊合作與快速應變能力。">Took a planned working holiday in Australia, developing cross-cultural communication, teamwork, and adaptability in a fast-paced service environment.</p>
-                            <p data-en="Expanded my international perspective through overseas work and life experience before returning to Taiwan to further develop capabilities in AI and project management." data-zh="並透過海外生活與工作經驗拓展國際視野，返台後進一步投入 AI 與專案管理職能進修，展開下一階段職涯發展。">Expanded my international perspective through overseas work and life experience before returning to Taiwan to further develop capabilities in AI and project management.</p>
-                        </div>
-                    </div>
-                </article>
-
                 <!-- HEARTS ON FIRE -->
                 <div class="clean-card rounded-3xl p-6 sm:p-8 lg:p-10 relative">
                     <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4 lg:gap-6 mb-6 sm:mb-8 pb-6 border-b border-brand-border">
@@ -533,7 +495,7 @@
                                     Executed segmented communications through LINE OA and SMS, while contributing to annual and quarterly GWP planning to connect member engagement, brand activities, and revisit opportunities.
                                 </span>
                             </p>
-                            <div class="ml-4 rounded-xl bg-brand-sage/20 px-4 py-3 text-sm">
+                            <div id="achievement-line-members" class="ml-4 rounded-xl bg-brand-sage/20 px-4 py-3 text-sm scroll-mt-28">
                                 <span class="experience-achievement-label block tracking-widest text-[#52634A] mb-1" data-en="KEY ACHIEVEMENT" data-zh="關鍵成果">KEY ACHIEVEMENT</span>
                                 <p class="experience-achievement-text" data-en="Integrated online and offline campaigns, MGM referral initiatives, and retail incentive programs, and helped grow the LINE Official Account to over 110,000 members." data-zh="整合品牌線上與線下活動、MGM 會員推薦機制及店鋪激勵活動，推動 LINE 官方帳號累積超過 11 萬名會員。">Integrated online and offline campaigns, MGM referral initiatives, and retail incentive programs, and helped grow the LINE Official Account to over 110,000 members.</p>
                             </div>
@@ -563,7 +525,7 @@
                                 <span data-en="Integrated department-store resources and seasonal promotions, planned offline media activities and in-store POP visual merchandising, and drove the execution of marketing projects and brand activities."
                                       data-zh="整合百貨通路資源、檔期促銷，規劃線下媒體操作與櫃內 POP 視覺陳列，推進行銷專案與品牌活動落地。">Integrated department-store resources and seasonal promotions, planned offline media activities and in-store POP visual merchandising, and drove the execution of marketing projects and brand activities.</span>
                             </p>
-                            <div class="ml-4 rounded-xl bg-brand-teal/10 px-4 py-3 text-sm">
+                            <div id="achievement-cost-reduction" class="ml-4 rounded-xl bg-brand-teal/10 px-4 py-3 text-sm scroll-mt-28">
                                 <span class="experience-achievement-label block tracking-widest text-brand-teal mb-1" data-en="KEY ACHIEVEMENT" data-zh="關鍵成果">KEY ACHIEVEMENT</span>
                                 <p class="experience-achievement-text" data-en="Negotiated resource exchanges and partnership terms with department-store channels, reducing marketing costs by 42.5% while maintaining brand exposure and execution needs." data-zh="透過百貨通路資源交換與合作條件談判，在維持品牌曝光與行銷執行需求下，降低 42.5% 行銷成本。">Negotiated resource exchanges and partnership terms with department-store channels, reducing marketing costs by 42.5% while maintaining brand exposure and execution needs.</p>
                             </div>
@@ -680,6 +642,158 @@
                     </div>
                 </article>
 
+                <div class="pt-4 sm:pt-6">
+                    <h3 class="font-display text-2xl sm:text-3xl font-bold text-brand-dark tracking-tight" data-en="Professional Development &amp; International Experience" data-zh="海外經驗與進修課程">Professional Development &amp; International Experience</h3>
+                </div>
+
+                <!-- TibaMe -->
+                <article class="clean-card rounded-3xl p-6 sm:p-8 lg:p-10 relative">
+                <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4 lg:gap-6 mb-6 sm:mb-8 pb-6 border-b border-brand-border">
+                    <div>
+                        <div class="experience-meta inline-block px-3 py-1 rounded-full bg-brand-terracotta/10 text-brand-terracotta mb-3" data-en="2026.07 – 2026.10" data-zh="2026.07 – 2026.10">
+                            2026.07 – 2026.10
+                        </div>
+                        <h3 class="experience-title" data-en="AI Project Management Training" data-zh="AI專案管理進修課程">AI Project Management Training</h3>
+                        <p class="experience-company mt-1" data-en="TibaMe" data-zh="TibaMe 緯育">TibaMe</p>
+                    </div>
+                    <div class="experience-meta text-left lg:text-right text-brand-muted flex lg:flex-col items-center lg:items-end gap-2">
+                        <span class="px-3 py-1 rounded-lg bg-brand-softGray"><i class="fa-solid fa-location-dot mr-1"></i> <span data-en="Taiwan" data-zh="台灣">Taiwan</span></span>
+                    </div>
+                </div>
+
+                <div class="border-l-2 border-brand-terracotta pl-5 sm:pl-6 mb-7">
+                    <h4 class="experience-category-title mb-3" data-en="AI Project Management &amp; Cross-functional Practice" data-zh="AI 專案管理與跨域實作">AI Project Management &amp; Cross-functional Practice</h4>
+                    <p class="experience-body" data-en="Developing project management and AI collaboration capabilities across requirement analysis, user research, project planning, data applications, and digital product development, while integrating generative AI and AI tools into research, planning, MVP development, and iterative validation." data-zh="系統性學習專案管理與 AI 協作方法，涵蓋需求分析、使用者研究、專案規劃、數據應用與數位產品實作，並將生成式 AI 與 AI 工具導入研究、企劃、MVP 開發及迭代驗證流程。">Developing project management and AI collaboration capabilities across requirement analysis, user research, project planning, data applications, and digital product development, while integrating generative AI and AI tools into research, planning, MVP development, and iterative validation.</p>
+                </div>
+
+                <h4 class="experience-project-heading font-display mb-4" data-en="Project Practice" data-zh="Project Practice｜專題實作">Project Practice</h4>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div class="rounded-2xl border border-brand-border bg-white/70 p-4 sm:p-5">
+                        <h5 class="experience-project-title mb-2" data-en="Individual Project | Nurtured Bloom" data-zh="個人專題｜孕育之美 Nurtured Bloom">Individual Project | Nurtured Bloom</h5>
+                        <p class="experience-body" data-en="Translated fragmented pregnancy information and user needs into product requirements, UX flows, feature planning, and a structured knowledge base, using AI-assisted workflows to develop a functional pregnancy support MVP." data-zh="從孕期資訊分散與使用者需求出發，進行需求分析、產品功能規劃、UX 流程與知識庫架構設計，運用 AI 協作完成可操作的孕期數位助理 MVP。">Translated fragmented pregnancy information and user needs into product requirements, UX flows, feature planning, and a structured knowledge base, using AI-assisted workflows to develop a functional pregnancy support MVP.</p>
+                    </div>
+                    <div class="rounded-2xl border border-brand-border bg-white/70 p-4 sm:p-5">
+                        <h5 class="experience-project-title mb-2" data-en="Team Project | AI-Enabled Digital Transformation in the Mold Industry" data-zh="團體專題｜模具業 AI 數位轉型">Team Project | AI-Enabled Digital Transformation in the Mold Industry</h5>
+                        <p class="experience-body" data-en="A team project exploring AI applications in drawing de-identification, engineering information translation, and workflow improvement for drawing preparation and pre-quotation processes in the mold industry. (In Progress)" data-zh="以模具廠報價圖面處理與估價前置流程為主題，探索 AI 在圖面去識別化、工程資訊翻譯及工作流程改善上的應用。（進行中）">A team project exploring AI applications in drawing de-identification, engineering information translation, and workflow improvement for drawing preparation and pre-quotation processes in the mold industry. (In Progress)</p>
+                    </div>
+                </div>
+                </article>
+
+                <!-- Australia Working Holiday -->
+                <article class="clean-card rounded-3xl p-6 sm:p-8 lg:p-10 relative">
+                    <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4 lg:gap-6 mb-6 sm:mb-8 pb-6 border-b border-brand-border">
+                        <div>
+                            <div class="experience-meta inline-block px-3 py-1 rounded-full bg-brand-terracotta/10 text-brand-terracotta mb-3" data-en="2025.08 – 2026.06" data-zh="2025.08 – 2026.06">
+                                2025.08 – 2026.06
+                            </div>
+                            <h3 class="experience-title" data-en="Gap Year in Australia" data-zh="Gap Year 澳洲打工度假">Gap Year in Australia</h3>
+                        </div>
+                        <div class="experience-meta text-left lg:text-right text-brand-muted flex lg:flex-col items-center lg:items-end gap-2">
+                            <span class="px-3 py-1 rounded-lg bg-brand-softGray"><i class="fa-solid fa-location-dot mr-1"></i> <span data-en="Australia" data-zh="澳洲">Australia</span></span>
+                        </div>
+                    </div>
+                    <div class="border-l-2 border-brand-terracotta pl-5 sm:pl-6">
+                        <h4 class="experience-category-title mb-3" data-en="International Experience" data-zh="國際經歷">International Experience</h4>
+                        <div class="experience-body space-y-3">
+                            <p data-en="Took a planned working holiday in Australia, developing cross-cultural communication, teamwork, and adaptability in a fast-paced service environment." data-zh="規劃澳洲打工度假，在高節奏服務環境中培養跨文化溝通、團隊合作與快速應變能力。">Took a planned working holiday in Australia, developing cross-cultural communication, teamwork, and adaptability in a fast-paced service environment.</p>
+                            <p data-en="Expanded my international perspective through overseas work and life experience before returning to Taiwan to further develop capabilities in AI and project management." data-zh="並透過海外生活與工作經驗拓展國際視野，返台後進一步投入 AI 與專案管理職能進修，展開下一階段職涯發展。">Expanded my international perspective through overseas work and life experience before returning to Taiwan to further develop capabilities in AI and project management.</p>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Highlighted Projects Section -->
+    <section id="projects" class="py-24 px-6 lg:px-12 bg-brand-bg">
+        <div class="max-w-6xl mx-auto">
+            <div class="portfolio-section-header">
+                <div>
+                    <span class="portfolio-section-eyebrow text-brand-teal" data-en="SELECTED PROJECT IMPACT" data-zh="核心專案成果">SELECTED PROJECT IMPACT</span>
+                    <h2 class="portfolio-section-title" data-en="Selected Projects" data-zh="精選專案">Selected Projects</h2>
+                </div>
+                <p class="portfolio-section-description" data-en="Selected work across brand events, partnerships, customer data analysis and AI course projects, highlighting my responsibilities, execution approach and outcomes." data-zh="透過品牌活動、合作專案、顧客資料分析與 AI 課程實作，呈現我的責任範圍、執行方法與成果。">
+                    Selected work across brand events, partnerships, customer data analysis and AI course projects, highlighting my responsibilities, execution approach and outcomes.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-start">
+                <!-- Project 1: Co-marketing VIP event -->
+                <details id="project-vip-event" class="clean-card rounded-3xl p-6 sm:p-8 group scroll-mt-28">
+                    <summary class="cursor-pointer list-none rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-teal focus-visible:outline-offset-4">
+                        <span class="text-xs font-bold uppercase tracking-wider text-brand-terracotta block mb-3" data-en="Co-marketing &amp; Premium Customer Experience" data-zh="異業合作與高端客戶體驗">Co-marketing &amp; Premium Customer Experience</span>
+                        <h3 class="text-xl font-bold text-brand-dark mb-3" data-en="Premium Credit Card Brand × Jewelry VIP Salon" data-zh="高端信用卡品牌 × 珠寶 VIP 鑑賞會">Premium Credit Card Brand × Jewelry VIP Salon</h3>
+                        <p class="lower-section-body mb-4"><span data-en="Partnered with American Express, inviting its high-value customers to a new collection showcase and achieving " data-zh="攜手 American Express 美國運通，邀約其高價值客戶參與品牌新品鑑賞會，達成 ">Partnered with American Express, inviting its high-value customers to a new collection showcase and achieving </span><strong class="font-bold text-brand-dark" data-en="144% of the sales target" data-zh="144% 銷售目標">144% of the sales target</strong><span data-en=", demonstrating the dual value of co-marketing in expanding brand awareness and delivering business results." data-zh="，展現異業合作擴展品牌知名度與商業成效的雙重價值。">, demonstrating the dual value of co-marketing in expanding brand awareness and delivering business results.</span></p>
+                        <span class="flex items-center justify-between gap-4 pt-4 border-t border-brand-border text-sm font-semibold text-brand-dark">
+                            <span data-en="View case study" data-zh="查看專案內容">View case study</span>
+                            <i class="fa-solid fa-chevron-down text-brand-terracotta transition-transform group-open:rotate-180" aria-hidden="true"></i>
+                        </span>
+                    </summary>
+                    <div class="pt-6 space-y-5">
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Background &amp; Objective" data-zh="背景與目標">Background &amp; Objective</h4><p class="lower-section-body" data-en="To support a new product launch, we partnered with a premium credit card brand to host a jewelry appreciation and wine-tasting event. The curated experience aimed to engage high-net-worth customers, raise awareness of the new collection, and create sales opportunities." data-zh="配合品牌新品上市，攜手高端信用卡品牌舉辦珠寶鑑賞暨品酒會，透過精緻體驗接觸高資產客群，同時提升新品能見度並創造銷售機會。">To support a new product launch, we partnered with a premium credit card brand to host a jewelry appreciation and wine-tasting event. The curated experience aimed to engage high-net-worth customers, raise awareness of the new collection, and create sales opportunities.</p></div>
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="My Role" data-zh="我的角色">My Role</h4><p class="lower-section-body" data-en="Event coordination and execution" data-zh="活動統籌與執行">Event coordination and execution</p></div>
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Key Execution" data-zh="關鍵執行">Key Execution</h4><p class="lower-section-body" data-en="Managed the partner relationship, planned the event flow and VIP experience, invited external instructors, designed and sent the eDM, and coordinated cross-functional teams during on-site execution." data-zh="負責異業窗口對接、活動流程與VIP體驗規劃、外部講師邀約、eDM設計與發送，以及現場執行與跨部門協調。">Managed the partner relationship, planned the event flow and VIP experience, invited external instructors, designed and sent the eDM, and coordinated cross-functional teams during on-site execution.</p></div>
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Outcome &amp; Reflection" data-zh="成果與反思">Outcome &amp; Reflection</h4><p class="lower-section-body" data-en="The event reached 144% of its sales target, developed prospective high-end customers, and strengthened communication around the new collection through jewelry appreciation and wine tasting. It gave me end-to-end experience in premium co-marketing, VIP experience design, and sales-oriented event planning." data-zh="活動銷售業績達成率 144%，成功開發潛在高端客戶，並透過珠寶鑑賞與品酒體驗強化新品溝通。此專案讓我累積了高端異業合作、VIP體驗設計及銷售導向活動規劃的完整經驗。">The event reached 144% of its sales target, developed prospective high-end customers, and strengthened communication around the new collection through jewelry appreciation and wine tasting. It gave me end-to-end experience in premium co-marketing, VIP experience design, and sales-oriented event planning.</p></div>
+                    </div>
+                </details>
+
+                <!-- Project 2: Annual high-jewelry exhibition -->
+                <details class="clean-card rounded-3xl p-6 sm:p-8 group">
+                    <summary class="cursor-pointer list-none rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-teal focus-visible:outline-offset-4">
+                        <span class="text-xs font-bold uppercase tracking-wider text-brand-teal block mb-3" data-en="Major Brand Event &amp; VIP Experience" data-zh="大型品牌活動與 VIP 體驗策劃">Major Brand Event &amp; VIP Experience</span>
+                        <h3 class="text-xl font-bold text-brand-dark mb-3" data-en="Brand High-Jewelry Exhibition" data-zh="品牌高級珠寶展">Brand High-Jewelry Exhibition</h3>
+                        <p class="lower-section-body mb-4" data-en="Supported the planning and execution of a brand high-jewelry exhibition, communicating fine craftsmanship and brand aesthetics while creating a premium appreciation experience aligned with luxury positioning." data-zh="協助策劃與執行品牌高級珠寶展，傳遞珠寶細緻工藝與品牌價值美學，打造符合精品定位的尊榮鑑賞體驗。">Supported the planning and execution of a brand high-jewelry exhibition, communicating fine craftsmanship and brand aesthetics while creating a premium appreciation experience aligned with luxury positioning.</p>
+                        <span class="flex items-center justify-between gap-4 pt-4 border-t border-brand-border text-sm font-semibold text-brand-dark">
+                            <span data-en="View case study" data-zh="查看專案內容">View case study</span>
+                            <i class="fa-solid fa-chevron-down text-brand-teal transition-transform group-open:rotate-180" aria-hidden="true"></i>
+                        </span>
+                    </summary>
+                    <div class="pt-6 space-y-5">
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Background &amp; Objective" data-zh="背景與目標">Background &amp; Objective</h4><p class="lower-section-body" data-en="The brand holds two high-jewelry exhibitions each year. Jewelry appreciation, model presentations, and interactive experiences showcase exceptional craftsmanship and the themes of new collections, deepening VIP relationships and supporting sales performance during key periods." data-zh="品牌每年舉辦兩次高級珠寶展，透過珠寶鑑賞、模特兒走秀與互動體驗，呈現品牌極致工藝與新品主題特色，深化VIP客戶關係進而促進檔期業績。">The brand holds two high-jewelry exhibitions each year. Jewelry appreciation, model presentations, and interactive experiences showcase exceptional craftsmanship and the themes of new collections, deepening VIP relationships and supporting sales performance during key periods.</p></div>
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="My Role" data-zh="我的角色">My Role</h4><p class="lower-section-body" data-en="Collaborated with the Assistant Marketing Manager on project planning and execution" data-zh="與行銷副理協作進行專案規劃與執行">Collaborated with the Assistant Marketing Manager on project planning and execution</p></div>
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Key Execution" data-zh="關鍵執行">Key Execution</h4><p class="lower-section-body" data-en="Developed event concepts, coordinated model casting, designed and distributed eDMs, planned interactive experiences and gifts, arranged partnership invitations, and supported on-site execution." data-zh="活動主題發想、模特兒徵選、eDM設計與發送、互動體驗與贈禮規劃、異業合作邀約與現場執行。">Developed event concepts, coordinated model casting, designed and distributed eDMs, planned interactive experiences and gifts, arranged partnership invitations, and supported on-site execution.</p></div>
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Outcome &amp; Reflection" data-zh="成果與反思">Outcome &amp; Reflection</h4><p class="lower-section-body" data-en="Integrated execution across internal teams, external suppliers, and co-marketing partners. Through hands-on experience with large-scale events, I further developed timeline management, stakeholder coordination, and on-site problem-solving capabilities, while recognizing that premium events require a thoughtfully designed experience to communicate brand value beyond the products on display." data-zh="完成跨部門、外部廠商與異業合作的整合執行。透過大型活動的實務經驗，進一步建立專案時程控管、利害關係人協調及現場應變能力，也理解高端活動不只是展示商品，更需要構思完整體驗傳遞品牌價值。">Integrated execution across internal teams, external suppliers, and co-marketing partners. Through hands-on experience with large-scale events, I further developed timeline management, stakeholder coordination, and on-site problem-solving capabilities, while recognizing that premium events require a thoughtfully designed experience to communicate brand value beyond the products on display.</p></div>
+                    </div>
+                </details>
+
+                <!-- Project 3: Tableau CRM dashboard -->
+                <details class="clean-card rounded-3xl p-6 sm:p-8 group">
+                    <summary class="cursor-pointer list-none rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-teal focus-visible:outline-offset-4">
+                        <span class="text-xs font-bold uppercase tracking-wider text-brand-sage block mb-3" data-en="Customer Analysis &amp; Data Visualization" data-zh="顧客資料分析與數據視覺化">Customer Analysis &amp; Data Visualization</span>
+                        <h3 class="text-xl font-bold text-brand-dark mb-3">Tableau CRM Dashboard</h3>
+                        <p class="lower-section-body mb-4" data-en="Turning raw CRM data into clearer views of customer profiles and spending trends." data-zh="將 CRM 原始資料轉化為顧客輪廓與消費趨勢的視覺化洞察。">Turning raw CRM data into clearer views of customer profiles and spending trends.</p>
+                        <span class="flex items-center justify-between gap-4 pt-4 border-t border-brand-border text-sm font-semibold text-brand-dark">
+                            <span data-en="View case study" data-zh="查看專案內容">View case study</span>
+                            <i class="fa-solid fa-chevron-down text-brand-sage transition-transform group-open:rotate-180" aria-hidden="true"></i>
+                        </span>
+                    </summary>
+                    <div class="pt-6 space-y-5">
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Background &amp; Objective" data-zh="背景與目標">Background &amp; Objective</h4><p class="lower-section-body" data-en="I reorganized scattered, hard-to-read raw CRM data into an interactive Tableau dashboard so customer structure, purchasing behavior, and key metrics could be understood more intuitively." data-zh="將分散且不易閱讀的CRM原始資料重新整理，運用Tableau建立互動式Dashboard，讓顧客結構、消費行為與關鍵指標能以更直觀的方式呈現。">I reorganized scattered, hard-to-read raw CRM data into an interactive Tableau dashboard so customer structure, purchasing behavior, and key metrics could be understood more intuitively.</p></div>
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="My Role" data-zh="我的角色">My Role</h4><p class="lower-section-body" data-en="Data preparation and analysis, metric planning, and visualization" data-zh="資料整理與分析、指標規劃、數據視覺化">Data preparation and analysis, metric planning, and visualization</p></div>
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Key Execution" data-zh="關鍵執行">Key Execution</h4><p class="lower-section-body" data-en="Cleaned and categorized raw data, clarified analysis needs and key metrics, and designed charts, filters, and the dashboard information hierarchy around user scenarios." data-zh="進行原始資料清理與欄位分類，梳理分析需求與關鍵指標，並依據使用情境設計視覺化圖表、篩選條件及Dashboard資訊層級。">Cleaned and categorized raw data, clarified analysis needs and key metrics, and designed charts, filters, and the dashboard information hierarchy around user scenarios.</p></div>
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Outcome &amp; Reflection" data-zh="成果與反思">Outcome &amp; Reflection</h4><p class="lower-section-body" data-en="Completed a dashboard for quickly understanding customer profiles and spending trends, turning raw data into information that is easier to interpret and use in decisions. The project strengthened my data preparation, metric definition, and data storytelling skills from a marketing user's perspective." data-zh="完成可快速掌握顧客輪廓與消費趨勢的視覺化Dashboard，將原始資料轉化為較容易理解與應用的決策資訊。此專案也讓我從行銷使用者角度出發，進一步培養資料整理、指標定義及數據敘事能力。">Completed a dashboard for quickly understanding customer profiles and spending trends, turning raw data into information that is easier to interpret and use in decisions. The project strengthened my data preparation, metric definition, and data storytelling skills from a marketing user's perspective.</p></div>
+                    </div>
+                </details>
+
+                <!-- Project 4: Nurtured Bloom -->
+                <details class="clean-card rounded-3xl p-6 sm:p-8 group">
+                    <summary class="cursor-pointer list-none rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-teal focus-visible:outline-offset-4">
+                        <span class="text-xs font-bold uppercase tracking-wider text-brand-terracotta block mb-3" data-en="AI-Assisted Project Management, UI/UX Design &amp; MVP Development" data-zh="AI協作專案管理、UIUX設計與MVP開發">AI-Assisted Project Management, UI/UX Design &amp; MVP Development</span>
+                        <h3 class="text-xl font-bold text-brand-dark mb-3" data-en="Nurtured Bloom" data-zh="Nurtured Bloom｜孕育之美">Nurtured Bloom</h3>
+                        <p class="lower-section-body mb-4" data-en="A TibaMe individual project to develop an AI-powered pregnancy support platform, using AI-assisted collaboration and a professional knowledge base to deliver a functional MVP with practical application value." data-zh="緯育 TibaMe 個人專題，旨在開發一款孕媽咪 AI 智慧守護平台，透過 AI 協作與專業知識庫建置，完成具備實際操作與應用價值的 MVP。">A TibaMe individual project to develop an AI-powered pregnancy support platform, using AI-assisted collaboration and a professional knowledge base to deliver a functional MVP with practical application value.</p>
+                        <span class="flex items-center justify-between gap-4 pt-4 border-t border-brand-border text-sm font-semibold text-brand-dark">
+                            <span data-en="View case study" data-zh="查看專案內容">View case study</span>
+                            <i class="fa-solid fa-chevron-down text-brand-terracotta transition-transform group-open:rotate-180" aria-hidden="true"></i>
+                        </span>
+                    </summary>
+                    <div class="pt-6 space-y-5">
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Background &amp; Objective" data-zh="背景與目標">Background &amp; Objective</h4><p class="lower-section-body" data-en="Starting from fragmented pregnancy information and user needs, I conducted requirement analysis, product feature planning, UX flow design, and knowledge base architecture, using AI-assisted workflows to develop a functional pregnancy support MVP." data-zh="從孕期資訊分散與使用者需求出發，進行需求分析、產品功能規劃、UX 流程與知識庫架構設計，運用 AI 協作完成可操作的孕期數位助理 MVP。">Starting from fragmented pregnancy information and user needs, I conducted requirement analysis, product feature planning, UX flow design, and knowledge base architecture, using AI-assisted workflows to develop a functional pregnancy support MVP.</p></div>
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="My Role" data-zh="我的角色">My Role</h4><p class="lower-section-body" data-en="Product planning and project management, UI/UX design, and AI-assisted MVP development" data-zh="產品規劃與專案管理、UI／UX設計、與AI協作MVP開發">Product planning and project management, UI/UX design, and AI-assisted MVP development</p></div>
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Key Execution" data-zh="關鍵執行">Key Execution</h4><p class="lower-section-body" data-en="Starting from user pain points and feature requirements, I integrated core functions including a pregnancy overview, prenatal visit map, consultation notes, pregnancy journal, baby development, and an AI pregnancy assistant, and established a medically validated knowledge base (KM)." data-zh="從使用者痛點與功能需求出發，核心功能整合孕期總覽、產檢地圖、問診備忘錄、孕期日記、寶寶成長與AI孕期助理等功能，並建立一套有醫學證實的醫療知識庫(KM)。">Starting from user pain points and feature requirements, I integrated core functions including a pregnancy overview, prenatal visit map, consultation notes, pregnancy journal, baby development, and an AI pregnancy assistant, and established a medically validated knowledge base (KM).</p></div>
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Outcome &amp; Reflection" data-zh="成果與反思">Outcome &amp; Reflection</h4><p class="lower-section-body" data-en="This project allowed me to apply the process from requirement definition and product design through system development and iterative testing. It also gave me practical experience using AI tools to advance product development and build a complete, functional MVP from the ground up." data-zh="此專案讓我實踐從需求定義、產品設計、系統開發到測試迭代的流程，也累積了運用AI工具推進產品開發的實務經驗，從無到有完成一個可實際操作的完整 MVP。">This project allowed me to apply the process from requirement definition and product design through system development and iterative testing. It also gave me practical experience using AI tools to advance product development and build a complete, functional MVP from the ground up.</p></div>
+                    </div>
+                </details>
             </div>
         </div>
     </section>
@@ -807,107 +921,13 @@
         </div>
     </section>
 
-    <!-- Highlighted Projects Section -->
-    <section id="projects" class="py-24 px-6 lg:px-12 bg-brand-bg">
-        <div class="max-w-6xl mx-auto">
-            <div class="portfolio-section-header">
-                <div>
-                    <span class="portfolio-section-eyebrow text-brand-teal" data-en="SELECTED PROJECT IMPACT" data-zh="核心專案成果">SELECTED PROJECT IMPACT</span>
-                    <h2 class="portfolio-section-title" data-en="Selected Projects" data-zh="精選專案">Selected Projects</h2>
-                </div>
-                <p class="portfolio-section-description" data-en="Selected work across brand events, partnerships, customer data analysis and AI course projects, highlighting my responsibilities, execution approach and outcomes." data-zh="透過品牌活動、合作專案、顧客資料分析與 AI 課程實作，呈現我的責任範圍、執行方法與成果。">
-                    Selected work across brand events, partnerships, customer data analysis and AI course projects, highlighting my responsibilities, execution approach and outcomes.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-start">
-                <!-- Project 1: Co-marketing VIP event -->
-                <details class="clean-card rounded-3xl p-6 sm:p-8 group">
-                    <summary class="cursor-pointer list-none rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-teal focus-visible:outline-offset-4">
-                        <span class="text-xs font-bold uppercase tracking-wider text-brand-terracotta block mb-3" data-en="Co-marketing &amp; Premium Customer Experience" data-zh="異業合作與高端客戶體驗">Co-marketing &amp; Premium Customer Experience</span>
-                        <h3 class="text-xl font-bold text-brand-dark mb-3" data-en="Premium Credit Card Brand × Jewelry VIP Salon" data-zh="高端信用卡品牌 × 珠寶 VIP 鑑賞會">Premium Credit Card Brand × Jewelry VIP Salon</h3>
-                        <p class="lower-section-body mb-4"><span data-en="Partnered with a premium credit card brand, inviting its high-value customers to a new collection showcase and achieving " data-zh="攜手高端信用卡品牌，邀約其高價值客戶參與品牌新品鑑賞會，達成 ">Partnered with a premium credit card brand, inviting its high-value customers to a new collection showcase and achieving </span><strong class="font-bold text-brand-dark" data-en="144% of the sales target" data-zh="144% 銷售目標">144% of the sales target</strong><span data-en=", demonstrating the dual value of co-marketing in expanding brand awareness and delivering business results." data-zh="，展現異業合作擴展品牌知名度與商業成效的雙重價值。">, demonstrating the dual value of co-marketing in expanding brand awareness and delivering business results.</span></p>
-                        <span class="flex items-center justify-between gap-4 pt-4 border-t border-brand-border text-sm font-semibold text-brand-dark">
-                            <span data-en="View case study" data-zh="查看專案內容">View case study</span>
-                            <i class="fa-solid fa-chevron-down text-brand-terracotta transition-transform group-open:rotate-180" aria-hidden="true"></i>
-                        </span>
-                    </summary>
-                    <div class="pt-6 space-y-5">
-                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Background &amp; Objective" data-zh="背景與目標">Background &amp; Objective</h4><p class="lower-section-body" data-en="To support a new product launch, we partnered with a premium credit card brand to host a jewelry appreciation and wine-tasting event. The curated experience aimed to engage high-net-worth customers, raise awareness of the new collection, and create sales opportunities." data-zh="配合品牌新品上市，攜手高端信用卡品牌舉辦珠寶鑑賞暨品酒會，透過精緻體驗接觸高資產客群，同時提升新品能見度並創造銷售機會。">To support a new product launch, we partnered with a premium credit card brand to host a jewelry appreciation and wine-tasting event. The curated experience aimed to engage high-net-worth customers, raise awareness of the new collection, and create sales opportunities.</p></div>
-                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="My Role" data-zh="我的角色">My Role</h4><p class="lower-section-body" data-en="Event coordination and execution" data-zh="活動統籌與執行">Event coordination and execution</p></div>
-                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Key Execution" data-zh="關鍵執行">Key Execution</h4><p class="lower-section-body" data-en="Managed the partner relationship, planned the event flow and VIP experience, invited external instructors, designed and sent the eDM, and coordinated cross-functional teams during on-site execution." data-zh="負責異業窗口對接、活動流程與VIP體驗規劃、外部講師邀約、eDM設計與發送，以及現場執行與跨部門協調。">Managed the partner relationship, planned the event flow and VIP experience, invited external instructors, designed and sent the eDM, and coordinated cross-functional teams during on-site execution.</p></div>
-                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Outcome &amp; Reflection" data-zh="成果與反思">Outcome &amp; Reflection</h4><p class="lower-section-body" data-en="The event reached 144% of its sales target, developed prospective high-end customers, and strengthened communication around the new collection through jewelry appreciation and wine tasting. It gave me end-to-end experience in premium co-marketing, VIP experience design, and sales-oriented event planning." data-zh="活動銷售業績達成率 144%，成功開發潛在高端客戶，並透過珠寶鑑賞與品酒體驗強化新品溝通。此專案讓我累積了高端異業合作、VIP體驗設計及銷售導向活動規劃的完整經驗。">The event reached 144% of its sales target, developed prospective high-end customers, and strengthened communication around the new collection through jewelry appreciation and wine tasting. It gave me end-to-end experience in premium co-marketing, VIP experience design, and sales-oriented event planning.</p></div>
-                    </div>
-                </details>
-
-                <!-- Project 2: Annual high-jewelry exhibition -->
-                <details class="clean-card rounded-3xl p-6 sm:p-8 group">
-                    <summary class="cursor-pointer list-none rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-teal focus-visible:outline-offset-4">
-                        <span class="text-xs font-bold uppercase tracking-wider text-brand-teal block mb-3" data-en="Major Brand Event &amp; VIP Experience" data-zh="大型品牌活動與 VIP 體驗策劃">Major Brand Event &amp; VIP Experience</span>
-                        <h3 class="text-xl font-bold text-brand-dark mb-3" data-en="Brand High-Jewelry Exhibition" data-zh="品牌高級珠寶展">Brand High-Jewelry Exhibition</h3>
-                        <p class="lower-section-body mb-4" data-en="Supported the planning and execution of a brand high-jewelry exhibition, communicating fine craftsmanship and brand aesthetics while creating a premium appreciation experience aligned with luxury positioning." data-zh="協助策劃與執行品牌高級珠寶展，傳遞珠寶細緻工藝與品牌價值美學，打造符合精品定位的尊榮鑑賞體驗。">Supported the planning and execution of a brand high-jewelry exhibition, communicating fine craftsmanship and brand aesthetics while creating a premium appreciation experience aligned with luxury positioning.</p>
-                        <span class="flex items-center justify-between gap-4 pt-4 border-t border-brand-border text-sm font-semibold text-brand-dark">
-                            <span data-en="View case study" data-zh="查看專案內容">View case study</span>
-                            <i class="fa-solid fa-chevron-down text-brand-teal transition-transform group-open:rotate-180" aria-hidden="true"></i>
-                        </span>
-                    </summary>
-                    <div class="pt-6 space-y-5">
-                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Background &amp; Objective" data-zh="背景與目標">Background &amp; Objective</h4><p class="lower-section-body" data-en="The brand holds two high-jewelry exhibitions each year. Jewelry appreciation, model presentations, and interactive experiences showcase exceptional craftsmanship and the themes of new collections, deepening VIP relationships and supporting sales performance during key periods." data-zh="品牌每年舉辦兩次高級珠寶展，透過珠寶鑑賞、模特兒走秀與互動體驗，呈現品牌極致工藝與新品主題特色，深化VIP客戶關係進而促進檔期業績。">The brand holds two high-jewelry exhibitions each year. Jewelry appreciation, model presentations, and interactive experiences showcase exceptional craftsmanship and the themes of new collections, deepening VIP relationships and supporting sales performance during key periods.</p></div>
-                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="My Role" data-zh="我的角色">My Role</h4><p class="lower-section-body" data-en="Collaborated with the Assistant Marketing Manager on project planning and execution" data-zh="與行銷副理協作進行專案規劃與執行">Collaborated with the Assistant Marketing Manager on project planning and execution</p></div>
-                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Key Execution" data-zh="關鍵執行">Key Execution</h4><p class="lower-section-body" data-en="Developed event concepts, coordinated model casting, designed and distributed eDMs, planned interactive experiences and gifts, arranged partnership invitations, and supported on-site execution." data-zh="活動主題發想、模特兒徵選、eDM設計與發送、互動體驗與贈禮規劃、異業合作邀約與現場執行。">Developed event concepts, coordinated model casting, designed and distributed eDMs, planned interactive experiences and gifts, arranged partnership invitations, and supported on-site execution.</p></div>
-                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Outcome &amp; Reflection" data-zh="成果與反思">Outcome &amp; Reflection</h4><p class="lower-section-body" data-en="Integrated execution across internal teams, external suppliers, and co-marketing partners. Through hands-on experience with large-scale events, I further developed timeline management, stakeholder coordination, and on-site problem-solving capabilities, while recognizing that premium events require a thoughtfully designed experience to communicate brand value beyond the products on display." data-zh="完成跨部門、外部廠商與異業合作的整合執行。透過大型活動的實務經驗，進一步建立專案時程控管、利害關係人協調及現場應變能力，也理解高端活動不只是展示商品，更需要構思完整體驗傳遞品牌價值。">Integrated execution across internal teams, external suppliers, and co-marketing partners. Through hands-on experience with large-scale events, I further developed timeline management, stakeholder coordination, and on-site problem-solving capabilities, while recognizing that premium events require a thoughtfully designed experience to communicate brand value beyond the products on display.</p></div>
-                    </div>
-                </details>
-
-                <!-- Project 3: Tableau CRM dashboard -->
-                <details class="clean-card rounded-3xl p-6 sm:p-8 group">
-                    <summary class="cursor-pointer list-none rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-teal focus-visible:outline-offset-4">
-                        <span class="text-xs font-bold uppercase tracking-wider text-brand-sage block mb-3" data-en="Customer Analysis &amp; Data Visualization" data-zh="顧客資料分析與數據視覺化">Customer Analysis &amp; Data Visualization</span>
-                        <h3 class="text-xl font-bold text-brand-dark mb-3">Tableau CRM Dashboard</h3>
-                        <p class="lower-section-body mb-4" data-en="Turning raw CRM data into clearer views of customer profiles and spending trends." data-zh="將 CRM 原始資料轉化為顧客輪廓與消費趨勢的視覺化洞察。">Turning raw CRM data into clearer views of customer profiles and spending trends.</p>
-                        <span class="flex items-center justify-between gap-4 pt-4 border-t border-brand-border text-sm font-semibold text-brand-dark">
-                            <span data-en="View case study" data-zh="查看專案內容">View case study</span>
-                            <i class="fa-solid fa-chevron-down text-brand-sage transition-transform group-open:rotate-180" aria-hidden="true"></i>
-                        </span>
-                    </summary>
-                    <div class="pt-6 space-y-5">
-                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Background &amp; Objective" data-zh="背景與目標">Background &amp; Objective</h4><p class="lower-section-body" data-en="I reorganized scattered, hard-to-read raw CRM data into an interactive Tableau dashboard so customer structure, purchasing behavior, and key metrics could be understood more intuitively." data-zh="將分散且不易閱讀的CRM原始資料重新整理，運用Tableau建立互動式Dashboard，讓顧客結構、消費行為與關鍵指標能以更直觀的方式呈現。">I reorganized scattered, hard-to-read raw CRM data into an interactive Tableau dashboard so customer structure, purchasing behavior, and key metrics could be understood more intuitively.</p></div>
-                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="My Role" data-zh="我的角色">My Role</h4><p class="lower-section-body" data-en="Data preparation and analysis, metric planning, and visualization" data-zh="資料整理與分析、指標規劃、數據視覺化">Data preparation and analysis, metric planning, and visualization</p></div>
-                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Key Execution" data-zh="關鍵執行">Key Execution</h4><p class="lower-section-body" data-en="Cleaned and categorized raw data, clarified analysis needs and key metrics, and designed charts, filters, and the dashboard information hierarchy around user scenarios." data-zh="進行原始資料清理與欄位分類，梳理分析需求與關鍵指標，並依據使用情境設計視覺化圖表、篩選條件及Dashboard資訊層級。">Cleaned and categorized raw data, clarified analysis needs and key metrics, and designed charts, filters, and the dashboard information hierarchy around user scenarios.</p></div>
-                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Outcome &amp; Reflection" data-zh="成果與反思">Outcome &amp; Reflection</h4><p class="lower-section-body" data-en="Completed a dashboard for quickly understanding customer profiles and spending trends, turning raw data into information that is easier to interpret and use in decisions. The project strengthened my data preparation, metric definition, and data storytelling skills from a marketing user's perspective." data-zh="完成可快速掌握顧客輪廓與消費趨勢的視覺化Dashboard，將原始資料轉化為較容易理解與應用的決策資訊。此專案也讓我從行銷使用者角度出發，進一步培養資料整理、指標定義及數據敘事能力。">Completed a dashboard for quickly understanding customer profiles and spending trends, turning raw data into information that is easier to interpret and use in decisions. The project strengthened my data preparation, metric definition, and data storytelling skills from a marketing user's perspective.</p></div>
-                    </div>
-                </details>
-
-                <!-- Project 4: Nurtured Bloom -->
-                <details class="clean-card rounded-3xl p-6 sm:p-8 group">
-                    <summary class="cursor-pointer list-none rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-teal focus-visible:outline-offset-4">
-                        <span class="text-xs font-bold uppercase tracking-wider text-brand-terracotta block mb-3" data-en="AI-Assisted Project Management, UI/UX Design &amp; MVP Development" data-zh="AI協作專案管理、UIUX設計與MVP開發">AI-Assisted Project Management, UI/UX Design &amp; MVP Development</span>
-                        <h3 class="text-xl font-bold text-brand-dark mb-3" data-en="Nurtured Bloom" data-zh="Nurtured Bloom｜孕育之美">Nurtured Bloom</h3>
-                        <p class="lower-section-body mb-4" data-en="A working pregnancy support MVP with 172 reviewed knowledge records and an 82.8% initial AI test pass rate." data-zh="緯育 TibaMe 個人專題，旨在開發一款孕媽咪 AI 智慧守護平台，透過 AI 協作與專業知識庫建置，完成具備實際操作與應用價值的 MVP。">A working pregnancy support MVP with 172 reviewed knowledge records and an 82.8% initial AI test pass rate.</p>
-                        <span class="flex items-center justify-between gap-4 pt-4 border-t border-brand-border text-sm font-semibold text-brand-dark">
-                            <span data-en="View case study" data-zh="查看專案內容">View case study</span>
-                            <i class="fa-solid fa-chevron-down text-brand-terracotta transition-transform group-open:rotate-180" aria-hidden="true"></i>
-                        </span>
-                    </summary>
-                    <div class="pt-6 space-y-5">
-                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Background &amp; Objective" data-zh="背景與目標">Background &amp; Objective</h4><p class="lower-section-body" data-en="Starting from fragmented pregnancy information and user needs, I conducted requirement analysis, product feature planning, UX flow design, and knowledge base architecture, using AI-assisted workflows to develop a functional pregnancy support MVP." data-zh="從孕期資訊分散與使用者需求出發，進行需求分析、產品功能規劃、UX 流程與知識庫架構設計，運用 AI 協作完成可操作的孕期數位助理 MVP。">Starting from fragmented pregnancy information and user needs, I conducted requirement analysis, product feature planning, UX flow design, and knowledge base architecture, using AI-assisted workflows to develop a functional pregnancy support MVP.</p></div>
-                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="My Role" data-zh="我的角色">My Role</h4><p class="lower-section-body" data-en="Product planning and project management, UI/UX design, and AI-assisted MVP development" data-zh="產品規劃與專案管理、UI／UX設計、與AI協作MVP開發">Product planning and project management, UI/UX design, and AI-assisted MVP development</p></div>
-                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Key Execution" data-zh="關鍵執行">Key Execution</h4><p class="lower-section-body" data-en="Starting from user pain points and feature requirements, I integrated core functions including a pregnancy overview, prenatal visit map, consultation notes, pregnancy journal, baby development, and an AI pregnancy assistant, and established a medically validated knowledge base (KM)." data-zh="從使用者痛點與功能需求出發，核心功能整合孕期總覽、產檢地圖、問診備忘錄、孕期日記、寶寶成長與AI孕期助理等功能，並建立一套有醫學證實的醫療知識庫(KM)。">Starting from user pain points and feature requirements, I integrated core functions including a pregnancy overview, prenatal visit map, consultation notes, pregnancy journal, baby development, and an AI pregnancy assistant, and established a medically validated knowledge base (KM).</p></div>
-                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Outcome &amp; Reflection" data-zh="成果與反思">Outcome &amp; Reflection</h4><p class="lower-section-body" data-en="This project allowed me to apply the process from requirement definition and product design through system development and iterative testing. It also gave me practical experience using AI tools to advance product development and build a complete, functional MVP from the ground up." data-zh="此專案讓我實踐從需求定義、產品設計、系統開發到測試迭代的流程，也累積了運用AI工具推進產品開發的實務經驗，從無到有完成一個可實際操作的完整 MVP。">This project allowed me to apply the process from requirement definition and product design through system development and iterative testing. It also gave me practical experience using AI tools to advance product development and build a complete, functional MVP from the ground up.</p></div>
-                    </div>
-                </details>
-            </div>
-        </div>
-    </section>
-
     <!-- Contact Section -->
     <section id="contact" class="py-24 bg-white border-t border-brand-border px-6 lg:px-12">
         <div class="max-w-4xl mx-auto text-center">
-            <span class="text-xs uppercase tracking-widest font-bold text-brand-terracotta block mb-2" data-en="CAREER OPPORTUNITIES" data-zh="職涯交流">CAREER OPPORTUNITIES</span>
             <h2 class="font-display text-4xl sm:text-5xl font-bold text-brand-dark mb-4" data-en="Get In Touch" data-zh="與我聯繫">Get In Touch</h2>
             <p class="text-base text-brand-muted max-w-xl mx-auto mb-10 font-normal"
-               data-en="Please get in touch to discuss career opportunities in brand and retail marketing, CRM, and marketing project coordination."
-               data-zh="歡迎就品牌與零售行銷、CRM 及行銷專案相關職涯機會與我聯繫。">
+               data-en="Please get in touch to discuss career opportunities in marketing or project management."
+               data-zh="歡迎就行銷或專案管理相關職涯機會與我聯繫。">
                 Please get in touch to discuss career opportunities in brand and retail marketing, CRM, and marketing project coordination.
             </p>
 
@@ -925,7 +945,7 @@
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-brand-dark uppercase tracking-wider mb-1" data-en="Company / Organization" data-zh="服務單位 / 公司名稱">Company / Organization</label>
-                    <input type="text" id="inputCompany" placeholder="Luxury Group / Department Store" data-placeholder-en="Luxury Group / Department Store" data-placeholder-zh="高奢品牌集團 / 指標百貨" class="w-full px-4 py-3 rounded-xl bg-brand-bg border border-brand-border text-brand-dark text-sm focus:outline-none focus:border-brand-dark transition-colors">
+                    <input type="text" id="inputCompany" placeholder="Luxury Group / Department Store" data-placeholder-en="Luxury Group / Department Store" data-placeholder-zh="請輸入公司或組織名稱" class="w-full px-4 py-3 rounded-xl bg-brand-bg border border-brand-border text-brand-dark text-sm focus:outline-none focus:border-brand-dark transition-colors">
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-brand-dark uppercase tracking-wider mb-1" data-en="Message" data-zh="訊息內容">Message</label>
@@ -950,19 +970,6 @@
         </div>
     </section>
 
-    <!-- Floating Audio Control Widget (Bottom Right) -->
-    <div class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40">
-        <button id="floatMusicBtn" onclick="toggleMusic()" class="flex items-center gap-2.5 sm:gap-3 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full bg-brand-dark/90 backdrop-blur-md text-white text-xs font-medium shadow-xl border border-white/20 hover:scale-105 active:scale-95 transition-all group">
-            <div class="flex items-end gap-0.5 h-3.5 w-3.5 justify-center" id="audioEqualizer">
-                <span class="w-0.5 h-1.5 bg-brand-terracotta rounded-full transition-all"></span>
-                <span class="w-0.5 h-3 bg-brand-terracotta rounded-full transition-all"></span>
-                <span class="w-0.5 h-2 bg-brand-terracotta rounded-full transition-all"></span>
-            </div>
-            <i class="fa-solid fa-volume-xmark text-brand-border group-hover:text-brand-terracotta transition-colors" id="floatMusicIcon"></i>
-            <span id="floatMusicText" class="font-semibold tracking-wide text-[11px] sm:text-xs" data-en="Music: OFF" data-zh="背景音樂：關">背景音樂：關</span>
-        </button>
-    </div>
-
     <!-- Footer -->
     <footer class="py-8 bg-brand-bg border-t border-brand-border text-xs text-brand-muted">
         <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -970,7 +977,7 @@
                 Senior Marketing Executive Portfolio
             </div>
             <div>
-                &copy; <span id="currentYear"></span> All Rights Reserved. Clean MNC Editorial Style.
+                &copy; <span id="currentYear"></span> All Rights Reserved.
             </div>
         </div>
     </footer>
@@ -980,88 +987,12 @@
         // Dynamic Current Year
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // Background Audio Player Controls
-        const bgAudio = document.getElementById('bgAudio');
-        let isPlaying = false;
-
-        // Bind Audio Events to ensure UI accurately reflects audio state
-        if (bgAudio) {
-            bgAudio.addEventListener('play', () => {
-                isPlaying = true;
-                updateMusicUI();
-            });
-            bgAudio.addEventListener('pause', () => {
-                isPlaying = false;
-                updateMusicUI();
-            });
-            bgAudio.addEventListener('ended', () => {
-                isPlaying = false;
-                updateMusicUI();
-            });
-        }
-
-        function toggleMusic() {
-            if (!bgAudio) return;
-
-            if (!bgAudio.paused && !bgAudio.ended) {
-                bgAudio.pause();
-            } else {
-                bgAudio.play().catch(err => {
-                    console.log("Audio play prevented by browser interaction policy:", err);
-                    isPlaying = false;
-                    updateMusicUI();
-                });
-            }
-        }
-
-        function updateMusicUI() {
-            const musicIcon = document.getElementById('musicIcon');
-            const mobMusicIcon = document.getElementById('mobMusicIcon');
-            const floatMusicIcon = document.getElementById('floatMusicIcon');
-            const musicText = document.getElementById('musicText');
-            const floatMusicText = document.getElementById('floatMusicText');
-            const equalizer = document.getElementById('audioEqualizer');
-
-            if (isPlaying) {
-                if (musicIcon) musicIcon.className = 'fa-solid fa-compact-disc text-brand-terracotta animate-spin';
-                if (mobMusicIcon) mobMusicIcon.className = 'fa-solid fa-compact-disc text-brand-terracotta animate-spin';
-                if (floatMusicIcon) floatMusicIcon.className = 'fa-solid fa-volume-high text-brand-terracotta';
-                if (equalizer) equalizer.classList.add('equalizer-active');
-                
-                if (musicText) {
-                    musicText.setAttribute('data-en', 'Music On');
-                    musicText.setAttribute('data-zh', '背景音樂：開');
-                    musicText.textContent = currentLang === 'en' ? 'Music On' : '背景音樂：開';
-                }
-                if (floatMusicText) {
-                    floatMusicText.setAttribute('data-en', 'Music: ON');
-                    floatMusicText.setAttribute('data-zh', '背景音樂：開');
-                    floatMusicText.textContent = currentLang === 'en' ? 'Music: ON' : '背景音樂：開';
-                }
-            } else {
-                if (musicIcon) musicIcon.className = 'fa-solid fa-music text-brand-muted';
-                if (mobMusicIcon) mobMusicIcon.className = 'fa-solid fa-music text-brand-muted';
-                if (floatMusicIcon) floatMusicIcon.className = 'fa-solid fa-volume-xmark text-brand-border';
-                if (equalizer) equalizer.classList.remove('equalizer-active');
-
-                if (musicText) {
-                    musicText.setAttribute('data-en', 'Music Off');
-                    musicText.setAttribute('data-zh', '背景音樂：關');
-                    musicText.textContent = currentLang === 'en' ? 'Music Off' : '背景音樂：關';
-                }
-                if (floatMusicText) {
-                    floatMusicText.setAttribute('data-en', 'Music: OFF');
-                    floatMusicText.setAttribute('data-zh', '背景音樂：關');
-                    floatMusicText.textContent = currentLang === 'en' ? 'Music: OFF' : '背景音樂：關';
-                }
-            }
-        }
-
         // Language Switcher Logic
         let currentLang = 'zh'; // Default to Taiwanese Traditional Chinese
 
         function setLanguage(lang) {
             currentLang = lang;
+            document.documentElement.lang = lang === 'en' ? 'en' : 'zh-Hant';
 
             // Toggle active styles on Desktop buttons
             const btnEn = document.getElementById('btn-lang-en');
@@ -1099,8 +1030,6 @@
                 }
             });
 
-            // Refresh Audio UI text for current language
-            updateMusicUI();
         }
 
         // Initialize language on page load

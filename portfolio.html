@@ -233,6 +233,19 @@
         * {
             -webkit-tap-highlight-color: transparent;
         }
+        @media (min-width: 1024px) {
+            #projects details:not([open]) {
+                height: 19rem;
+            }
+            #projects details:not([open]) > summary {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+            }
+            #projects details:not([open]) > summary > span:last-child {
+                margin-top: auto;
+            }
+        }
     </style>
 </head>
 <body class="font-sans antialiased text-brand-dark selection:bg-brand-dark selection:text-white overflow-x-hidden">
@@ -338,19 +351,19 @@
 
                     <div class="space-y-3">
                         <span class="text-xs uppercase tracking-widest font-bold text-brand-terracotta block" data-en="MARKETING × CO-MARKETING × PROJECT MANAGEMENT" data-zh="行銷 × 異業合作 × 專案管理">MARKETING × CO-MARKETING × PROJECT MANAGEMENT</span>
-                        <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-brand-dark tracking-tight leading-tight" data-en="Expertise in Brand &amp; Retail Marketing, Enhanced by Project Management and AI." data-zh="深耕品牌與通路行銷，結合專案管理與 AI 賦能">
-                            Expertise in Brand &amp; Retail Marketing, Enhanced by Project Management and AI.
+                        <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-brand-dark tracking-tight leading-tight" data-en="Brand &amp; Retail Marketing, Enhanced by Project Management and AI" data-zh="深耕品牌與通路行銷，以專案管理與 AI 創造價值">
+                            Brand &amp; Retail Marketing, Enhanced by Project Management and AI
                         </h2>
                         <div class="space-y-3 max-w-2xl mx-auto lg:mx-0">
                             <p class="text-sm sm:text-base text-brand-muted leading-relaxed font-normal"
-                               data-en="With five years of experience in brand and retail marketing across luxury jewelry and leading department store channels, I bring hands-on expertise in integrated marketing campaigns, VIP customer experiences, co-marketing partnerships, member engagement, and retail marketing. I coordinate internal and external resources, plan and execute on-site activities, and move marketing projects forward in line with brand positioning and business goals."
+                               data-en="Marketing professional with 5 years of experience in brand and retail marketing across luxury jewelry and leading department store channels. Specialized in integrated marketing campaigns, CRM and VIP engagement, premium brand experiences, and strategic partnerships. Skilled in cross-functional collaboration and resource integration to drive efficient project execution and consistently enhance brand performance and business growth."
                                data-zh="擁有5年品牌與通路行銷經驗，橫跨精品珠寶與指標百貨通路，具備整合行銷企劃、VIP 顧客體驗、異業合作、會員經營及通路行銷實務。擅長協調內外部資源、規劃與現場執行，推進符合品牌定位與商業目標的行銷專案。">
-                                With five years of experience in brand and retail marketing across luxury jewelry and leading department store channels, I bring hands-on expertise in integrated marketing campaigns, VIP customer experiences, co-marketing partnerships, member engagement, and retail marketing. I coordinate internal and external resources, plan and execute on-site activities, and move marketing projects forward in line with brand positioning and business goals.
+                                Marketing professional with 5 years of experience in brand and retail marketing across luxury jewelry and leading department store channels. Specialized in integrated marketing campaigns, CRM and VIP engagement, premium brand experiences, and strategic partnerships. Skilled in cross-functional collaboration and resource integration to drive efficient project execution and consistently enhance brand performance and business growth.
                             </p>
                             <p class="text-sm sm:text-base text-brand-muted leading-relaxed font-normal"
-                               data-en="I am systematically developing capabilities in AI project management and extending my marketing experience into product development, combining market insight, user-centered thinking, and AI collaboration to translate needs into solutions grounded in viable business models."
+                               data-en="Currently expanding my expertise in project management and AI-enabled marketing to bridge brand strategy, customer insight, and digital innovation."
                                data-zh="系統性進修 AI 專案管理，並將既有行銷經驗延伸至產品開發，結合市場洞察、使用者思維與 AI 協作，將需求轉化為商業模式的解決方案。">
-                                I am systematically developing capabilities in AI project management and extending my marketing experience into product development, combining market insight, user-centered thinking, and AI collaboration to translate needs into solutions grounded in viable business models.
+                                Currently expanding my expertise in project management and AI-enabled marketing to bridge brand strategy, customer insight, and digital innovation.
                             </p>
                         </div>
                     </div>
@@ -368,7 +381,7 @@
                         </a>
 
                         <!-- Muted Sage Circle: Contact -->
-                        <a href="#contact" class="action-circle w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full bg-brand-sage text-brand-dark font-bold text-sm sm:text-base md:text-lg flex items-center justify-center shadow-md" data-en="Contact" data-zh="聯絡我">
+                        <a href="#contact" class="action-circle w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full bg-brand-sage text-white font-bold text-sm sm:text-base md:text-lg flex items-center justify-center shadow-md" data-en="Contact" data-zh="聯絡我">
                             Contact
                         </a>
                     </div>
@@ -391,7 +404,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
                 <a href="#project-vip-event" class="clean-card rounded-2xl p-6 sm:p-7 group block focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-terracotta focus-visible:outline-offset-4">
                     <span class="font-display text-3xl sm:text-4xl font-bold leading-[1.15] pt-1 text-brand-terracotta block mb-4" data-en="144%" data-zh="144%">144%</span>
-                    <p class="text-sm text-brand-muted leading-relaxed font-medium" data-en="Sales target attainment through a co-marketing event" data-zh="異業合作之活動銷售達成率">Sales target attainment through a co-marketing event</p>
+                    <p class="text-sm text-brand-muted leading-relaxed font-medium" data-en="Sales target attainment through a co-marketing event" data-zh="異業合作之活動業績達成率">Sales target attainment through a co-marketing event</p>
                     <span class="inline-flex items-center gap-2 mt-5 text-xs font-bold uppercase tracking-wider text-brand-dark group-hover:text-brand-terracotta transition-colors">
                         <span data-en="View project" data-zh="查看專案">View project</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
                     </span>
@@ -442,7 +455,7 @@
                                 2022.08 – 2025.04
                             </div>
                             <h3 class="experience-title" data-en="Senior Marketing Executive" data-zh="資深行銷專員">Senior Marketing Executive</h3>
-                            <p class="experience-company mt-1" data-en="HEARTS ON FIRE" data-zh="HEARTS ON FIRE_美商和頌愛有限公司">HEARTS ON FIRE</p>
+                            <p class="experience-company mt-1" data-en="Hearts On Fire Company, LLC" data-zh="HEARTS ON FIRE_美商和頌愛有限公司">Hearts On Fire Company, LLC</p>
                         </div>
                         <div class="experience-meta text-left lg:text-right text-brand-muted flex lg:flex-col items-center lg:items-end gap-2">
                             <span class="px-3 py-1 rounded-lg bg-brand-terracotta/10 text-brand-terracotta whitespace-nowrap"><i class="fa-solid fa-building mr-1"></i> <span data-en="International Company" data-zh="外商">International Company</span></span>
@@ -466,7 +479,7 @@
                             </p>
                             <div class="ml-4 rounded-xl bg-brand-terracotta/10 px-4 py-3 text-sm">
                                 <span class="experience-achievement-label block tracking-widest text-brand-terracotta mb-1" data-en="KEY ACHIEVEMENT" data-zh="關鍵成果">KEY ACHIEVEMENT</span>
-                                <p class="experience-achievement-text" data-en="Partnered with American Express on a high-jewelry VIP event that achieved 144% of its sales target." data-zh="與 American Express 美國運通合作高級珠寶 VIP 鑑賞會，達成 144% 銷售目標。">Partnered with American Express on a high-jewelry VIP event that achieved 144% of its sales target.</p>
+                                <p class="experience-achievement-text" data-en="Partnered with American Express on a high-jewelry VIP event that achieved 144% of its sales target." data-zh="與 American Express 美國運通合作高級珠寶 VIP 鑑賞會，達成 144% 業績目標。">Partnered with American Express on a high-jewelry VIP event that achieved 144% of its sales target.</p>
                             </div>
                         </div>
 
@@ -542,7 +555,7 @@
                                 2020.11 – 2022.04
                             </div>
                             <h3 class="experience-title" data-en="Marketing Specialist" data-zh="行銷企劃專員">Marketing Specialist</h3>
-                            <p class="experience-company mt-1" data-en="Far Eastern SOGO Department Stores" data-zh="遠東 SOGO 百貨">Far Eastern SOGO Department Stores</p>
+                            <p class="experience-company mt-1" data-en="Pacific SOGO Department Stores Co., Ltd." data-zh="遠東 SOGO 百貨">Pacific SOGO Department Stores Co., Ltd.</p>
                         </div>
                         <div class="experience-meta text-left lg:text-right text-brand-muted flex lg:flex-col items-center lg:items-end gap-2">
                             <span class="px-3 py-1 rounded-lg bg-brand-softGray"><i class="fa-solid fa-location-dot mr-1"></i> <span data-en="Hsinchu" data-zh="新竹">Hsinchu</span></span>
@@ -603,7 +616,7 @@
                                 2020.02 – 2020.09
                             </div>
                             <h3 class="experience-title" data-en="Cosmetics Marketing Specialist / Sales Assistant" data-zh="化妝品行銷企劃／業務助理">Cosmetics Marketing Specialist / Sales Assistant</h3>
-                            <p class="experience-company mt-1" data-en="奕澄企業有限公司" data-zh="奕澄企業有限公司">奕澄企業有限公司</p>
+                            <p class="experience-company mt-1" data-en="QQBelle Co., Ltd." data-zh="奕澄企業有限公司">QQBelle Co., Ltd.</p>
                         </div>
                         <div class="experience-meta text-left lg:text-right text-brand-muted flex lg:flex-col items-center lg:items-end gap-2">
                             <span class="px-3 py-1 rounded-lg bg-brand-softGray"><i class="fa-solid fa-location-dot mr-1"></i> <span data-en="Taipei" data-zh="台北">Taipei</span></span>
@@ -725,7 +738,7 @@
                     <summary class="cursor-pointer list-none rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-teal focus-visible:outline-offset-4">
                         <span class="text-xs font-bold uppercase tracking-wider text-brand-terracotta block mb-3" data-en="Co-marketing &amp; Premium Customer Experience" data-zh="異業合作與高端客戶體驗">Co-marketing &amp; Premium Customer Experience</span>
                         <h3 class="text-xl font-bold text-brand-dark mb-3" data-en="Premium Credit Card Brand × Jewelry VIP Salon" data-zh="高端信用卡品牌 × 珠寶 VIP 鑑賞會">Premium Credit Card Brand × Jewelry VIP Salon</h3>
-                        <p class="lower-section-body mb-4"><span data-en="Partnered with American Express, inviting its high-value customers to a new collection showcase and achieving " data-zh="攜手 American Express 美國運通，邀約其高價值客戶參與品牌新品鑑賞會，達成 ">Partnered with American Express, inviting its high-value customers to a new collection showcase and achieving </span><strong class="font-bold text-brand-dark" data-en="144% of the sales target" data-zh="144% 銷售目標">144% of the sales target</strong><span data-en=", demonstrating the dual value of co-marketing in expanding brand awareness and delivering business results." data-zh="，展現異業合作擴展品牌知名度與商業成效的雙重價值。">, demonstrating the dual value of co-marketing in expanding brand awareness and delivering business results.</span></p>
+                        <p class="lower-section-body mb-4"><span data-en="Partnered with American Express, inviting its high-value customers to a new collection showcase and achieving " data-zh="攜手 American Express 美國運通，邀約其高價值客戶參與品牌新品鑑賞會，達成 ">Partnered with American Express, inviting its high-value customers to a new collection showcase and achieving </span><strong class="font-bold text-brand-dark" data-en="144% of the sales target" data-zh="144% 業績目標">144% of the sales target</strong><span data-en=", demonstrating the dual value of co-marketing in expanding brand awareness and delivering business results." data-zh="，展現異業合作擴展品牌知名度與商業成效的雙重價值。">, demonstrating the dual value of co-marketing in expanding brand awareness and delivering business results.</span></p>
                         <span class="flex items-center justify-between gap-4 pt-4 border-t border-brand-border text-sm font-semibold text-brand-dark">
                             <span data-en="View case study" data-zh="查看專案內容">View case study</span>
                             <i class="fa-solid fa-chevron-down text-brand-terracotta transition-transform group-open:rotate-180" aria-hidden="true"></i>
@@ -735,7 +748,7 @@
                         <div><h4 class="font-bold text-brand-dark mb-2" data-en="Background &amp; Objective" data-zh="背景與目標">Background &amp; Objective</h4><p class="lower-section-body" data-en="To support a new product launch, we partnered with a premium credit card brand to host a jewelry appreciation and wine-tasting event. The curated experience aimed to engage high-net-worth customers, raise awareness of the new collection, and create sales opportunities." data-zh="配合品牌新品上市，攜手高端信用卡品牌舉辦珠寶鑑賞暨品酒會，透過精緻體驗接觸高資產客群，同時提升新品能見度並創造銷售機會。">To support a new product launch, we partnered with a premium credit card brand to host a jewelry appreciation and wine-tasting event. The curated experience aimed to engage high-net-worth customers, raise awareness of the new collection, and create sales opportunities.</p></div>
                         <div><h4 class="font-bold text-brand-dark mb-2" data-en="My Role" data-zh="我的角色">My Role</h4><p class="lower-section-body" data-en="Event coordination and execution" data-zh="活動統籌與執行">Event coordination and execution</p></div>
                         <div><h4 class="font-bold text-brand-dark mb-2" data-en="Key Execution" data-zh="關鍵執行">Key Execution</h4><p class="lower-section-body" data-en="Managed the partner relationship, planned the event flow and VIP experience, invited external instructors, designed and sent the eDM, and coordinated cross-functional teams during on-site execution." data-zh="負責異業窗口對接、活動流程與VIP體驗規劃、外部講師邀約、eDM設計與發送，以及現場執行與跨部門協調。">Managed the partner relationship, planned the event flow and VIP experience, invited external instructors, designed and sent the eDM, and coordinated cross-functional teams during on-site execution.</p></div>
-                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Outcome &amp; Reflection" data-zh="成果與反思">Outcome &amp; Reflection</h4><p class="lower-section-body" data-en="The event reached 144% of its sales target, developed prospective high-end customers, and strengthened communication around the new collection through jewelry appreciation and wine tasting. It gave me end-to-end experience in premium co-marketing, VIP experience design, and sales-oriented event planning." data-zh="活動銷售業績達成率 144%，成功開發潛在高端客戶，並透過珠寶鑑賞與品酒體驗強化新品溝通。此專案讓我累積了高端異業合作、VIP體驗設計及銷售導向活動規劃的完整經驗。">The event reached 144% of its sales target, developed prospective high-end customers, and strengthened communication around the new collection through jewelry appreciation and wine tasting. It gave me end-to-end experience in premium co-marketing, VIP experience design, and sales-oriented event planning.</p></div>
+                        <div><h4 class="font-bold text-brand-dark mb-2" data-en="Outcome &amp; Reflection" data-zh="成果與反思">Outcome &amp; Reflection</h4><p class="lower-section-body" data-en="The event reached 144% of its sales target, developed prospective high-end customers, and strengthened communication around the new collection through jewelry appreciation and wine tasting. It gave me end-to-end experience in premium co-marketing, VIP experience design, and sales-oriented event planning." data-zh="活動業績達成率 144%，成功開發潛在高端客戶，並透過珠寶鑑賞與品酒體驗強化新品溝通。此專案讓我累積了高端異業合作、VIP體驗設計及銷售導向活動規劃的完整經驗。">The event reached 144% of its sales target, developed prospective high-end customers, and strengthened communication around the new collection through jewelry appreciation and wine tasting. It gave me end-to-end experience in premium co-marketing, VIP experience design, and sales-oriented event planning.</p></div>
                     </div>
                 </details>
 
@@ -850,7 +863,7 @@
                         <i class="fa-solid fa-handshake"></i>
                     </div>
                     <h3 class="font-bold text-lg text-brand-dark mb-2" data-en="Channel Marketing &amp; Partnerships" data-zh="通路行銷與異業合作">Channel Marketing &amp; Partnerships</h3>
-                    <p class="text-xs text-brand-muted leading-relaxed" data-en="Integrate department-store and promotional resources across POS planning, seasonal campaigns, and cross-brand partnerships." data-zh="整合百貨通路與促銷資源，執行 POS 視覺規劃、檔期活動與異業合作。">
+                    <p class="text-xs text-brand-muted leading-relaxed" data-en="Integrate department-store and promotional resources across POP visual merchandising planning, seasonal campaigns, and cross-brand partnerships." data-zh="整合百貨通路與促銷資源，執行 POP 視覺陳列規劃、檔期活動與異業合作。">
                         Integrate department-store and promotional resources across POS planning, seasonal campaigns, and cross-brand partnerships.
                     </p>
                 </div>
@@ -946,7 +959,7 @@
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-brand-dark uppercase tracking-wider mb-1" data-en="Company / Organization" data-zh="服務單位 / 公司名稱">Company / Organization</label>
-                    <input type="text" id="inputCompany" placeholder="Luxury Group / Department Store" data-placeholder-en="Luxury Group / Department Store" data-placeholder-zh="請輸入公司或組織名稱" class="w-full px-4 py-3 rounded-xl bg-brand-bg border border-brand-border text-brand-dark text-sm focus:outline-none focus:border-brand-dark transition-colors">
+                    <input type="text" id="inputCompany" placeholder="Please enter company or organization name" data-placeholder-en="Please enter company or organization name" data-placeholder-zh="請輸入公司或組織名稱" class="w-full px-4 py-3 rounded-xl bg-brand-bg border border-brand-border text-brand-dark text-sm focus:outline-none focus:border-brand-dark transition-colors">
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-brand-dark uppercase tracking-wider mb-1" data-en="Message" data-zh="訊息內容">Message</label>

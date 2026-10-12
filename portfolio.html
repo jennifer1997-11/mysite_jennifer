@@ -9,7 +9,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=Montserrat:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -42,6 +42,25 @@
         }
     </script>
     <style>
+        /* Latin typography matched to the document resume.
+           Chinese glyphs automatically fall back to the existing CJK sans-serif font. */
+        body.font-sans {
+            font-family: 'DM Sans', sans-serif;
+        }
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .font-display,
+        .portfolio-section-title,
+        .experience-title,
+        .experience-project-heading,
+        .experience-project-title,
+        summary > span:first-child {
+            font-family: 'Montserrat', sans-serif;
+        }
         body {
             background-color: #F8F7F4;
             color: #111111;
@@ -261,7 +280,7 @@
                     </div>
                     <div>
                         <span class="font-bold text-sm sm:text-base tracking-tight text-brand-dark block uppercase">Portfolio</span>
-                        <span class="text-[9px] sm:text-[10px] leading-[1.25] text-brand-muted tracking-wider uppercase block -mt-0.5 font-medium max-w-[190px] sm:max-w-[260px] lg:max-w-none" data-en="BRAND &amp; RETAIL MARKETING · CO-MARKETING · PROJECT MANAGEMENT" data-zh="品牌與通路行銷 · 異業合作 · 專案管理">BRAND &amp; RETAIL MARKETING · CO-MARKETING · PROJECT MANAGEMENT</span>
+                        <span class="text-[9px] sm:text-[10px] leading-[1.25] text-brand-muted tracking-wider uppercase block -mt-0.5 font-medium max-w-[190px] sm:max-w-[260px] lg:max-w-none" data-en="MARKETING × PROJECT MANAGEMENT" data-zh="品牌行銷 x 專案管理">MARKETING × PROJECT MANAGEMENT</span>
                     </div>
                 </a>
 
@@ -350,7 +369,7 @@
                     </div>
 
                     <div class="space-y-3">
-                        <span class="text-xs uppercase tracking-widest font-bold text-brand-terracotta block" data-en="MARKETING × CO-MARKETING × PROJECT MANAGEMENT" data-zh="行銷 × 異業合作 × 專案管理">MARKETING × CO-MARKETING × PROJECT MANAGEMENT</span>
+                        <span class="text-xs uppercase tracking-widest font-bold text-brand-terracotta block" data-en="MARKETING × PROJECT MANAGEMENT" data-zh="品牌行銷 x 專案管理">MARKETING × PROJECT MANAGEMENT</span>
                         <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-brand-dark tracking-tight leading-tight" data-en="Brand &amp; Retail Marketing, Enhanced by Project Management and AI" data-zh="深耕品牌與通路行銷，以專案管理與 AI 創造價值">
                             Brand &amp; Retail Marketing, Enhanced by Project Management and AI
                         </h2>
@@ -700,7 +719,7 @@
                             <div class="experience-meta inline-block px-3 py-1 rounded-full bg-brand-terracotta/10 text-brand-terracotta mb-3" data-en="2025.08 – 2026.06" data-zh="2025.08 – 2026.06">
                                 2025.08 – 2026.06
                             </div>
-                            <h3 class="experience-title" data-en="Gap Year in Australia" data-zh="Gap Year 澳洲打工度假">Gap Year in Australia</h3>
+                            <h3 class="experience-title" data-en="Australia - Working Holiday" data-zh="澳洲打工度假">Australia - Working Holiday</h3>
                         </div>
                         <div class="experience-meta text-left lg:text-right text-brand-muted flex lg:flex-col items-center lg:items-end gap-2">
                             <span class="px-3 py-1 rounded-lg bg-brand-softGray"><i class="fa-solid fa-location-dot mr-1"></i> <span data-en="Australia" data-zh="澳洲">Australia</span></span>
